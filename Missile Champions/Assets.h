@@ -30,7 +30,6 @@ public:
 		Image TitleScreenStartVisible;
 		Image TitleScreenStartHidden;
 		// Car Sprites
-		//Image CarSpriteSheet;
 		Image CarSprites[CAR_ROT_FRAMES][CAR_PALETTES];
 		// Car Selection
 		Image CarSelectBGDefault;

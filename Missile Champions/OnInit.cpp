@@ -1,5 +1,6 @@
 #include "MChamps.h"
 #include "AssetDefines.h"
+
 bool MChamps::OnInit() {
 	printf("Init\n");
 
@@ -55,7 +56,9 @@ bool MChamps::OnInit() {
 	FieldBottom->rect = GameplayCamera.drawarea->rect;
 
 	//// Players
+	// Player 1 init
 	Players[0] = { 0, 0, Graphics::CreateRect(64, 64, 40, 8), &Players[0].cars[0] };
+	// Player 1 car init
 	Players[0].cars[0] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
@@ -83,7 +86,9 @@ bool MChamps::OnInit() {
 		0, 0,
 		0, 0,
 		Car::NoMovement, Car::NoTurning };
+	// Player 2 init
 	Players[1] = { 0, 0, Graphics::CreateRect(64, 64, 152, 8), &Players[1].cars[0] };
+	// Player 2 car init
 	Players[1].cars[0] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 168, 24),

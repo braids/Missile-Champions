@@ -14,7 +14,5 @@
 #define IMAGE_CAR_SELECT_P2_FLASH	"car_select_p2_flash.png"
 #define IMAGE_CAR_SELECTION_SHEET	"car_selection_sheet.png"
 #define IMAGE_CAR_SELECTION_CURSOR	"car_selection_cursor.png"
-//// Fonts
-//#define FONT_PONGFONT		"pongfont.ttf"
 
 #endif

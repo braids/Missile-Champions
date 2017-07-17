@@ -1,8 +1,10 @@
 #include "MChamps.h"
 
 void MChamps::OnRender() {
+	// Clear buffer
 	mGraphics->ClearBackBuffer();
 	
+	// Draw scene
 	switch (CurrentScene) {
 	case Scene_TitleScreen:
 		// Draw title screen background
@@ -45,20 +47,25 @@ void MChamps::OnRender() {
 			(int) Players[0].activeCar->vx + 16 + (int) (Players[0].activeCar->dx * 20.0), 
 			(int) Players[0].activeCar->vy + 16 + (int) (Players[0].activeCar->dy * 20.0));
 		
+		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
 
+		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
 
 		break;
 	}
 
+	// Render dat
 	mGraphics->Render();
 }
 
+// Draw an Asset::Image to the renderer
 void MChamps::DrawImage(Assets::Image* image) {
 	mGraphics->DrawTexture(image->texture, image->rect);
 }
 
+// Draw an Asset::Image to the renderer at a specific SDL_Rect
 void MChamps::DrawImage(Assets::Image* image, SDL_Rect* drawRect) {
 	mGraphics->DrawTextureAtLocation(image->texture, image->rect, drawRect);
 }
