@@ -120,7 +120,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Assets.cpp" />
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="MChamps.cpp" />
     <ClCompile Include="OnCleanup.cpp" />
@@ -132,7 +131,6 @@
   <ItemGroup>
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="Assets.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="MChamps.h" />
   </ItemGroup>
