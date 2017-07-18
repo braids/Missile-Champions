@@ -1,6 +1,7 @@
 #ifndef _ASSETS_H_
 #define _ASSETS_H_
 
+#define BALL_FRAMES 4
 #define CAR_ROT_FRAMES	4
 #define CAR_PALETTES	8
 
@@ -39,6 +40,7 @@ public:
 		Image CarSelectWindowSprites[CAR_PALETTES];
 		Image CarSelectCursor;
 		// Gameplay
+		Image BallSprites[BALL_FRAMES];
 		Image FieldDrawArea;
 		Image FieldBottom;
 		Image FieldViewport;

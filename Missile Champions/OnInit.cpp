@@ -29,6 +29,8 @@ bool MChamps::OnInit() {
 		mAssets->images.CarSelectWindowSprites[i] = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECTION_SHEET), Graphics::CreateRect(64, 64, 64 * i, 0) };
 	mAssets->images.CarSelectCursor = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECTION_CURSOR), Graphics::CreateRect(64, 64, 16, 64) };
 	// Gameplay
+	for (int i = 0; i < BALL_FRAMES; i++)
+		mAssets->images.BallSprites[i] = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SPRITE_SHEET), Graphics::CreateRect(48, 48, 48 * i, 0) };
 	mAssets->images.FieldDrawArea = { Assets::Instance()->GetTexture(IMAGE_FIELD), Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.FieldBottom = { Assets::Instance()->GetTexture(IMAGE_FIELD_BOTTOM) };
 	FieldBottom = &mAssets->images.FieldBottom;
@@ -54,6 +56,16 @@ bool MChamps::OnInit() {
 	GameplayCamera = { &mAssets->images.FieldDrawArea, &mAssets->images.FieldViewport, 0, 0, 0, 0 };
 	// Ensure bottom of field tracks with camera
 	FieldBottom->rect = GameplayCamera.drawarea->rect;
+
+	// Ball
+	GameBall = {
+		mAssets->images.BallSprites,		// Ball sprite sheet
+		Graphics::CreateRect(48, 48, 0, 0),	// Init viewport rect
+		0,			// Frame
+		0, 0, 0,	// x, y, z
+		0, 0, 0,	// dx, dy, dz
+		0, 0		// vx, vy
+	};
 
 	//// Players
 	// Player 1 init

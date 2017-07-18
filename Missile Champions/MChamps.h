@@ -66,6 +66,16 @@ private:
 	} Players[2];
 	int ActiveCar;
 
+	// Ball
+	struct Ball {
+		Assets::Image* image;
+		SDL_Rect* viewportRect;
+		int frame;
+		double x, y, z;
+		double dx, dy, dz;
+		double vx, vy;
+	} GameBall;
+
 	// Camera
 	struct Camera {
 		Assets::Image* drawarea;
@@ -122,6 +132,7 @@ public:
 	void OnRender();
 		void DrawImage(Assets::Image * image);
 		void DrawImage(Assets::Image * image, SDL_Rect * drawRect);
+		void DrawImageFrame(Assets::Image * image, SDL_Rect * drawRect, int frame);
 
 	void OnCleanup();
 };

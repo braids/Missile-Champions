@@ -27,8 +27,10 @@ void MChamps::OnLoop() {
 			CarSelectionCursor.row = 0;
 			CarSelectionCursor.image->rect->x = 16;
 			CarSelectionCursor.image->rect->y = 64;
+			Players[0].activeCar = &Players[0].cars[0];
 			Players[0].activeCar->viewportRect->x = 56;
 			Players[0].activeCar->viewportRect->y = 24;
+			Players[1].activeCar = &Players[1].cars[0];
 			Players[1].activeCar->viewportRect->x = 168;
 			Players[1].activeCar->viewportRect->y = 24;
 		}
@@ -64,6 +66,11 @@ void MChamps::OnLoop() {
 		if (Effect_P2FlashLength >= 450) {
 			CarSelectBG = &mAssets->images.CarSelectBGDefault;
 		}
+
+		GameBall.x = 100;
+		GameBall.y = 100;
+		GameBall.viewportRect->x = 100;
+		GameBall.viewportRect->y = 100;
 
 		if (Effect_P2FlashLength >= 1250) {
 			Effect_P2FlashLength = 0;
@@ -256,10 +263,13 @@ void MChamps::OnLoop() {
 				Players[i].cars[j].viewportRect->y = Players[i].cars[j].y - GameplayCamera.drawarea->rect->y;
 			}
 		}
-		
+		// Set ball
+		GameBall.viewportRect->x = GameBall.x - GameplayCamera.drawarea->rect->x;
+		GameBall.viewportRect->y = GameBall.y - GameplayCamera.drawarea->rect->y;
 		// Set active car draw location in viewport
 		Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->vx;
 		Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->vy;
+		
 
 		break;
 	}	
