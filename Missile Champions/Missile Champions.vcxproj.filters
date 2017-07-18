@@ -64,9 +64,6 @@
     <Image Include="res\img\title_screen.png">
       <Filter>Source Files\res\img</Filter>
     </Image>
-    <Image Include="res\img\football.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\img\car_select.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -95,6 +92,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\img\status_bar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\football_sheet.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

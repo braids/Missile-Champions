@@ -5,7 +5,7 @@
 #define IMAGE_TITLE					"title_screen.png"
 #define IMAGE_TITLE_START_HIDDEN	"title_screen_start_hidden.png"
 #define IMAGE_CAR_SPRITE_SHEET		"car_palette_swap_sheet.png"
-#define IMAGE_FOOTBALL				"football.png"
+#define IMAGE_FOOTBALL_SPRITE_SHEET	"football_sheet.png"
 #define IMAGE_FIELD					"field.png"
 #define IMAGE_FIELD_BOTTOM			"field_bottom.png"
 #define IMAGE_STATUS_BAR			"status_bar.png"

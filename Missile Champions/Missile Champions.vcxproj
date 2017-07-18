@@ -159,7 +159,7 @@
     <Image Include="res\img\field_bottom.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
-    <Image Include="res\img\football.png">
+    <Image Include="res\img\football_sheet.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\status_bar.png">
