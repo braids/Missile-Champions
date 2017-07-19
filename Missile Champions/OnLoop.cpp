@@ -69,6 +69,8 @@ void MChamps::OnLoop() {
 
 		GameBall.x = 100;
 		GameBall.y = 100;
+		GameBall.dx = .05;
+		GameBall.dy = .025;
 		GameBall.viewportRect->x = 100;
 		GameBall.viewportRect->y = 100;
 
@@ -80,8 +82,8 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[1][Players[0].team - 1], 
 				Players[0].cars[0].viewportRect,
 				1, // Image and sprite angle
-				48, 72, // x/y
-				48, 72, // viewport x/y
+				48, 72, 0, // x/y
+				48, 72, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
@@ -92,8 +94,8 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[1][Players[0].team - 1],
 				Players[0].cars[1].viewportRect,
 				1, // Image and sprite angle
-				98, 122, // x/y
-				98, 122, // viewport x/y
+				98, 122, 0, // x/y
+				98, 122, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
@@ -104,8 +106,8 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[1][Players[0].team - 1],
 				Players[0].cars[2].viewportRect,
 				1, // Image and sprite angle
-				48, 112, // x/y
-				48, 112, // viewport x/y
+				48, 112, 0, // x/y
+				48, 112, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
@@ -116,8 +118,8 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[3][Players[1].team - 1],
 				Players[1].cars[0].viewportRect,
 				3, // Image and sprite angle
-				208, 72, // x/y
-				208, 72, // viewport x/y
+				208, 72, 0, // x/y
+				208, 72, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
@@ -128,8 +130,8 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[3][Players[1].team - 1],
 				Players[1].cars[1].viewportRect,
 				3, // Image and sprite angle
-				308, 172, // x/y
-				308, 172, // viewport x/y
+				308, 172, 0, // x/y
+				308, 172, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
@@ -140,8 +142,8 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[3][Players[1].team - 1],
 				Players[1].cars[2].viewportRect,
 				3, // Image and sprite angle
-				408, 272, // x/y
-				408, 272, // viewport x/y
+				408, 272, 0, // x/y
+				408, 272, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
@@ -238,6 +240,9 @@ void MChamps::OnLoop() {
 		PlayerCarsUpdate(&Players[0]);
 		PlayerCarsUpdate(&Players[1]);
 		
+		// Ball Update
+		BallUpdate();
+
 		//// Camera update
 		GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + 16) - (GameplayCamera.drawarea->rect->w / 2);
 		GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + 16) - (GameplayCamera.drawarea->rect->h / 2);
@@ -273,6 +278,34 @@ void MChamps::OnLoop() {
 
 		break;
 	}	
+}
+
+void MChamps::BallUpdate() {
+
+	// Move ball
+	GameBall.x += GameBall.dx * timeStep;
+	GameBall.y += GameBall.dy * timeStep;
+
+	//if (GameBall.dx < 0 && ) GameBall.frame--;
+	//if (GameBall.dx > 0) GameBall.frame++;
+
+	// Outer boundary collision
+	if (GameBall.x < 0) {
+		GameBall.x = 0;
+		GameBall.dx *= -1;
+	}
+	if (GameBall.x > 976) {
+		GameBall.x = 976;
+		GameBall.dx *= -1;
+	}
+	if (GameBall.y < 20) {
+		GameBall.y = 20;
+		GameBall.dy *= -1;
+	}
+	if (GameBall.y > 348) {
+		GameBall.y = 348;
+		GameBall.dy *= -1;
+	}
 }
 
 void MChamps::PlayerCarsUpdate(Player * player) {

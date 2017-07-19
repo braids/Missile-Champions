@@ -75,8 +75,8 @@ bool MChamps::OnInit() {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
 		0, 
-		0, 0, 
-		0, 0, 
+		0, 0, 0,
+		0, 0, 0,
 		0, 0, 
 		0, 0,
 		Car::NoMovement, Car::NoTurning};
@@ -84,8 +84,8 @@ bool MChamps::OnInit() {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
 		0,
-		0, 0,
-		0, 0,
+		0, 0, 0,
+		0, 0, 0,
 		0, 0,
 		0, 0,
 		Car::NoMovement, Car::NoTurning };
@@ -93,8 +93,8 @@ bool MChamps::OnInit() {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
 		0,
-		0, 0,
-		0, 0,
+		0, 0, 0,
+		0, 0, 0,
 		0, 0,
 		0, 0,
 		Car::NoMovement, Car::NoTurning };
@@ -105,8 +105,8 @@ bool MChamps::OnInit() {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 168, 24),
 		0,
-		0, 0,
-		0, 0,
+		0, 0, 0,
+		0, 0, 0,
 		0, 0,
 		0, 0,
 		Car::NoMovement, Car::NoTurning };
@@ -114,8 +114,8 @@ bool MChamps::OnInit() {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 168, 24),
 		0,
-		0, 0,
-		0, 0,
+		0, 0, 0,
+		0, 0, 0,
 		0, 0,
 		0, 0,
 		Car::NoMovement, Car::NoTurning };
@@ -123,8 +123,8 @@ bool MChamps::OnInit() {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 168, 24),
 		0,
-		0, 0,
-		0, 0,
+		0, 0, 0,
+		0, 0, 0,
 		0, 0,
 		0, 0,
 		Car::NoMovement, Car::NoTurning };

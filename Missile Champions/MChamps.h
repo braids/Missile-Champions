@@ -40,8 +40,8 @@ private:
 		Assets::Image* image;
 		SDL_Rect* viewportRect;
 		int anglesprite;
-		double x, y;
-		double vx, vy;
+		double x, y, z;
+		double vx, vy, vz;
 		double dx, dy;
 		double angle, speed;
 		enum Movement {
@@ -127,6 +127,7 @@ public:
 	void OnEvent(SDL_Event* Event);
 
 	void OnLoop();
+		void BallUpdate();
 		void PlayerCarsUpdate(Player * player);
 
 	void OnRender();
