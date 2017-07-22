@@ -71,6 +71,7 @@ void MChamps::OnLoop() {
 		GameBall.y = 100;
 		GameBall.dx = .05;
 		GameBall.dy = .025;
+		GameBall.speed = .2;
 		GameBall.viewportRect->x = 100;
 		GameBall.viewportRect->y = 100;
 
@@ -281,10 +282,25 @@ void MChamps::OnLoop() {
 }
 
 void MChamps::BallUpdate() {
-
+	// Ball Collision
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			if (sqrt(
+				pow(GameBall.x + (GameBall.viewportRect->w / 2) - Players[i].cars[j].x + (Players[i].cars[j].viewportRect->w / 2), 2) +
+				pow(GameBall.y + (GameBall.viewportRect->h / 2) - Players[i].cars[j].y + (Players[i].cars[j].viewportRect->h / 2), 2) +
+				pow(GameBall.z - Players[i].cars[j].z, 2)) < 24) {
+				//GameBall.dx += Players[i].cars[j].dx;
+				//GameBall.dy += Players[i].cars[j].dy;
+				GameBall.dx += (Players[i].cars[j].dx + GameBall.dx) / 2;
+				GameBall.dy += (Players[i].cars[j].dy + GameBall.dy) / 2;
+				//if (GameBall.dx)
+			}
+		}
+	}
+	
 	// Move ball
-	GameBall.x += GameBall.dx * timeStep;
-	GameBall.y += GameBall.dy * timeStep;
+	GameBall.x += GameBall.dx * GameBall.speed * timeStep;
+	GameBall.y += GameBall.dy * GameBall.speed * timeStep;
 
 	//if (GameBall.dx < 0 && ) GameBall.frame--;
 	//if (GameBall.dx > 0) GameBall.frame++;
@@ -306,6 +322,8 @@ void MChamps::BallUpdate() {
 		GameBall.y = 348;
 		GameBall.dy *= -1;
 	}
+
+
 }
 
 void MChamps::PlayerCarsUpdate(Player * player) {

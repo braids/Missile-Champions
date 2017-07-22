@@ -74,6 +74,7 @@ private:
 		double x, y, z;
 		double dx, dy, dz;
 		double vx, vy;
+		double speed;
 	} GameBall;
 
 	// Camera
