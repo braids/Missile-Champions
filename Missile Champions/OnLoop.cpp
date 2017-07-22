@@ -29,8 +29,10 @@ void MChamps::OnLoop() {
 			CarSelectionCursor.image->rect->y = 64;
 			Players[0].activeCar->viewportRect->x = 56;
 			Players[0].activeCar->viewportRect->y = 24;
+			Players[0].activeCar = &Players[0].cars[0];
 			Players[1].activeCar->viewportRect->x = 168;
 			Players[1].activeCar->viewportRect->y = 24;
+			Players[1].activeCar = &Players[1].cars[0];
 		}
 		return;
 	}
