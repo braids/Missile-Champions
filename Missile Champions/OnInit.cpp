@@ -15,7 +15,6 @@ bool MChamps::OnInit() {
 	mAssets->images.TitleScreenStartHidden = { Assets::Instance()->GetTexture(IMAGE_TITLE_START_HIDDEN), Graphics::Fullscreen() };
 	mAssets->images.TitleScreenStartVisible = { Assets::Instance()->GetTexture(IMAGE_TITLE), Graphics::Fullscreen() };
 	TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
-	// Change_TitleScreenBG = { TitleScreenBG, &mAssets->images.TitleScreenStartVisible, &mAssets->images.TitleScreenStartHidden };
 	// Car Sprites
 	for (int i = 0, j = 0; j < CAR_PALETTES;) {
 		mAssets->images.CarSprites[i++][j] = { Assets::Instance()->GetTexture(IMAGE_CAR_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 32 * j) };
