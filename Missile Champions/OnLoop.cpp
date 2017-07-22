@@ -1,6 +1,8 @@
 #include <cmath>
 #include "MChamps.h"
 
+
+
 void MChamps::OnLoop() {
 	// Update timeStep by # of ticks from last cycle
 	lastTick = currTick;
@@ -9,12 +11,13 @@ void MChamps::OnLoop() {
 
 	if (Event_StartGame) {
 		Effect_StartFlashLength += (Uint32) timeStep;
-
+		FlashTitleScreenBG();
+		/*
 		if (Effect_StartFlashLength % 400 > 200 || Effect_StartFlashLength >= 1200)
 			TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
 		else
 			TitleScreenBG = &mAssets->images.TitleScreenStartHidden;
-		
+		*/
 		if (Effect_StartFlashLength >= 2000) {
 			Effect_StartFlashLength = 0;
 			Event_StartGame = false;
@@ -265,6 +268,31 @@ void MChamps::OnLoop() {
 
 		break;
 	}	
+}
+
+Uint32 ChangeImageCallback(Uint32 interval, void* param) {
+	MChamps::ChangeImageStruct* changeImage = reinterpret_cast<MChamps::ChangeImageStruct*>(param);
+	changeImage->dest = changeImage->src;
+	return interval;
+}
+
+void MChamps::FlashTitleScreenBG() {
+	ChangeImageStruct Change_TitleScreenBGVisible = { TitleScreenBG , &mAssets->images.TitleScreenStartVisible };
+	ChangeImageStruct Change_TitleScreenBGHidden = { TitleScreenBG , &mAssets->images.TitleScreenStartHidden };
+	SDL_TimerID bgtimer[6];
+	bgtimer[0] = SDL_AddTimer(100, ChangeImageCallback, &Change_TitleScreenBGHidden);
+	bgtimer[1] = SDL_AddTimer(400, ChangeImageCallback, &Change_TitleScreenBGHidden);
+	bgtimer[2] = SDL_AddTimer(800, ChangeImageCallback, &Change_TitleScreenBGHidden);
+	bgtimer[3] = SDL_AddTimer(200, ChangeImageCallback, &Change_TitleScreenBGVisible);
+	bgtimer[4] = SDL_AddTimer(600, ChangeImageCallback, &Change_TitleScreenBGVisible);
+	bgtimer[5] = SDL_AddTimer(1000, ChangeImageCallback, &Change_TitleScreenBGVisible);
+	/*for (Uint32 i = 0; i < 1000; i += 400) {
+	SDL_AddTimer(i, ChangeImageCallback, &Change_TitleScreenBGHidden);
+	}
+	for (Uint32 i = 200; i <= 1000; i += 400) {
+	SDL_AddTimer(i, ChangeImageCallback, &Change_TitleScreenBGVisible);
+	}*/
+	//SDL_AddTimer(i, ChangeImageCallback, null);
 }
 
 void MChamps::PlayerCarsUpdate(Player * player) {

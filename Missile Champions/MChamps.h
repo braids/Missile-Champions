@@ -16,7 +16,7 @@ private:
 	// Running Flag
 	bool            Running;
 
-	// Timer Vars
+	// Global Timer Vars
 	Uint32			currTick;
 	Uint32			lastTick;
 	float			timeStep;
@@ -107,7 +107,14 @@ private:
 	bool Event_StartGame;
 	bool Event_ChangeCar;
 
+	// Change_TitleScreenBG;
+
 public:
+	struct ChangeImageStruct {
+		Assets::Image* dest;
+		Assets::Image* src;
+	};
+
 	MChamps();
 
 	int OnExecute();
@@ -115,6 +122,10 @@ public:
 	bool OnInit();
 
 	void OnEvent(SDL_Event* Event);
+
+	//Uint32 ChangeImageCallback(Uint32 interval, void* param);
+	
+	void FlashTitleScreenBG();
 
 	void OnLoop();
 		void PlayerCarsUpdate(Player * player);
