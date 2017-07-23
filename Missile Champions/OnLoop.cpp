@@ -352,8 +352,6 @@ void MChamps::BallUpdate() {
 		GameBall.y = 348;
 		GameBall.dy *= -1;
 	}
-
-
 }
 
 void MChamps::PlayerCarsUpdate(Player * player) {
