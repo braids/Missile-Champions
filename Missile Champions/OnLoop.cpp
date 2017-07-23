@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "MChamps.h"
 
 void MChamps::OnLoop() {
@@ -293,22 +294,24 @@ void MChamps::BallUpdate() {
 		for (int j = 0; j < 3; j++) {
 			if (sqrt(
 				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
-				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) < 40 &&
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) <= 40 &&
 				Players[i].cars[j].ballCollide == false) {
-				Players[i].cars[j].ballCollide == true;
+				Players[i].cars[j].ballCollide = true;
 				
-				double newAngle = atan2(abs(GameBall.cy() - Players[i].cars[j].cy()), abs(GameBall.cx() - Players[i].cars[j].cx()));
-				newAngle += 90;
+				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180 / M_PI;
+				newAngle -= 90;
 				if (newAngle >= 360) newAngle -= 360;
 				if (newAngle < 0) newAngle += 360;
-				GameBall.dx = sin(newAngle);
-				GameBall.dy = cos(newAngle);
+				newAngle = 360 - newAngle;
+				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
+				GameBall.dx = sin(newAngle * M_PI / 180);
+				GameBall.dy = cos(newAngle * M_PI / 180);
 				GameBall.speed += Players[i].cars[j].speed;
 			}
 			else if (sqrt(
 				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
-				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) >= 36) {
-				Players[i].cars[j].ballCollide == false;
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) > 40) {
+				Players[i].cars[j].ballCollide = false;
 			}
 		}
 	}
