@@ -386,9 +386,17 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		player->cars[i].y += player->cars[i].dy * player->cars[i].speed * timeStep;
 
 		// Inner wall collision
-		if (player->cars[i].x < 32 && (player->cars[i].y < 116 || player->cars[i].y > 244)) {
-			player->cars[i].x -= player->cars[i].dx * player->cars[i].speed * timeStep;
-			player->cars[i].y -= player->cars[i].dy * player->cars[i].speed * timeStep;
+		if (player->cars[i].x < 32 && (player->cars[i].cy() < 116 || player->cars[i].cy() > 276)) {
+			player->cars[i].x = 32;
+		}
+		if (player->cars[i].x > 1024 - 64 && (player->cars[i].cy() < 116 || player->cars[i].cy() > 276)) {
+			player->cars[i].x = 1024 - 64;
+		}
+		if (player->cars[i].y < 116 && (player->cars[i].cx() < 32 || player->cars[i].cx() > 1024 - 64)) {
+			player->cars[i].y = 116;
+		}
+		if (player->cars[i].y > 260 && (player->cars[i].cx() < 32 || player->cars[i].cx() > 1024 - 64)) {
+			player->cars[i].y = 260;
 		}
 		// Outer boundary collision
 		if (player->cars[i].x < 0)
