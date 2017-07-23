@@ -49,6 +49,14 @@ void MChamps::OnRender() {
 			(int) Players[0].activeCar->vx + 16 + (int) (Players[0].activeCar->dx * 20.0), 
 			(int) Players[0].activeCar->vy + 16 + (int) (Players[0].activeCar->dy * 20.0));
 		
+		// Draw angle line on active car
+		mGraphics->DrawLine(255, 0, 0,
+			(int)GameBall.viewportRect->x + 24,
+			(int)GameBall.viewportRect->y + 24,
+			(int)GameBall.viewportRect->x + 24 + (int)(GameBall.dx * GameBall.speed * 48.0),
+			(int)GameBall.viewportRect->y + 24 + (int)(GameBall.dy * GameBall.speed * 48.0));
+
+
 		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
 

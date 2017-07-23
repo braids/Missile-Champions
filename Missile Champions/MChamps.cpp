@@ -43,3 +43,17 @@ int main(int argc, char* argv[]) {
 
 	return mc.OnExecute();
 }
+
+void MChamps::Ball::updateSpeed() {
+	if (speed > .3) {
+		speed = .3;
+	}
+	if (speed > 0.0) {
+		speed -= 0.00005;
+	}
+	if (speed <= 0.0) {
+		dx = 0;
+		dy = 0;
+		speed = 0.0;
+	}
+}

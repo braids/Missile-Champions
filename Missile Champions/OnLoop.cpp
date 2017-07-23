@@ -68,12 +68,12 @@ void MChamps::OnLoop() {
 		}
 
 		GameBall.x = 100;
-		GameBall.y = 100;
-		GameBall.dx = .05;
-		GameBall.dy = .025;
-		GameBall.speed = .2;
+		GameBall.y = 250;
+		GameBall.dx = 0;
+		GameBall.dy = 0;
+		GameBall.speed = 0;
 		GameBall.viewportRect->x = 100;
-		GameBall.viewportRect->y = 100;
+		GameBall.viewportRect->y = 250;
 
 		if (Effect_P2FlashLength >= 1250) {
 			Effect_P2FlashLength = 0;
@@ -88,6 +88,7 @@ void MChamps::OnLoop() {
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				Car::NoMovement, 
 				Car::NoTurning
 			};
@@ -100,6 +101,7 @@ void MChamps::OnLoop() {
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				Car::Backward,
 				Car::Right
 			};
@@ -112,6 +114,7 @@ void MChamps::OnLoop() {
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -124,6 +127,7 @@ void MChamps::OnLoop() {
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				Car::Forward,
 				Car::Left
 			};
@@ -136,6 +140,7 @@ void MChamps::OnLoop() {
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -148,6 +153,7 @@ void MChamps::OnLoop() {
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -284,20 +290,30 @@ void MChamps::OnLoop() {
 void MChamps::BallUpdate() {
 	// Ball Collision
 	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 2; j++) {
+		for (int j = 0; j < 3; j++) {
 			if (sqrt(
-				pow(GameBall.x + (GameBall.viewportRect->w / 2) - Players[i].cars[j].x + (Players[i].cars[j].viewportRect->w / 2), 2) +
-				pow(GameBall.y + (GameBall.viewportRect->h / 2) - Players[i].cars[j].y + (Players[i].cars[j].viewportRect->h / 2), 2) +
-				pow(GameBall.z - Players[i].cars[j].z, 2)) < 24) {
-				//GameBall.dx += Players[i].cars[j].dx;
-				//GameBall.dy += Players[i].cars[j].dy;
-				GameBall.dx += (Players[i].cars[j].dx + GameBall.dx) / 2;
-				GameBall.dy += (Players[i].cars[j].dy + GameBall.dy) / 2;
-				//if (GameBall.dx)
+				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) < 40 &&
+				Players[i].cars[j].ballCollide == false) {
+				Players[i].cars[j].ballCollide == true;
+				
+				double newAngle = atan2(abs(GameBall.cy() - Players[i].cars[j].cy()), abs(GameBall.cx() - Players[i].cars[j].cx()));
+				newAngle += 90;
+				if (newAngle >= 360) newAngle -= 360;
+				if (newAngle < 0) newAngle += 360;
+				GameBall.dx = sin(newAngle);
+				GameBall.dy = cos(newAngle);
+				GameBall.speed += Players[i].cars[j].speed;
+			}
+			else if (sqrt(
+				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) >= 36) {
+				Players[i].cars[j].ballCollide == false;
 			}
 		}
 	}
-	
+	GameBall.updateSpeed();
+
 	// Move ball
 	GameBall.x += GameBall.dx * GameBall.speed * timeStep;
 	GameBall.y += GameBall.dy * GameBall.speed * timeStep;

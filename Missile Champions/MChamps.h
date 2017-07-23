@@ -45,6 +45,7 @@ private:
 		double vx, vy, vz;
 		double dx, dy;
 		double angle, speed;
+		bool ballCollide;
 		enum Movement {
 			NoMovement,
 			Forward,
@@ -55,6 +56,9 @@ private:
 			Left,
 			Right
 		} Turning;
+
+		double cx() { return x + (double) (viewportRect->w / 2); }
+		double cy() { return y + (double) (viewportRect->h / 2); }
 	};
 	
 	// Player
@@ -76,6 +80,10 @@ private:
 		double dx, dy, dz;
 		double vx, vy;
 		double speed;
+		
+		void updateSpeed();
+		double cx() { return x + (double) (viewportRect->w / 2); }
+		double cy() { return y + (double) (viewportRect->h / 2); }
 	} GameBall;
 
 	// Camera

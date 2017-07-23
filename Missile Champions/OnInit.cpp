@@ -74,11 +74,12 @@ bool MChamps::OnInit() {
 	Players[0].cars[0] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
-		0, 
+		0,
 		0, 0, 0,
 		0, 0, 0,
-		0, 0, 
 		0, 0,
+		0, 0,
+		false,
 		Car::NoMovement, Car::NoTurning};
 	Players[0].cars[1] = {
 		nullptr, // Image
@@ -88,6 +89,7 @@ bool MChamps::OnInit() {
 		0, 0, 0,
 		0, 0,
 		0, 0,
+		false,
 		Car::NoMovement, Car::NoTurning };
 	Players[0].cars[2] = {
 		nullptr, // Image
@@ -97,6 +99,7 @@ bool MChamps::OnInit() {
 		0, 0, 0,
 		0, 0,
 		0, 0,
+		false,
 		Car::NoMovement, Car::NoTurning };
 	// Player 2 init
 	Players[1] = { 0, 0, Graphics::CreateRect(64, 64, 152, 8), &Players[1].cars[0] };
@@ -109,6 +112,7 @@ bool MChamps::OnInit() {
 		0, 0, 0,
 		0, 0,
 		0, 0,
+		false,
 		Car::NoMovement, Car::NoTurning };
 	Players[1].cars[1] = {
 		nullptr, // Image
@@ -118,6 +122,7 @@ bool MChamps::OnInit() {
 		0, 0, 0,
 		0, 0,
 		0, 0,
+		false,
 		Car::NoMovement, Car::NoTurning };
 	Players[1].cars[2] = {
 		nullptr, // Image
@@ -127,6 +132,7 @@ bool MChamps::OnInit() {
 		0, 0, 0,
 		0, 0,
 		0, 0,
+		false,
 		Car::NoMovement, Car::NoTurning };
 
 	return true;
