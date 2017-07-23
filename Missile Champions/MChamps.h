@@ -7,6 +7,7 @@
 
 #include "Graphics.h"
 #include "Assets.h"
+#include "Timer.h"
 
 #define CAMERA_W 256
 #define CAMERA_H 176
@@ -19,7 +20,7 @@ private:
 	// Timer Vars
 	Uint32			currTick;
 	Uint32			lastTick;
-	float			timeStep;
+	Uint32			timeStep;
 
 	// Scenes
 	enum Scenes { 
