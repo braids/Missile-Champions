@@ -127,12 +127,14 @@
     <ClCompile Include="OnInit.cpp" />
     <ClCompile Include="OnLoop.cpp" />
     <ClCompile Include="OnRender.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="MChamps.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\img\car_palette_swap_sheet.png">

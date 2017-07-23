@@ -7,6 +7,7 @@
 
 #include "Graphics.h"
 #include "Assets.h"
+#include "Timer.h"
 
 #define CAMERA_W 256
 #define CAMERA_H 176
