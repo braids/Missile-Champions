@@ -41,10 +41,11 @@ private:
 		Assets::Image* image;
 		SDL_Rect* viewportRect;
 		int anglesprite;
-		double x, y;
-		double vx, vy;
+		double x, y, z;
+		double vx, vy, vz;
 		double dx, dy;
 		double angle, speed;
+		bool ballCollide;
 		enum Movement {
 			NoMovement,
 			Forward,
@@ -55,6 +56,9 @@ private:
 			Left,
 			Right
 		} Turning;
+
+		double cx() { return x + (double) (viewportRect->w / 2); }
+		double cy() { return y + (double) (viewportRect->h / 2); }
 	};
 	
 	// Player
@@ -66,6 +70,21 @@ private:
 		Car		cars[3];
 	} Players[2];
 	int ActiveCar;
+
+	// Ball
+	struct Ball {
+		Assets::Image* image;
+		SDL_Rect* viewportRect;
+		int frame;
+		double x, y, z;
+		double dx, dy, dz;
+		double vx, vy;
+		double speed;
+		
+		void updateSpeed();
+		double cx() { return x + (double) (viewportRect->w / 2); }
+		double cy() { return y + (double) (viewportRect->h / 2); }
+	} GameBall;
 
 	// Camera
 	struct Camera {
@@ -118,11 +137,13 @@ public:
 	void OnEvent(SDL_Event* Event);
 
 	void OnLoop();
+		void BallUpdate();
 		void PlayerCarsUpdate(Player * player);
 
 	void OnRender();
 		void DrawImage(Assets::Image * image);
 		void DrawImage(Assets::Image * image, SDL_Rect * drawRect);
+		void DrawImageFrame(Assets::Image * image, SDL_Rect * drawRect, int frame);
 
 	void OnCleanup();
 };

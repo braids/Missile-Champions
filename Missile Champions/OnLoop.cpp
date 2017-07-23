@@ -1,14 +1,15 @@
 #include <cmath>
+#include <iostream>
 #include "MChamps.h"
 
 void MChamps::OnLoop() {
 	// Update timeStep by # of ticks from last cycle
 	lastTick = currTick;
 	currTick = SDL_GetTicks();
-	timeStep = currTick - lastTick;
+	timeStep = (float) currTick - (float) lastTick;
 
 	if (Event_StartGame) {
-		Effect_StartFlashLength += timeStep;
+		Effect_StartFlashLength += (Uint32) timeStep;
 
 		if (Effect_StartFlashLength % 400 > 200 || Effect_StartFlashLength >= 1200)
 			TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
@@ -27,19 +28,19 @@ void MChamps::OnLoop() {
 			CarSelectionCursor.row = 0;
 			CarSelectionCursor.image->rect->x = 16;
 			CarSelectionCursor.image->rect->y = 64;
+			Players[0].activeCar = &Players[0].cars[0];
 			Players[0].activeCar->viewportRect->x = 56;
 			Players[0].activeCar->viewportRect->y = 24;
-			Players[0].activeCar = &Players[0].cars[0];
+			Players[1].activeCar = &Players[1].cars[0];
 			Players[1].activeCar->viewportRect->x = 168;
 			Players[1].activeCar->viewportRect->y = 24;
-			Players[1].activeCar = &Players[1].cars[0];
 		}
 		return;
 	}
 		
 
 	if (Event_P1Selected) {
-		Effect_P1FlashLength += timeStep;
+		Effect_P1FlashLength += (Uint32) timeStep;
 		
 		if (Effect_P1FlashLength % 100 > 50)
 			CarSelectBG = &mAssets->images.CarSelectBGP1Flash;
@@ -55,7 +56,7 @@ void MChamps::OnLoop() {
 	}
 
 	if (Event_P2Selected) {
-		Effect_P2FlashLength += timeStep;
+		Effect_P2FlashLength += (Uint32) timeStep;
 
 		if (Effect_P2FlashLength % 100 > 50 && Effect_P2FlashLength < 450)
 			CarSelectBG = &mAssets->images.CarSelectBGP2Flash;
@@ -67,6 +68,14 @@ void MChamps::OnLoop() {
 			CarSelectBG = &mAssets->images.CarSelectBGDefault;
 		}
 
+		GameBall.x = 100;
+		GameBall.y = 250;
+		GameBall.dx = 0;
+		GameBall.dy = 0;
+		GameBall.speed = 0;
+		GameBall.viewportRect->x = 100;
+		GameBall.viewportRect->y = 250;
+
 		if (Effect_P2FlashLength >= 1250) {
 			Effect_P2FlashLength = 0;
 			Event_P2Selected = false;
@@ -75,11 +84,12 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[1][Players[0].team - 1], 
 				Players[0].cars[0].viewportRect,
 				1, // Image and sprite angle
-				48, 72, // x/y
-				48, 72, // viewport x/y
+				48, 72, 0, // x/y
+				48, 72, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				Car::NoMovement, 
 				Car::NoTurning
 			};
@@ -87,11 +97,12 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[1][Players[0].team - 1],
 				Players[0].cars[1].viewportRect,
 				1, // Image and sprite angle
-				98, 122, // x/y
-				98, 122, // viewport x/y
+				98, 122, 0, // x/y
+				98, 122, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				Car::Backward,
 				Car::Right
 			};
@@ -99,11 +110,12 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[1][Players[0].team - 1],
 				Players[0].cars[2].viewportRect,
 				1, // Image and sprite angle
-				48, 112, // x/y
-				48, 112, // viewport x/y
+				48, 112, 0, // x/y
+				48, 112, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -111,11 +123,12 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[3][Players[1].team - 1],
 				Players[1].cars[0].viewportRect,
 				3, // Image and sprite angle
-				208, 72, // x/y
-				208, 72, // viewport x/y
+				208, 72, 0, // x/y
+				208, 72, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				Car::Forward,
 				Car::Left
 			};
@@ -123,11 +136,12 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[3][Players[1].team - 1],
 				Players[1].cars[1].viewportRect,
 				3, // Image and sprite angle
-				308, 172, // x/y
-				308, 172, // viewport x/y
+				308, 172, 0, // x/y
+				308, 172, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -135,11 +149,12 @@ void MChamps::OnLoop() {
 				&mAssets->images.CarSprites[3][Players[1].team - 1],
 				Players[1].cars[2].viewportRect,
 				3, // Image and sprite angle
-				408, 272, // x/y
-				408, 272, // viewport x/y
+				408, 272, 0, // x/y
+				408, 272, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -233,6 +248,9 @@ void MChamps::OnLoop() {
 		PlayerCarsUpdate(&Players[0]);
 		PlayerCarsUpdate(&Players[1]);
 		
+		// Ball Update
+		BallUpdate();
+
 		//// Camera update
 		GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + 16) - (GameplayCamera.drawarea->rect->w / 2);
 		GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + 16) - (GameplayCamera.drawarea->rect->h / 2);
@@ -258,13 +276,84 @@ void MChamps::OnLoop() {
 				Players[i].cars[j].viewportRect->y = Players[i].cars[j].y - GameplayCamera.drawarea->rect->y;
 			}
 		}
-		
+		// Set ball
+		GameBall.viewportRect->x = GameBall.x - GameplayCamera.drawarea->rect->x;
+		GameBall.viewportRect->y = GameBall.y - GameplayCamera.drawarea->rect->y;
 		// Set active car draw location in viewport
 		Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->vx;
 		Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->vy;
+		
 
 		break;
 	}	
+}
+
+void MChamps::BallUpdate() {
+	// Ball Collision
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 3; j++) {
+			// Check sphere collision between car and ball if not currently colliding
+			if (sqrt(
+				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) <= 40 &&
+				Players[i].cars[j].ballCollide == false) {
+				// Set colliding flag
+				Players[i].cars[j].ballCollide = true;
+				
+				// Get collision angle in rads (atan2), convert to deg (* 180 / M_PI)
+				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180 / M_PI;
+				// Rotate to match axes
+				newAngle -= 90;
+				// Keep angle between 0 - 359 deg inclusive
+				if (newAngle >= 360) newAngle -= 360;
+				if (newAngle < 0) newAngle += 360;
+				// Invert angle
+				newAngle = 360 - newAngle;
+				// Debug output of ball collision angles
+				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
+				// Ball direction set to collision angle
+				GameBall.dx = sin(newAngle * M_PI / 180);
+				GameBall.dy = cos(newAngle * M_PI / 180);
+				// Car speed added to ball speed
+				GameBall.speed += abs(Players[i].cars[j].speed);
+			}
+			// If car/ball spheres no longer colliding, set collision flag false
+			else if (sqrt(
+				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) > 40) {
+				Players[i].cars[j].ballCollide = false;
+			}
+		}
+	}
+	// Update current ball speed
+	GameBall.updateSpeed();
+
+	// Move ball
+	GameBall.x += GameBall.dx * GameBall.speed * timeStep;
+	GameBall.y += GameBall.dy * GameBall.speed * timeStep;
+
+	//if (GameBall.dx < 0 && ) GameBall.frame--;
+	//if (GameBall.dx > 0) GameBall.frame++;
+
+	// Outer boundary collision
+	if (GameBall.x < 0) {
+		GameBall.x = 0;
+		GameBall.dx *= -1;
+	}
+	if (GameBall.x > 976) {
+		GameBall.x = 976;
+		GameBall.dx *= -1;
+	}
+	if (GameBall.y < 20) {
+		GameBall.y = 20;
+		GameBall.dy *= -1;
+	}
+	if (GameBall.y > 348) {
+		GameBall.y = 348;
+		GameBall.dy *= -1;
+	}
+
+
 }
 
 void MChamps::PlayerCarsUpdate(Player * player) {
@@ -279,13 +368,13 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
-			player->cars[i].angle += .25 * (float) timeStep;
+			player->cars[i].angle += .25 * timeStep;
 			player->cars[i].dx = sin(player->cars[i].angle * M_PI / 180);
 			player->cars[i].dy = cos(player->cars[i].angle * M_PI / 180);
 		}
 		// Turn Right
 		if (player->cars[i].Turning == Car::Right) {
-			player->cars[i].angle -= .25 * (float) timeStep;
+			player->cars[i].angle -= .25 * timeStep;
 			player->cars[i].dx = sin(player->cars[i].angle * M_PI / 180);
 			player->cars[i].dy = cos(player->cars[i].angle * M_PI / 180);
 		}
@@ -295,13 +384,13 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		if (player->cars[i].angle < 0) player->cars[i].angle += 360;
 
 		// Move player.cars[i]
-		player->cars[i].x += player->cars[i].dx * player->cars[i].speed * (float) timeStep;
-		player->cars[i].y += player->cars[i].dy * player->cars[i].speed * (float) timeStep;
+		player->cars[i].x += player->cars[i].dx * player->cars[i].speed * timeStep;
+		player->cars[i].y += player->cars[i].dy * player->cars[i].speed * timeStep;
 
 		// Inner wall collision
 		if (player->cars[i].x < 32 && (player->cars[i].y < 116 || player->cars[i].y > 244)) {
-			player->cars[i].x -= player->cars[i].dx * player->cars[i].speed * (float) timeStep;
-			player->cars[i].y -= player->cars[i].dy * player->cars[i].speed * (float) timeStep;
+			player->cars[i].x -= player->cars[i].dx * player->cars[i].speed * timeStep;
+			player->cars[i].y -= player->cars[i].dy * player->cars[i].speed * timeStep;
 		}
 		// Outer boundary collision
 		if (player->cars[i].x < 0)

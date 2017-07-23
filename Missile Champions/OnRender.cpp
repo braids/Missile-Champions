@@ -19,12 +19,12 @@ void MChamps::OnRender() {
 			DrawImage(CarSelectionCursor.image);
 		// Draw player 1 car and border when selected
 		if (Players[0].team > 0) {
-			DrawImage(Players[0].cars[0].image, Players[0].cars[0].viewportRect);
+			DrawImage(Players[0].activeCar->image, Players[0].activeCar->viewportRect);
 			DrawImage(&mAssets->images.CarSelectWindowSprites[Players[0].team - 1], Players[0].selectionViewport);
 		}
 		// Draw player 2 car and border when selected
 		if (Players[1].team > 0) {
-			DrawImage(Players[1].cars[0].image, Players[1].cars[0].viewportRect);
+			DrawImage(Players[1].activeCar->image, Players[1].activeCar->viewportRect);
 			DrawImage(&mAssets->images.CarSelectWindowSprites[Players[1].team - 1], Players[1].selectionViewport);
 		}
 		break;
@@ -40,6 +40,8 @@ void MChamps::OnRender() {
 			}
 		}
 
+		DrawImage(&GameBall.image[GameBall.frame], GameBall.viewportRect);
+
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0, 
 			(int) Players[0].activeCar->vx + 16, 
@@ -47,6 +49,14 @@ void MChamps::OnRender() {
 			(int) Players[0].activeCar->vx + 16 + (int) (Players[0].activeCar->dx * 20.0), 
 			(int) Players[0].activeCar->vy + 16 + (int) (Players[0].activeCar->dy * 20.0));
 		
+		// Draw angle line on active car
+		mGraphics->DrawLine(255, 0, 0,
+			(int)GameBall.viewportRect->x + 24,
+			(int)GameBall.viewportRect->y + 24,
+			(int)GameBall.viewportRect->x + 24 + (int)(GameBall.dx * GameBall.speed * 48.0),
+			(int)GameBall.viewportRect->y + 24 + (int)(GameBall.dy * GameBall.speed * 48.0));
+
+
 		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
 
