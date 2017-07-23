@@ -292,22 +292,32 @@ void MChamps::BallUpdate() {
 	// Ball Collision
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 3; j++) {
+			// Check sphere collision between car and ball if not currently colliding
 			if (sqrt(
 				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
 				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) <= 40 &&
 				Players[i].cars[j].ballCollide == false) {
+				// Set colliding flag
 				Players[i].cars[j].ballCollide = true;
 				
+				// Get collision angle in rads (atan2), convert to deg (* 180 / M_PI)
 				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180 / M_PI;
+				// Rotate to match axes
 				newAngle -= 90;
+				// Keep angle between 0 - 359 deg inclusive
 				if (newAngle >= 360) newAngle -= 360;
 				if (newAngle < 0) newAngle += 360;
+				// Invert angle
 				newAngle = 360 - newAngle;
+				// Debug output of ball collision angles
 				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
+				// Ball direction set to collision angle
 				GameBall.dx = sin(newAngle * M_PI / 180);
 				GameBall.dy = cos(newAngle * M_PI / 180);
-				GameBall.speed += Players[i].cars[j].speed;
+				// Car speed added to ball speed
+				GameBall.speed += abs(Players[i].cars[j].speed);
 			}
+			// If car/ball spheres no longer colliding, set collision flag false
 			else if (sqrt(
 				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
 				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) > 40) {
@@ -315,6 +325,7 @@ void MChamps::BallUpdate() {
 			}
 		}
 	}
+	// Update current ball speed
 	GameBall.updateSpeed();
 
 	// Move ball
