@@ -5,10 +5,10 @@ void MChamps::OnLoop() {
 	// Update timeStep by # of ticks from last cycle
 	lastTick = currTick;
 	currTick = SDL_GetTicks();
-	timeStep = (float) currTick - (float) lastTick;
+	timeStep = currTick - lastTick;
 
 	if (Event_StartGame) {
-		Effect_StartFlashLength += (Uint32) timeStep;
+		Effect_StartFlashLength += timeStep;
 
 		if (Effect_StartFlashLength % 400 > 200 || Effect_StartFlashLength >= 1200)
 			TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
@@ -39,7 +39,7 @@ void MChamps::OnLoop() {
 		
 
 	if (Event_P1Selected) {
-		Effect_P1FlashLength += (Uint32) timeStep;
+		Effect_P1FlashLength += timeStep;
 		
 		if (Effect_P1FlashLength % 100 > 50)
 			CarSelectBG = &mAssets->images.CarSelectBGP1Flash;
@@ -55,7 +55,7 @@ void MChamps::OnLoop() {
 	}
 
 	if (Event_P2Selected) {
-		Effect_P2FlashLength += (Uint32) timeStep;
+		Effect_P2FlashLength += timeStep;
 
 		if (Effect_P2FlashLength % 100 > 50 && Effect_P2FlashLength < 450)
 			CarSelectBG = &mAssets->images.CarSelectBGP2Flash;
@@ -279,13 +279,13 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
-			player->cars[i].angle += .25 * timeStep;
+			player->cars[i].angle += .25 * (float) timeStep;
 			player->cars[i].dx = sin(player->cars[i].angle * M_PI / 180);
 			player->cars[i].dy = cos(player->cars[i].angle * M_PI / 180);
 		}
 		// Turn Right
 		if (player->cars[i].Turning == Car::Right) {
-			player->cars[i].angle -= .25 * timeStep;
+			player->cars[i].angle -= .25 * (float) timeStep;
 			player->cars[i].dx = sin(player->cars[i].angle * M_PI / 180);
 			player->cars[i].dy = cos(player->cars[i].angle * M_PI / 180);
 		}
@@ -295,13 +295,13 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		if (player->cars[i].angle < 0) player->cars[i].angle += 360;
 
 		// Move player.cars[i]
-		player->cars[i].x += player->cars[i].dx * player->cars[i].speed * timeStep;
-		player->cars[i].y += player->cars[i].dy * player->cars[i].speed * timeStep;
+		player->cars[i].x += player->cars[i].dx * player->cars[i].speed * (float) timeStep;
+		player->cars[i].y += player->cars[i].dy * player->cars[i].speed * (float) timeStep;
 
 		// Inner wall collision
 		if (player->cars[i].x < 32 && (player->cars[i].y < 116 || player->cars[i].y > 244)) {
-			player->cars[i].x -= player->cars[i].dx * player->cars[i].speed * timeStep;
-			player->cars[i].y -= player->cars[i].dy * player->cars[i].speed * timeStep;
+			player->cars[i].x -= player->cars[i].dx * player->cars[i].speed * (float) timeStep;
+			player->cars[i].y -= player->cars[i].dy * player->cars[i].speed * (float) timeStep;
 		}
 		// Outer boundary collision
 		if (player->cars[i].x < 0)

@@ -20,7 +20,7 @@ private:
 	// Timer Vars
 	Uint32			currTick;
 	Uint32			lastTick;
-	float			timeStep;
+	Uint32			timeStep;
 
 	// Scenes
 	enum Scenes { 
