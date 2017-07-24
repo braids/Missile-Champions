@@ -248,7 +248,7 @@ void MChamps::OnLoop() {
 		PlayerCarsUpdate(&Players[0]);
 		PlayerCarsUpdate(&Players[1]);
 		
-		// Ball Update
+		//// Ball Update
 		BallUpdate();
 
 		//// Camera update
@@ -282,7 +282,6 @@ void MChamps::OnLoop() {
 		// Set active car draw location in viewport
 		Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->vx;
 		Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->vy;
-		
 
 		break;
 	}	
@@ -351,9 +350,6 @@ void MChamps::BallUpdate() {
 	if (moveBallX > 0) { GameBall.dx *= -1; GameBall.x = moveBallX; }
 	if (moveBallY > 0) { GameBall.dy *= -1; GameBall.y = moveBallY; }
 
-	//if (GameBall.dx < 0 && ) GameBall.frame--;
-	//if (GameBall.dx > 0) GameBall.frame++;
-
 	// Outer boundary collision
 	if (GameBall.x < -24) {
 		GameBall.x = -24;
@@ -370,6 +366,24 @@ void MChamps::BallUpdate() {
 	if (GameBall.y > 348) {
 		GameBall.y = 348;
 		GameBall.dy *= -1;
+	}
+
+	// Ball Sprite Update
+	Uint32 ballAnimTicks = GameBall.ballAnimate.getTicks();
+	Uint32 ballAnimSpeed = 1000 - (Uint32)(1000.0 * GameBall.speed * 1.5); // low: -0, high: -350
+	if (GameBall.ballAnimate.isStarted()) {
+		if (GameBall.dx < 0.0 && GameBall.speed > 0.0) {
+			if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.25)) GameBall.frame = 3;
+			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.5)) GameBall.frame = 2;
+			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.75)) GameBall.frame = 1;
+			else GameBall.frame = 0;
+		}
+		if (GameBall.dx >= 0.0 && GameBall.speed > 0.0) {
+			if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.25)) GameBall.frame = 1;
+			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.5)) GameBall.frame = 2;
+			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.75)) GameBall.frame = 3;
+			else GameBall.frame = 0;
+		}
 	}
 }
 

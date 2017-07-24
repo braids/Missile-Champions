@@ -80,7 +80,7 @@ private:
 		double dx, dy, dz;
 		double vx, vy;
 		double speed;
-		
+		Timer ballAnimate;
 		void updateSpeed();
 		double cx() { return x + (double) (viewportRect->w / 2); }
 		double cy() { return y + (double) (viewportRect->h / 2); }
