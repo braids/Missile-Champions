@@ -332,16 +332,35 @@ void MChamps::BallUpdate() {
 	GameBall.x += GameBall.dx * GameBall.speed * timeStep;
 	GameBall.y += GameBall.dy * GameBall.speed * timeStep;
 
+	double moveBallX = 0;
+	double moveBallY = 0;
+
+	// Inner wall collision
+	if (GameBall.x < 32 && (GameBall.cy() < 116 || GameBall.cy() > 236 + 48)) {
+		moveBallX = 32;
+	}
+	if (GameBall.x > 1024 - 32 - 48 && (GameBall.cy() < 116 || GameBall.cy() > 236 + 48)) {
+		moveBallX = 1024 - 32 - 48;
+	}
+	if (GameBall.y < 116 && (GameBall.cx() < 32 || GameBall.cx() > 1024 - 32)) {
+		moveBallY = 116;
+	}
+	if (GameBall.y > 236 && (GameBall.cx() < 32 || GameBall.cx() > 1024 - 32)) {
+		moveBallY = 236;
+	}
+	if (moveBallX > 0) { GameBall.dx *= -1; GameBall.x = moveBallX; }
+	if (moveBallY > 0) { GameBall.dy *= -1; GameBall.y = moveBallY; }
+
 	//if (GameBall.dx < 0 && ) GameBall.frame--;
 	//if (GameBall.dx > 0) GameBall.frame++;
 
 	// Outer boundary collision
-	if (GameBall.x < 0) {
-		GameBall.x = 0;
+	if (GameBall.x < -24) {
+		GameBall.x = -24;
 		GameBall.dx *= -1;
 	}
-	if (GameBall.x > 976) {
-		GameBall.x = 976;
+	if (GameBall.x > 1000) {
+		GameBall.x = 1000;
 		GameBall.dx *= -1;
 	}
 	if (GameBall.y < 20) {
@@ -385,19 +404,25 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		player->cars[i].x += player->cars[i].dx * player->cars[i].speed * timeStep;
 		player->cars[i].y += player->cars[i].dy * player->cars[i].speed * timeStep;
 
+		double moveCarX = 0;
+		double moveCarY = 0;
+
 		// Inner wall collision
-		if (player->cars[i].x < 32 && (player->cars[i].cy() < 116 || player->cars[i].cy() > 276)) {
-			player->cars[i].x = 32;
+		if (player->cars[i].x < 32 && (player->cars[i].cy() < 116 || player->cars[i].cy() > 244 + 32)) {
+			moveCarX = 32;
 		}
-		if (player->cars[i].x > 1024 - 64 && (player->cars[i].cy() < 116 || player->cars[i].cy() > 276)) {
-			player->cars[i].x = 1024 - 64;
+		if (player->cars[i].x > 1024 - 64 && (player->cars[i].cy() < 116 || player->cars[i].cy() > 244 + 32)) {
+			moveCarX = 1024 - 64;
 		}
-		if (player->cars[i].y < 116 && (player->cars[i].cx() < 32 || player->cars[i].cx() > 1024 - 64)) {
-			player->cars[i].y = 116;
+		if (player->cars[i].y < 116 && (player->cars[i].cx() < 32 || player->cars[i].cx() > 1024 - 32)) {
+			moveCarY = 116;
 		}
-		if (player->cars[i].y > 260 && (player->cars[i].cx() < 32 || player->cars[i].cx() > 1024 - 64)) {
-			player->cars[i].y = 260;
+		if (player->cars[i].y > 244 && (player->cars[i].cx() < 32 || player->cars[i].cx() > 1024 - 32)) {
+			moveCarY = 244;
 		}
+		if (moveCarX > 0) { player->cars[i].x = moveCarX; }
+		if (moveCarY > 0) { player->cars[i].y = moveCarY; }
+
 		// Outer boundary collision
 		if (player->cars[i].x < 0)
 			player->cars[i].x = 0;
