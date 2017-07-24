@@ -49,9 +49,21 @@ void MChamps::Ball::updateSpeed() {
 		speed = .35;
 	}
 	if (speed > 0.0) {
+		if (!ballAnimate.isStarted()) {
+			ballAnimate.start();
+		}
+		/*if (ballAnimate.isPaused()) {
+			ballAnimate.unpause();
+		}*/
 		speed -= 0.00002;
 	}
 	if (speed <= 0.0) {
+		if (ballAnimate.isStarted()) {
+			ballAnimate.stop();
+		}
+		/*if (ballAnimate.isStarted() && !ballAnimate.isPaused()) {
+			ballAnimate.pause();
+		}*/
 		dx = 0;
 		dy = 0;
 		speed = 0.0;
