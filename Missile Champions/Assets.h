@@ -2,6 +2,7 @@
 #define _ASSETS_H_
 
 #define BALL_FRAMES 4
+#define BOOST_ROT_FRAMES 5
 #define CAR_ROT_FRAMES	4
 #define CAR_PALETTES	8
 
@@ -45,6 +46,10 @@ public:
 		Image FieldBottom;
 		Image FieldViewport;
 		Image StatusBar;
+		// Boost
+		Image BoostSprite[BOOST_ROT_FRAMES];
+		Image BoostF1Sprite[BOOST_ROT_FRAMES];
+		Image BoostF2Sprite[BOOST_ROT_FRAMES];
 	} images;
 };
 
