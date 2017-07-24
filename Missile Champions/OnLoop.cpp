@@ -396,12 +396,11 @@ void MChamps::BallUpdate() {
 void MChamps::PlayerCarsUpdate(Player * player) {
 	for (int i = 0; i < 3; i++) {
 		// Set player.cars[i] speed
+		player->cars[i].speed = (player->cars[i].isBoosting ? 0.3 : 0.0);
 		if (player->cars[i].MoveDirection == Car::Forward)
-			player->cars[i].speed = .2;
+			player->cars[i].speed += (player->cars[i].isBoosting ? 0.0 : 0.2);
 		else if (player->cars[i].MoveDirection == Car::Backward)
-			player->cars[i].speed = -.2;
-		else
-			player->cars[i].speed = 0;
+			player->cars[i].speed -= 0.2;
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
