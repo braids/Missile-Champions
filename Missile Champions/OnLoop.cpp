@@ -325,7 +325,7 @@ void MChamps::BallUpdate() {
 		}
 	}
 	// Update current ball speed
-	GameBall.updateSpeed();
+	GameBall.updateSpeed(timeStep);
 
 	// Move ball
 	GameBall.x += GameBall.dx * GameBall.speed * timeStep;
