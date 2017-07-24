@@ -82,7 +82,7 @@ private:
 		double vx, vy;
 		double speed;
 		Timer ballAnimate;
-		void updateSpeed();
+		void updateSpeed(Uint32 ts);
 		double cx() { return x + (double) (viewportRect->w / 2); }
 		double cy() { return y + (double) (viewportRect->h / 2); }
 	} GameBall;
