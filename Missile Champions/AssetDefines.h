@@ -14,5 +14,8 @@
 #define IMAGE_CAR_SELECT_P2_FLASH	"car_select_p2_flash.png"
 #define IMAGE_CAR_SELECTION_SHEET	"car_selection_sheet.png"
 #define IMAGE_CAR_SELECTION_CURSOR	"car_selection_cursor.png"
+#define IMAGE_BOOST_SPRITE_SHEET	"boost_streak_full.png"
+#define IMAGE_BOOST_F1_SPRITE_SHEET	"boost_streak_fade1.png"
+#define IMAGE_BOOST_F2_SPRITE_SHEET	"boost_streak_fade2.png"
 
 #endif
