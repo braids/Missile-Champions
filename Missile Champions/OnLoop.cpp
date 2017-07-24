@@ -90,7 +90,8 @@ void MChamps::OnLoop() {
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
 				false,
-				Car::NoMovement, 
+				false,
+				Car::NoMovement,
 				Car::NoTurning
 			};
 			Players[0].cars[1] = {
@@ -102,6 +103,7 @@ void MChamps::OnLoop() {
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
+				false,
 				false,
 				Car::Backward,
 				Car::Right
@@ -116,6 +118,7 @@ void MChamps::OnLoop() {
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
 				false,
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -128,6 +131,7 @@ void MChamps::OnLoop() {
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				false,
 				Car::Forward,
 				Car::Left
@@ -142,6 +146,7 @@ void MChamps::OnLoop() {
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
 				false,
+				false,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -154,6 +159,7 @@ void MChamps::OnLoop() {
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
+				false,
 				false,
 				Car::NoMovement,
 				Car::NoTurning

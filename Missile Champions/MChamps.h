@@ -46,6 +46,7 @@ private:
 		double dx, dy;
 		double angle, speed;
 		bool ballCollide;
+		bool isBoosting;
 		enum Movement {
 			NoMovement,
 			Forward,
