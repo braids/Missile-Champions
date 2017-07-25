@@ -36,6 +36,30 @@ private:
 	Assets*			mAssets;
 
 	//// Object structs
+	// Boost Streak
+	struct BoostStreak {
+		Assets::Image* image;
+		SDL_Rect* viewportRect;
+		int angleSprite, decaySprite;
+		double x, y, z;
+		Uint32 timeAlive;
+
+		void SetAngleSprite(double angle) {
+			for (double a = 11.25, int i = 0; a <= 371.25; a += 22.5, i++) {
+				if (angle < a && angle >= (a - 22.5)) {
+					angleSprite = i;
+				}
+				if (i == 7) i = -1;
+			}
+		}
+		void UpdateDecaySprite(Uint32 timestep) {
+			timeAlive -= timestep;
+			if (timeAlive > 400) decaySprite = 0;
+			else if (timeAlive > 200) decaySprite = 1;
+			else if (timeAlive > 0) decaySprite = 2;
+			if (timeAlive < 0) timeAlive = 0;
+		}
+	};
 	// Car
 	struct Car {
 		Assets::Image* image;
@@ -47,6 +71,7 @@ private:
 		double angle, speed;
 		bool ballCollide;
 		bool isBoosting;
+		int boostStreakCounter;
 		enum Movement {
 			NoMovement,
 			Forward,
@@ -57,7 +82,7 @@ private:
 			Left,
 			Right
 		} Turning;
-
+		BoostStreak streak[5];
 		double cx() { return x + (double) (viewportRect->w / 2); }
 		double cy() { return y + (double) (viewportRect->h / 2); }
 	};
