@@ -501,8 +501,8 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			player->cars[i].streak[player->cars[i].boostStreakCounter].timeAlive = 250;
 			player->cars[i].streak[player->cars[i].boostStreakCounter].SetAngleSprite(player->cars[i].angle);
 			player->cars[i].streak[player->cars[i].boostStreakCounter].decaySprite = 0;
-			player->cars[i].streak[player->cars[i].boostStreakCounter].viewportRect = Graphics::CreateRect(32, 32, 0, 0);
 			player->cars[i].streak[player->cars[i].boostStreakCounter].image = &mAssets->images.BoostSprite[player->cars[i].streak[player->cars[i].boostStreakCounter].angleSprite];
+			player->cars[i].streak[player->cars[i].boostStreakCounter].viewportRect = Graphics::CreateRect(32, 32, 0, 0);
 			player->cars[i].boostStreakCounter++;
 			if (player->cars[i].boostStreakCounter > 4) player->cars[i].boostStreakCounter = 0;
 			player->cars[i].boostStreakTimer.start();
