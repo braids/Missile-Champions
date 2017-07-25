@@ -33,6 +33,17 @@ void MChamps::OnRender() {
 		// Draw field camera
 		DrawImage(GameplayCamera.drawarea, GameplayCamera.viewport->rect);
 		
+		// Draw boost lines
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 5; k++) {
+					if (Players[i].cars[j].streak[k].timeAlive > 0) {
+						DrawImage(Players[i].cars[j].streak[k].image, Players[i].cars[j].streak[k].viewportRect);
+					}
+				}
+			}
+		}
+
 		// Draw cars
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {

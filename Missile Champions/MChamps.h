@@ -42,10 +42,10 @@ private:
 		SDL_Rect* viewportRect;
 		int angleSprite, decaySprite;
 		double x, y, z;
-		Uint32 timeAlive;
+		int timeAlive;
 
 		void SetAngleSprite(double angle) {
-			for (double a = 11.25, int i = 0; a <= 371.25; a += 22.5, i++) {
+			for (double a = 11.25, i = 0; a <= 371.25; a += 22.5, i++) {
 				if (angle < a && angle >= (a - 22.5)) {
 					angleSprite = i;
 				}
@@ -54,8 +54,8 @@ private:
 		}
 		void UpdateDecaySprite(Uint32 timestep) {
 			timeAlive -= timestep;
-			if (timeAlive > 400) decaySprite = 0;
-			else if (timeAlive > 200) decaySprite = 1;
+			if (timeAlive > 100) decaySprite = 0;
+			else if (timeAlive > 50) decaySprite = 1;
 			else if (timeAlive > 0) decaySprite = 2;
 			if (timeAlive < 0) timeAlive = 0;
 		}
@@ -82,6 +82,7 @@ private:
 			Left,
 			Right
 		} Turning;
+		Timer boostStreakTimer;
 		BoostStreak streak[5];
 		double cx() { return x + (double) (viewportRect->w / 2); }
 		double cy() { return y + (double) (viewportRect->h / 2); }
