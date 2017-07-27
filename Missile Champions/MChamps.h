@@ -11,6 +11,8 @@
 
 #define CAMERA_W 256
 #define CAMERA_H 176
+#define MAX_BOOST_FUEL 10000
+#define MIN_BOOST_FUEL 0
 
 class MChamps {
 private:

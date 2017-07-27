@@ -90,7 +90,7 @@ void MChamps::OnLoop() {
 				90, 0, // Angle and speed
 				false,
 				false,
-				0, 10000,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -104,7 +104,7 @@ void MChamps::OnLoop() {
 				90, 0, // Angle and speed
 				false,
 				false,
-				0, 10000,
+				0, MAX_BOOST_FUEL,
 				Car::Backward,
 				Car::Right
 			};
@@ -118,7 +118,7 @@ void MChamps::OnLoop() {
 				90, 0, // Angle and speed
 				false,
 				false,
-				0, 10000,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -132,7 +132,7 @@ void MChamps::OnLoop() {
 				270, 0, // Angle and speed
 				false,
 				false,
-				0, 10000,
+				0, MAX_BOOST_FUEL,
 				Car::Forward,
 				Car::Left
 			};
@@ -146,7 +146,7 @@ void MChamps::OnLoop() {
 				270, 0, // Angle and speed
 				false,
 				false,
-				0, 10000,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -160,7 +160,7 @@ void MChamps::OnLoop() {
 				270, 0, // Angle and speed
 				false,
 				false,
-				0, 10000,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -402,9 +402,9 @@ void MChamps::BallUpdate() {
 void MChamps::PlayerCarsUpdate(Player * player) {
 	for (int i = 0; i < 3; i++) {
 		// Set player.cars[i] speed
-		player->cars[i].speed = (player->cars[i].isBoosting && player->cars[i].boostFuel > 0 ? 0.3 : 0.0);
+		player->cars[i].speed = (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL ? 0.3 : 0.0);
 		if (player->cars[i].MoveDirection == Car::Forward)
-			player->cars[i].speed += (player->cars[i].isBoosting && player->cars[i].boostFuel > 0 ? 0.0 : 0.2);
+			player->cars[i].speed += (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL ? 0.0 : 0.2);
 		else if (player->cars[i].MoveDirection == Car::Backward)
 			player->cars[i].speed -= 0.2;
 
@@ -490,28 +490,28 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 				player->cars[i].boostRechargeTimer.start();
 			}
 			
-			if (player->cars[i].boostFuel < 10000) {
+			if (player->cars[i].boostFuel < MAX_BOOST_FUEL) {
 				if (BoostRechargeTicks < 2000)
 					player->cars[i].boostFuel += 1 * timeStep;
 				else
 					player->cars[i].boostFuel += 5 * timeStep;
 			}
 
-			if (player->cars[i].boostFuel > 10000) {
+			if (player->cars[i].boostFuel > MAX_BOOST_FUEL) {
 				player->cars[i].boostRechargeTimer.stop();
-				player->cars[i].boostFuel = 10000;
+				player->cars[i].boostFuel = MAX_BOOST_FUEL;
 			}
 				
 		}
 
-		if (player->cars[i].isBoosting && player->cars[i].boostFuel > 0) {
+		if (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL) {
 			player->cars[i].boostRechargeTimer.stop();
 			player->cars[i].boostFuel -= 2 * timeStep;
-			if (player->cars[i].boostFuel < 0)
-				player->cars[i].boostFuel = 0;
+			if (player->cars[i].boostFuel < MIN_BOOST_FUEL)
+				player->cars[i].boostFuel = MIN_BOOST_FUEL;
 		}
 
-		if (player->cars[i].isBoosting && player->cars[i].boostFuel > 0 && (!player->cars[i].boostStreakTimer.isStarted() || BoostStreakTicks > 50)) {
+		if (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL && (!player->cars[i].boostStreakTimer.isStarted() || BoostStreakTicks > 50)) {
 			player->cars[i].streak[player->cars[i].boostStreakCounter].SpawnSprite(
 				player->cars[i].x, player->cars[i].y, player->cars[i].angle, mAssets);
 
