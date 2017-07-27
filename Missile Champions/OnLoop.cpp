@@ -85,7 +85,6 @@ void MChamps::OnLoop() {
 				Players[0].cars[0].viewportRect,
 				1, // Image and sprite angle
 				48, 72, 0, // x/y
-				48, 72, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
@@ -100,7 +99,6 @@ void MChamps::OnLoop() {
 				Players[0].cars[1].viewportRect,
 				1, // Image and sprite angle
 				98, 122, 0, // x/y
-				98, 122, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
@@ -115,7 +113,6 @@ void MChamps::OnLoop() {
 				Players[0].cars[2].viewportRect,
 				1, // Image and sprite angle
 				48, 112, 0, // x/y
-				48, 112, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
@@ -130,7 +127,6 @@ void MChamps::OnLoop() {
 				Players[1].cars[0].viewportRect,
 				3, // Image and sprite angle
 				208, 72, 0, // x/y
-				208, 72, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
@@ -145,7 +141,6 @@ void MChamps::OnLoop() {
 				Players[1].cars[1].viewportRect,
 				3, // Image and sprite angle
 				308, 172, 0, // x/y
-				308, 172, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
@@ -160,7 +155,6 @@ void MChamps::OnLoop() {
 				Players[1].cars[2].viewportRect,
 				3, // Image and sprite angle
 				408, 272, 0, // x/y
-				408, 272, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
@@ -273,15 +267,6 @@ void MChamps::OnLoop() {
 		if (GameplayCamera.drawarea->rect->y > 208) GameplayCamera.drawarea->rect->y = 208;
 		
 		///// Viewport positioning
-		// Set viewport coordinates based on active car (make it so "target" is followed later)
-		if (Players[0].activeCar->x <= 112)
-			Players[0].activeCar->vx = Players[0].activeCar->x;
-		else if (Players[0].activeCar->x >= 880)
-			Players[0].activeCar->vx = Players[0].activeCar->x - 768;
-		if (Players[0].activeCar->y <= 72)
-			Players[0].activeCar->vy = Players[0].activeCar->y;
-		else if (Players[0].activeCar->y >= 280)
-			Players[0].activeCar->vy = Players[0].activeCar->y - 208;		
 		// Update car and child object positions in viewport
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -300,9 +285,15 @@ void MChamps::OnLoop() {
 		// Set ball
 		GameBall.viewportRect->x = GameBall.x - GameplayCamera.drawarea->rect->x;
 		GameBall.viewportRect->y = GameBall.y - GameplayCamera.drawarea->rect->y;
-		// Set active car draw location in viewport
-		Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->vx;
-		Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->vy;
+		// Set viewport coordinates based on active car
+		if (Players[0].activeCar->x <= 112)
+			Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x;
+		else if (Players[0].activeCar->x >= 880)
+			Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x - 768;
+		if (Players[0].activeCar->y <= 72)
+			Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->y;
+		else if (Players[0].activeCar->y >= 280)
+			Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->y - 208;
 
 		break;
 	}	

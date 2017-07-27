@@ -73,7 +73,6 @@ private:
 		SDL_Rect* viewportRect;
 		int anglesprite;
 		double x, y, z;
-		double vx, vy, vz;
 		double dx, dy;
 		double angle, speed;
 		bool ballCollide;

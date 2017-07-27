@@ -55,10 +55,10 @@ void MChamps::OnRender() {
 
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0, 
-			(int) Players[0].activeCar->vx + 16, 
-			(int) Players[0].activeCar->vy + 16, 
-			(int) Players[0].activeCar->vx + 16 + (int) (Players[0].activeCar->dx * 20.0), 
-			(int) Players[0].activeCar->vy + 16 + (int) (Players[0].activeCar->dy * 20.0));
+			(int)Players[0].activeCar->viewportRect->x + 16,
+			(int)Players[0].activeCar->viewportRect->y + 16,
+			(int)Players[0].activeCar->viewportRect->x + 16 + (int)(Players[0].activeCar->dx * 20.0),
+			(int)Players[0].activeCar->viewportRect->y + 16 + (int)(Players[0].activeCar->dy * 20.0));
 		
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0,
