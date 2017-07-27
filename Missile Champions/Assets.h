@@ -46,6 +46,7 @@ public:
 		Image FieldBottom;
 		Image FieldViewport;
 		Image StatusBar;
+		Image BoostBar;
 		// Boost
 		Image BoostSprite[BOOST_ROT_FRAMES];
 		Image BoostF1Sprite[BOOST_ROT_FRAMES];

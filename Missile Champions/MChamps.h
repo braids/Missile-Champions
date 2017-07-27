@@ -90,6 +90,7 @@ private:
 			Right
 		} Turning;
 		Timer boostStreakTimer;
+		Timer boostRechargeTimer;
 		BoostStreak streak[5];
 		double cx() { return x + (double) (viewportRect->w / 2); }
 		double cy() { return y + (double) (viewportRect->h / 2); }
@@ -150,6 +151,8 @@ private:
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
+	Assets::Image*	BoostBar;
+	SDL_Rect*		BoostBarScaleRect;
 
 	// Events and effects
 	bool Event_CarSelected;

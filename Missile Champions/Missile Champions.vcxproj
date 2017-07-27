@@ -137,6 +137,9 @@
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\img\boost_bar.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="res\img\boost_streak_fade1.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>

@@ -37,6 +37,9 @@ bool MChamps::OnInit() {
 	mAssets->images.FieldViewport = { NULL, Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.StatusBar = { Assets::Instance()->GetTexture(IMAGE_STATUS_BAR), Graphics::Fullscreen() };
 	StatusBar = &mAssets->images.StatusBar;
+	mAssets->images.BoostBar = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(1, 8, 0, 0) };
+	BoostBar = &mAssets->images.BoostBar;
+	BoostBarScaleRect = Graphics::CreateRect(64, 8, 96, 200);
 	// Boost Streak
 	for (int i = 0; i < BOOST_ROT_FRAMES; i++) {
 		mAssets->images.BoostSprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };

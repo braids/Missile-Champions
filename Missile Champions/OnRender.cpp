@@ -74,6 +74,9 @@ void MChamps::OnRender() {
 		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
 
+		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / 10000.0));
+		DrawImage(BoostBar, BoostBarScaleRect);
+
 		break;
 	}
 
