@@ -80,75 +80,15 @@ bool MChamps::OnInit() {
 	// Player 1 init
 	Players[0] = { 0, 0, Graphics::CreateRect(64, 64, 40, 8), &Players[0].cars[0] };
 	// Player 1 car init
-	Players[0].cars[0] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 56, 24),
-		0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		false,
-		0, 0,
-		Car::NoMovement, Car::NoTurning};
-	Players[0].cars[1] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 56, 24),
-		0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		false,
-		0, 0,
-		Car::NoMovement, Car::NoTurning };
-	Players[0].cars[2] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 56, 24),
-		0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		false,
-		0, 0,
-		Car::NoMovement, Car::NoTurning };
+	Players[0].cars[0].InitCar();
+	Players[0].cars[1].InitCar();
+	Players[0].cars[2].InitCar();
 	// Player 2 init
 	Players[1] = { 0, 0, Graphics::CreateRect(64, 64, 152, 8), &Players[1].cars[0] };
 	// Player 2 car init
-	Players[1].cars[0] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 168, 24),
-		0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		false,
-		0, 0,
-		Car::NoMovement, Car::NoTurning };
-	Players[1].cars[1] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 168, 24),
-		0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		false,
-		0, 0,
-		Car::NoMovement, Car::NoTurning };
-	Players[1].cars[2] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 168, 24),
-		0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		false,
-		0, 0,
-		Car::NoMovement, Car::NoTurning };
+	Players[1].cars[0].InitCar();
+	Players[1].cars[1].InitCar();
+	Players[1].cars[2].InitCar();
 
 	return true;
 }

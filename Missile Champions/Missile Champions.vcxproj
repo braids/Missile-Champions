@@ -122,6 +122,8 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="MChamps.cpp" />
+    <ClCompile Include="Objects\BoostStreak.cpp" />
+    <ClCompile Include="Objects\Car.cpp" />
     <ClCompile Include="OnCleanup.cpp" />
     <ClCompile Include="OnEvent.cpp" />
     <ClCompile Include="OnInit.cpp" />
@@ -134,6 +136,7 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="MChamps.h" />
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
