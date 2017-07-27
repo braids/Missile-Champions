@@ -90,7 +90,7 @@ void MChamps::OnLoop() {
 				90, 0, // Angle and speed
 				false,
 				false,
-				0,
+				0, 1000,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -104,7 +104,7 @@ void MChamps::OnLoop() {
 				90, 0, // Angle and speed
 				false,
 				false,
-				0,
+				0, 1000,
 				Car::Backward,
 				Car::Right
 			};
@@ -118,7 +118,7 @@ void MChamps::OnLoop() {
 				90, 0, // Angle and speed
 				false,
 				false,
-				0,
+				0, 1000,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -132,7 +132,7 @@ void MChamps::OnLoop() {
 				270, 0, // Angle and speed
 				false,
 				false,
-				0,
+				0, 1000,
 				Car::Forward,
 				Car::Left
 			};
@@ -146,7 +146,7 @@ void MChamps::OnLoop() {
 				270, 0, // Angle and speed
 				false,
 				false,
-				0,
+				0, 1000,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -160,7 +160,7 @@ void MChamps::OnLoop() {
 				270, 0, // Angle and speed
 				false,
 				false,
-				0,
+				0, 1000,
 				Car::NoMovement,
 				Car::NoTurning
 			};

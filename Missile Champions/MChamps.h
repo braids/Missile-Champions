@@ -78,6 +78,7 @@ private:
 		bool ballCollide;
 		bool isBoosting;
 		int boostStreakCounter;
+		int boostFuel;
 		enum Movement {
 			NoMovement,
 			Forward,
