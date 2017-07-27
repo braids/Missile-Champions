@@ -85,12 +85,13 @@ void MChamps::OnLoop() {
 				Players[0].cars[0].viewportRect,
 				1, // Image and sprite angle
 				48, 72, 0, // x/y
-				48, 72, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
 				false,
-				Car::NoMovement, 
+				false,
+				0, MAX_BOOST_FUEL,
+				Car::NoMovement,
 				Car::NoTurning
 			};
 			Players[0].cars[1] = {
@@ -98,11 +99,12 @@ void MChamps::OnLoop() {
 				Players[0].cars[1].viewportRect,
 				1, // Image and sprite angle
 				98, 122, 0, // x/y
-				98, 122, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
 				false,
+				false,
+				0, MAX_BOOST_FUEL,
 				Car::Backward,
 				Car::Right
 			};
@@ -111,11 +113,12 @@ void MChamps::OnLoop() {
 				Players[0].cars[2].viewportRect,
 				1, // Image and sprite angle
 				48, 112, 0, // x/y
-				48, 112, 0, // viewport x/y
 				sin(90 * M_PI / 180), // dx
 				cos(90 * M_PI / 180), // dy
 				90, 0, // Angle and speed
 				false,
+				false,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -124,11 +127,12 @@ void MChamps::OnLoop() {
 				Players[1].cars[0].viewportRect,
 				3, // Image and sprite angle
 				208, 72, 0, // x/y
-				208, 72, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
 				false,
+				false,
+				0, MAX_BOOST_FUEL,
 				Car::Forward,
 				Car::Left
 			};
@@ -137,11 +141,12 @@ void MChamps::OnLoop() {
 				Players[1].cars[1].viewportRect,
 				3, // Image and sprite angle
 				308, 172, 0, // x/y
-				308, 172, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
 				false,
+				false,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -150,11 +155,12 @@ void MChamps::OnLoop() {
 				Players[1].cars[2].viewportRect,
 				3, // Image and sprite angle
 				408, 272, 0, // x/y
-				408, 272, 0, // viewport x/y
 				sin(270 * M_PI / 180), // dx
 				cos(270 * M_PI / 180), // dy
 				270, 0, // Angle and speed
 				false,
+				false,
+				0, MAX_BOOST_FUEL,
 				Car::NoMovement,
 				Car::NoTurning
 			};
@@ -261,27 +267,33 @@ void MChamps::OnLoop() {
 		if (GameplayCamera.drawarea->rect->y > 208) GameplayCamera.drawarea->rect->y = 208;
 		
 		///// Viewport positioning
-		// Set viewport coordinates based on active car (make it so "target" is followed later)
-		if (Players[0].activeCar->x <= 112)
-			Players[0].activeCar->vx = Players[0].activeCar->x;
-		else if (Players[0].activeCar->x >= 880)
-			Players[0].activeCar->vx = Players[0].activeCar->x - 768;
-		if (Players[0].activeCar->y <= 72)
-			Players[0].activeCar->vy = Players[0].activeCar->y;
-		else if (Players[0].activeCar->y >= 280)
-			Players[0].activeCar->vy = Players[0].activeCar->y - 208;		
+		// Update car and child object positions in viewport
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
+				// Update car positions in viewport
 				Players[i].cars[j].viewportRect->x = Players[i].cars[j].x - GameplayCamera.drawarea->rect->x;
 				Players[i].cars[j].viewportRect->y = Players[i].cars[j].y - GameplayCamera.drawarea->rect->y;
+				// Update boost streak positions in viewport
+				for (int k = 0; k < 5; k++) {
+					if (Players[i].cars[j].streak[k].timeAlive > 0) {
+						Players[i].cars[j].streak[k].viewportRect->x = Players[i].cars[j].streak[k].x - GameplayCamera.drawarea->rect->x;
+						Players[i].cars[j].streak[k].viewportRect->y = Players[i].cars[j].streak[k].y - GameplayCamera.drawarea->rect->y;
+					}
+				}
 			}
 		}
 		// Set ball
 		GameBall.viewportRect->x = GameBall.x - GameplayCamera.drawarea->rect->x;
 		GameBall.viewportRect->y = GameBall.y - GameplayCamera.drawarea->rect->y;
-		// Set active car draw location in viewport
-		Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->vx;
-		Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->vy;
+		// Set viewport coordinates based on active car
+		if (Players[0].activeCar->x <= 112)
+			Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x;
+		else if (Players[0].activeCar->x >= 880)
+			Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x - 768;
+		if (Players[0].activeCar->y <= 72)
+			Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->y;
+		else if (Players[0].activeCar->y >= 280)
+			Players[0].activeCar->viewportRect->y = (int)Players[0].activeCar->y - 208;
 
 		break;
 	}	
@@ -314,7 +326,7 @@ void MChamps::BallUpdate() {
 				GameBall.dx = sin(newAngle * M_PI / 180);
 				GameBall.dy = cos(newAngle * M_PI / 180);
 				// Car speed added to ball speed
-				GameBall.speed += abs(Players[i].cars[j].speed);
+				GameBall.speed += abs(Players[i].cars[j].speed * 1.5);
 			}
 			// If car/ball spheres no longer colliding, set collision flag false
 			else if (sqrt(
@@ -390,12 +402,11 @@ void MChamps::BallUpdate() {
 void MChamps::PlayerCarsUpdate(Player * player) {
 	for (int i = 0; i < 3; i++) {
 		// Set player.cars[i] speed
+		player->cars[i].speed = (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL ? 0.3 : 0.0);
 		if (player->cars[i].MoveDirection == Car::Forward)
-			player->cars[i].speed = .2;
+			player->cars[i].speed += (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL ? 0.0 : 0.2);
 		else if (player->cars[i].MoveDirection == Car::Backward)
-			player->cars[i].speed = -.2;
-		else
-			player->cars[i].speed = 0;
+			player->cars[i].speed -= 0.2;
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
@@ -458,5 +469,59 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			player->cars[i].anglesprite = 3;	// Left
 		// Update image
 		player->cars[i].image = &mAssets->images.CarSprites[player->cars[i].anglesprite][player->team - 1];
+
+		//// Boost Streak
+		// Update existing
+		Uint32 BoostStreakTicks = player->cars[i].boostStreakTimer.getTicks();
+		Uint32 BoostRechargeTicks = player->cars[i].boostRechargeTimer.getTicks();
+		for (int j = 0; j < 5; j++) {
+			if (player->cars[i].streak[j].timeAlive > 0) {
+				player->cars[i].streak[j].UpdateDecaySprite(timeStep);
+				if(player->cars[i].streak[j].decaySprite == 1)
+					player->cars[i].streak[j].image = &mAssets->images.BoostF1Sprite[player->cars[i].streak[j].angleSprite];
+				if (player->cars[i].streak[j].decaySprite == 2)
+					player->cars[i].streak[j].image = &mAssets->images.BoostF2Sprite[player->cars[i].streak[j].angleSprite];
+			}
+		}
+
+		if (!player->cars[i].isBoosting) {
+			if (player->cars[i].boostStreakTimer.isStarted()) {
+				player->cars[i].boostStreakTimer.stop();
+				player->cars[i].boostRechargeTimer.start();
+			}
+			
+			if (player->cars[i].boostFuel < MAX_BOOST_FUEL) {
+				if (BoostRechargeTicks < 2000)
+					player->cars[i].boostFuel += 1 * timeStep;
+				else
+					player->cars[i].boostFuel += 5 * timeStep;
+			}
+
+			if (player->cars[i].boostFuel > MAX_BOOST_FUEL) {
+				player->cars[i].boostRechargeTimer.stop();
+				player->cars[i].boostFuel = MAX_BOOST_FUEL;
+			}
+				
+		}
+
+		if (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL) {
+			player->cars[i].boostRechargeTimer.stop();
+			player->cars[i].boostFuel -= 2 * timeStep;
+			if (player->cars[i].boostFuel < MIN_BOOST_FUEL)
+				player->cars[i].boostFuel = MIN_BOOST_FUEL;
+		}
+
+		if (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL && (!player->cars[i].boostStreakTimer.isStarted() || BoostStreakTicks > 50)) {
+			player->cars[i].streak[player->cars[i].boostStreakCounter].SpawnSprite(
+				player->cars[i].x, player->cars[i].y, player->cars[i].angle, mAssets);
+
+			player->cars[i].boostStreakCounter++;
+			if (player->cars[i].boostStreakCounter > 4) 
+				player->cars[i].boostStreakCounter = 0;
+			
+			if (BoostStreakTicks > 50)
+				player->cars[i].boostStreakTimer.stop();
+			player->cars[i].boostStreakTimer.start();
+		}
 	}
 }

@@ -37,6 +37,15 @@ bool MChamps::OnInit() {
 	mAssets->images.FieldViewport = { NULL, Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.StatusBar = { Assets::Instance()->GetTexture(IMAGE_STATUS_BAR), Graphics::Fullscreen() };
 	StatusBar = &mAssets->images.StatusBar;
+	mAssets->images.BoostBar = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(1, 8, 0, 0) };
+	BoostBar = &mAssets->images.BoostBar;
+	BoostBarScaleRect = Graphics::CreateRect(64, 8, 96, 200);
+	// Boost Streak
+	for (int i = 0; i < BOOST_ROT_FRAMES; i++) {
+		mAssets->images.BoostSprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
+		mAssets->images.BoostF1Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F1_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
+		mAssets->images.BoostF2Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F2_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
+	}
 
 	//// Effects
 	Effect_StartFlashLength = 0;
@@ -76,30 +85,33 @@ bool MChamps::OnInit() {
 		Graphics::CreateRect(32, 32, 56, 24),
 		0,
 		0, 0, 0,
-		0, 0, 0,
 		0, 0,
 		0, 0,
 		false,
+		false,
+		0, 0,
 		Car::NoMovement, Car::NoTurning};
 	Players[0].cars[1] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
 		0,
 		0, 0, 0,
-		0, 0, 0,
 		0, 0,
 		0, 0,
 		false,
+		false,
+		0, 0,
 		Car::NoMovement, Car::NoTurning };
 	Players[0].cars[2] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 56, 24),
 		0,
 		0, 0, 0,
-		0, 0, 0,
 		0, 0,
 		0, 0,
 		false,
+		false,
+		0, 0,
 		Car::NoMovement, Car::NoTurning };
 	// Player 2 init
 	Players[1] = { 0, 0, Graphics::CreateRect(64, 64, 152, 8), &Players[1].cars[0] };
@@ -109,30 +121,33 @@ bool MChamps::OnInit() {
 		Graphics::CreateRect(32, 32, 168, 24),
 		0,
 		0, 0, 0,
-		0, 0, 0,
 		0, 0,
 		0, 0,
 		false,
+		false,
+		0, 0,
 		Car::NoMovement, Car::NoTurning };
 	Players[1].cars[1] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 168, 24),
 		0,
 		0, 0, 0,
-		0, 0, 0,
 		0, 0,
 		0, 0,
 		false,
+		false,
+		0, 0,
 		Car::NoMovement, Car::NoTurning };
 	Players[1].cars[2] = {
 		nullptr, // Image
 		Graphics::CreateRect(32, 32, 168, 24),
 		0,
 		0, 0, 0,
-		0, 0, 0,
 		0, 0,
 		0, 0,
 		false,
+		false,
+		0, 0,
 		Car::NoMovement, Car::NoTurning };
 
 	return true;

@@ -137,6 +137,18 @@
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\img\boost_bar.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\boost_streak_fade1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\boost_streak_fade2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\boost_streak_full.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="res\img\car_palette_swap_sheet.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>

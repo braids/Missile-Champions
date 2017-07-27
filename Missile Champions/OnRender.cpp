@@ -33,6 +33,17 @@ void MChamps::OnRender() {
 		// Draw field camera
 		DrawImage(GameplayCamera.drawarea, GameplayCamera.viewport->rect);
 		
+		// Draw boost lines
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 5; k++) {
+					if (Players[i].cars[j].streak[k].timeAlive > 0) {
+						DrawImage(Players[i].cars[j].streak[k].image, Players[i].cars[j].streak[k].viewportRect);
+					}
+				}
+			}
+		}
+
 		// Draw cars
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -44,10 +55,10 @@ void MChamps::OnRender() {
 
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0, 
-			(int) Players[0].activeCar->vx + 16, 
-			(int) Players[0].activeCar->vy + 16, 
-			(int) Players[0].activeCar->vx + 16 + (int) (Players[0].activeCar->dx * 20.0), 
-			(int) Players[0].activeCar->vy + 16 + (int) (Players[0].activeCar->dy * 20.0));
+			(int)Players[0].activeCar->viewportRect->x + 16,
+			(int)Players[0].activeCar->viewportRect->y + 16,
+			(int)Players[0].activeCar->viewportRect->x + 16 + (int)(Players[0].activeCar->dx * 20.0),
+			(int)Players[0].activeCar->viewportRect->y + 16 + (int)(Players[0].activeCar->dy * 20.0));
 		
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0,
@@ -62,6 +73,9 @@ void MChamps::OnRender() {
 
 		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
+
+		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
+		DrawImage(BoostBar, BoostBarScaleRect);
 
 		break;
 	}
