@@ -44,14 +44,21 @@ private:
 		double x, y, z;
 		int timeAlive;
 
-		void SetAngleSprite(double angle) {
+		void SpawnSprite(double _x, double _y, double _angle, Assets* assets) {
+			this->x = _x;
+			this->y = _y;
 			for (double a = 11.25, i = 0; a <= 371.25; a += 22.5, i++) {
-				if (angle < a && angle >= (a - 22.5)) {
+				if (_angle < a && _angle >= (a - 22.5)) {
 					angleSprite = i;
 				}
 				if (i == 7) i = -1;
 			}
+			this->timeAlive = 250;
+			this->decaySprite = 0;
+			this->image = &assets->images.BoostSprite[this->angleSprite];
+			this->viewportRect = Graphics::CreateRect(32, 32, 0, 0);
 		}
+
 		void UpdateDecaySprite(Uint32 timestep) {
 			timeAlive -= timestep;
 			if (timeAlive > 100) decaySprite = 0;

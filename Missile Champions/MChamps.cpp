@@ -45,14 +45,14 @@ int main(int argc, char* argv[]) {
 }
 
 void MChamps::Ball::updateSpeed(Uint32 ts) {
-	if (speed > .35) {
-		speed = .35;
+	if (speed > .4) {
+		speed = .4;
 	}
 	if (speed > 0.0) {
 		if (!ballAnimate.isStarted()) {
 			ballAnimate.start();
 		}
-		speed -= 0.00025 * (double)ts;
+		speed -= 0.000225 * (double)ts;
 	}
 	if (speed <= 0.0) {
 		if (ballAnimate.isStarted()) {
