@@ -29,11 +29,9 @@ void MChamps::OnLoop() {
 			CarSelectionCursor.image->rect->x = 16;
 			CarSelectionCursor.image->rect->y = 64;
 			Players[0].activeCar = &Players[0].cars[0];
-			Players[0].activeCar->viewportRect->x = 56;
-			Players[0].activeCar->viewportRect->y = 24;
+			Players[0].activeCar->SetCarSelect(0);
 			Players[1].activeCar = &Players[1].cars[0];
-			Players[1].activeCar->viewportRect->x = 168;
-			Players[1].activeCar->viewportRect->y = 24;
+			Players[1].activeCar->SetCarSelect(1);
 		}
 		return;
 	}
@@ -80,90 +78,11 @@ void MChamps::OnLoop() {
 			Effect_P2FlashLength = 0;
 			Event_P2Selected = false;
 			CurrentScene = Scene_Gameplay;
-			Players[0].cars[0] = { 
-				&mAssets->images.CarSprites[1][Players[0].team - 1], 
-				Players[0].cars[0].viewportRect,
-				1, // Image and sprite angle
-				48, 72, 0, // x/y
-				sin(90 * M_PI / 180), // dx
-				cos(90 * M_PI / 180), // dy
-				90, 0, // Angle and speed
-				false,
-				false,
-				0, MAX_BOOST_FUEL,
-				Car::NoMovement,
-				Car::NoTurning
-			};
-			Players[0].cars[1] = {
-				&mAssets->images.CarSprites[1][Players[0].team - 1],
-				Players[0].cars[1].viewportRect,
-				1, // Image and sprite angle
-				98, 122, 0, // x/y
-				sin(90 * M_PI / 180), // dx
-				cos(90 * M_PI / 180), // dy
-				90, 0, // Angle and speed
-				false,
-				false,
-				0, MAX_BOOST_FUEL,
-				Car::Backward,
-				Car::Right
-			};
-			Players[0].cars[2] = {
-				&mAssets->images.CarSprites[1][Players[0].team - 1],
-				Players[0].cars[2].viewportRect,
-				1, // Image and sprite angle
-				48, 112, 0, // x/y
-				sin(90 * M_PI / 180), // dx
-				cos(90 * M_PI / 180), // dy
-				90, 0, // Angle and speed
-				false,
-				false,
-				0, MAX_BOOST_FUEL,
-				Car::NoMovement,
-				Car::NoTurning
-			};
-			Players[1].cars[0] = {
-				&mAssets->images.CarSprites[3][Players[1].team - 1],
-				Players[1].cars[0].viewportRect,
-				3, // Image and sprite angle
-				208, 72, 0, // x/y
-				sin(270 * M_PI / 180), // dx
-				cos(270 * M_PI / 180), // dy
-				270, 0, // Angle and speed
-				false,
-				false,
-				0, MAX_BOOST_FUEL,
-				Car::Forward,
-				Car::Left
-			};
-			Players[1].cars[1] = {
-				&mAssets->images.CarSprites[3][Players[1].team - 1],
-				Players[1].cars[1].viewportRect,
-				3, // Image and sprite angle
-				308, 172, 0, // x/y
-				sin(270 * M_PI / 180), // dx
-				cos(270 * M_PI / 180), // dy
-				270, 0, // Angle and speed
-				false,
-				false,
-				0, MAX_BOOST_FUEL,
-				Car::NoMovement,
-				Car::NoTurning
-			};
-			Players[1].cars[2] = {
-				&mAssets->images.CarSprites[3][Players[1].team - 1],
-				Players[1].cars[2].viewportRect,
-				3, // Image and sprite angle
-				408, 272, 0, // x/y
-				sin(270 * M_PI / 180), // dx
-				cos(270 * M_PI / 180), // dy
-				270, 0, // Angle and speed
-				false,
-				false,
-				0, MAX_BOOST_FUEL,
-				Car::NoMovement,
-				Car::NoTurning
-			};
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 3; j++) {
+					Players[i].cars[j].SetCarKickoff(i, j);
+				}
+			}
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 		}
@@ -501,7 +420,6 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 				player->cars[i].boostRechargeTimer.stop();
 				player->cars[i].boostFuel = MAX_BOOST_FUEL;
 			}
-				
 		}
 
 		if (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL) {

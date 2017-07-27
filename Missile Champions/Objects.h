@@ -4,6 +4,9 @@
 #include "Assets.h"
 #include "Timer.h"
 
+#define MAX_BOOST_FUEL 10000
+#define MIN_BOOST_FUEL 0
+
 struct BoostStreak {
 	Assets::Image* image;
 	SDL_Rect* viewportRect;
@@ -16,11 +19,12 @@ struct BoostStreak {
 };
 
 struct Car {
+	Assets* assets;
 	Assets::Image* image;
 	SDL_Rect* viewportRect;
 	int anglesprite;
 	double x, y, z;
-	double dx, dy;// , dz;
+	double dx, dy, dz;
 	double angle, speed;
 	bool ballCollide;
 	bool isBoosting;
@@ -40,9 +44,10 @@ struct Car {
 	Timer boostStreakTimer;
 	Timer boostRechargeTimer;
 	BoostStreak streak[5];
-	double dz;
-	void InitCar();
-
+	
+	void InitCar(Assets* a);
+	void SetCarSelect(int team);
+	void SetCarKickoff(int team, int car);
 	double cx();
 	double cy();
 };
