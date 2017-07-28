@@ -152,9 +152,6 @@
     <Image Include="res\img\boost_streak_full.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
-    <Image Include="res\img\car_palette_swap_sheet.png">
-      <DeploymentContent>true</DeploymentContent>
-    </Image>
     <Image Include="res\img\car_select.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
@@ -168,6 +165,9 @@
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\car_select_p2_flash.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\car_sprite_sheet_final.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\field.png">

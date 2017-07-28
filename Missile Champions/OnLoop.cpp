@@ -100,7 +100,7 @@ void MChamps::OnLoop() {
 				else {
 					Players[0].team = CarSelectionCursor.row + 5;
 				}
-				Players[0].activeCar->image = &mAssets->images.CarSprites[1][Players[0].team - 1];
+				Players[0].activeCar->image = &mAssets->images.CarSprites[Players[0].activeCar->anglesprite][Players[0].team - 1];
 				CarSelectionCursor.column = 0;
 				CarSelectionCursor.row = 0;
 				CarSelectionCursor.image->rect->x = 128;
@@ -114,7 +114,7 @@ void MChamps::OnLoop() {
 				else {
 					Players[1].team = CarSelectionCursor.row + 5;
 				}
-				Players[1].cars[0].image = &mAssets->images.CarSprites[3][Players[1].team - 1];
+				Players[1].cars[0].image = &mAssets->images.CarSprites[Players[1].activeCar->anglesprite][Players[1].team - 1];
 			}
 			Event_CarSelected = false;
 		}
@@ -231,19 +231,19 @@ void MChamps::BallUpdate() {
 				Players[i].cars[j].ballCollide = true;
 				
 				// Get collision angle in rads (atan2), convert to deg (* 180 / M_PI)
-				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180 / M_PI;
+				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180.0 / M_PI;
 				// Rotate to match axes
-				newAngle -= 90;
+				newAngle -= 90.0;
 				// Keep angle between 0 - 359 deg inclusive
-				if (newAngle >= 360) newAngle -= 360;
-				if (newAngle < 0) newAngle += 360;
+				if (newAngle >= 360.0) newAngle -= 360.0;
+				if (newAngle < 0.0) newAngle += 360.0;
 				// Invert angle
-				newAngle = 360 - newAngle;
+				newAngle = 360.0 - newAngle;
 				// Debug output of ball collision angles
 				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
 				// Ball direction set to collision angle
-				GameBall.dx = sin(newAngle * M_PI / 180);
-				GameBall.dy = cos(newAngle * M_PI / 180);
+				GameBall.dx = sin(newAngle * M_PI / 180.0);
+				GameBall.dy = cos(newAngle * M_PI / 180.0);
 				// Car speed added to ball speed
 				GameBall.speed += abs(Players[i].cars[j].speed * 1.5);
 			}
@@ -378,14 +378,13 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			player->cars[i].y = 356;
 
 		// Set display angle of player.cars[i] sprite
-		if (player->cars[i].angle >= 315 || player->cars[i].angle < 45)
-			player->cars[i].anglesprite = 2;	// Down
-		if (player->cars[i].angle >= 45 && player->cars[i].angle < 135)
-			player->cars[i].anglesprite = 1;	// Right
-		if (player->cars[i].angle >= 135 && player->cars[i].angle < 225)
-			player->cars[i].anglesprite = 0;	// Up
-		if (player->cars[i].angle >= 225 && player->cars[i].angle < 315)
-			player->cars[i].anglesprite = 3;	// Left
+		for (double a = 11.25, j = 0; a <= 371.25; a += 22.5, j++) {
+			if (player->cars[i].angle < a && player->cars[i].angle >= (a - 22.5)) {
+				player->cars[i].anglesprite = j;
+			}
+			if (j == 15) j = -1;
+		}
+
 		// Update image
 		player->cars[i].image = &mAssets->images.CarSprites[player->cars[i].anglesprite][player->team - 1];
 

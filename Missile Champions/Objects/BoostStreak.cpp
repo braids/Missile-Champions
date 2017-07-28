@@ -3,11 +3,11 @@
 void BoostStreak::SpawnSprite(double _x, double _y, double _angle, Assets* assets) {
 	this->x = _x;
 	this->y = _y;
-	for (double a = 11.25, i = 0; a <= 371.25; a += 22.5, i++) {
+	for (double a = 11.25, i = 0.0; a <= 371.25; a += 22.5, i++) {
 		if (_angle < a && _angle >= (a - 22.5)) {
-			angleSprite = i;
+			angleSprite = (int)i;
 		}
-		if (i == 7) i = -1;
+		if (i == 7.0) i = -1.0;
 	}
 	this->timeAlive = 250;
 	this->decaySprite = 0;

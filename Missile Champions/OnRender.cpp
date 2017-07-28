@@ -52,7 +52,8 @@ void MChamps::OnRender() {
 		}
 
 		DrawImage(&GameBall.image[GameBall.frame], GameBall.viewportRect);
-
+		
+		/* Disabling debug lines
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0, 
 			(int)Players[0].activeCar->viewportRect->x + 16,
@@ -66,7 +67,7 @@ void MChamps::OnRender() {
 			(int)GameBall.viewportRect->y + 24,
 			(int)GameBall.viewportRect->x + 24 + (int)(GameBall.dx * GameBall.speed * 48.0),
 			(int)GameBall.viewportRect->y + 24 + (int)(GameBall.dy * GameBall.speed * 48.0));
-
+			*/
 
 		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);

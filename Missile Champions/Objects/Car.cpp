@@ -33,10 +33,14 @@ void Car::InitCar(Assets* a) {
 void Car::SetCarSelect(int team) {
 	this->image = nullptr;				// Set image null (no displaying on screen)
 	
-	if (team == 0) 
+	if (team == 0) {
 		this->viewportRect->x = 56;		// Player 1 Xpos
-	else
+		this->anglesprite = 4;			// Player 1 angle sprite
+	}
+	else {
 		this->viewportRect->x = 168;	// Player 2 Xpos
+		this->anglesprite = 12;			// Player 2 angle sprite
+	}
 	this->viewportRect->y = 24;			// Player 1/2 Ypos
 }
 
@@ -58,7 +62,7 @@ void Car::SetCarKickoff(int team, int carpos) {
 			break;
 		}
 		this->angle = 90.0;
-		this->anglesprite = 1;
+		this->anglesprite = 4;
 		break;
 	case 1:
 		switch (carpos) {
@@ -76,7 +80,7 @@ void Car::SetCarKickoff(int team, int carpos) {
 			break;
 		}
 		this->angle = 270.0;
-		this->anglesprite = 3;
+		this->anglesprite = 12;
 		break;
 	}
 	this->image = &this->assets->images.CarSprites[this->anglesprite][team];
@@ -94,5 +98,5 @@ double Car::cx() {
 }
 
 double Car::cy() {
-	return this->y + (double)this->viewportRect->y / 2.0;
+	return this->y + (double)this->viewportRect->h / 2.0;
 }

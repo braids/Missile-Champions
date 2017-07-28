@@ -88,9 +88,6 @@
     <Image Include="res\img\car_selection_sheet.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\img\car_palette_swap_sheet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\img\car_select_p1_flash.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -122,6 +119,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\img\boost_bar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\car_sprite_sheet_final.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
