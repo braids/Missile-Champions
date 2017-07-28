@@ -5,14 +5,10 @@
 # define SDL_MAIN_HANDLED
 # endif
 
-#include "Graphics.h"
-#include "Assets.h"
-#include "Timer.h"
+#include "Objects.h"
 
 #define CAMERA_W 256
 #define CAMERA_H 176
-#define MAX_BOOST_FUEL 10000
-#define MIN_BOOST_FUEL 0
 
 class MChamps {
 private:
@@ -38,66 +34,6 @@ private:
 	Assets*			mAssets;
 
 	//// Object structs
-	// Boost Streak
-	struct BoostStreak {
-		Assets::Image* image;
-		SDL_Rect* viewportRect;
-		int angleSprite, decaySprite;
-		double x, y, z;
-		int timeAlive;
-
-		void SpawnSprite(double _x, double _y, double _angle, Assets* assets) {
-			this->x = _x;
-			this->y = _y;
-			for (double a = 11.25, i = 0; a <= 371.25; a += 22.5, i++) {
-				if (_angle < a && _angle >= (a - 22.5)) {
-					angleSprite = i;
-				}
-				if (i == 7) i = -1;
-			}
-			this->timeAlive = 250;
-			this->decaySprite = 0;
-			this->image = &assets->images.BoostSprite[this->angleSprite];
-			this->viewportRect = Graphics::CreateRect(32, 32, 0, 0);
-		}
-
-		void UpdateDecaySprite(Uint32 timestep) {
-			timeAlive -= timestep;
-			if (timeAlive > 100) decaySprite = 0;
-			else if (timeAlive > 50) decaySprite = 1;
-			else if (timeAlive > 0) decaySprite = 2;
-			if (timeAlive < 0) timeAlive = 0;
-		}
-	};
-	// Car
-	struct Car {
-		Assets::Image* image;
-		SDL_Rect* viewportRect;
-		int anglesprite;
-		double x, y, z;
-		double dx, dy;
-		double angle, speed;
-		bool ballCollide;
-		bool isBoosting;
-		int boostStreakCounter;
-		int boostFuel;
-		enum Movement {
-			NoMovement,
-			Forward,
-			Backward
-		} MoveDirection;
-		enum Turn {
-			NoTurning,
-			Left,
-			Right
-		} Turning;
-		Timer boostStreakTimer;
-		Timer boostRechargeTimer;
-		BoostStreak streak[5];
-		double cx() { return x + (double) (viewportRect->w / 2); }
-		double cy() { return y + (double) (viewportRect->h / 2); }
-	};
-	
 	// Player
 	struct Player {
 		int		team;
