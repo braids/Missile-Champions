@@ -54,6 +54,19 @@ struct Car {
 	double cy();
 };
 
+struct Ball {
+	Assets::Image* image;
+	SDL_Rect* viewportRect;
+	int frame;
+	double x, y, z;
+	double dx, dy, dz;
+	double vx, vy;
+	double speed;
+	Timer ballAnimate;
+	void updateSpeed(Uint32 ts);
+	double cx() { return x + (double)(viewportRect->w / 2); }
+	double cy() { return y + (double)(viewportRect->h / 2); }
+};
 
 
 #endif

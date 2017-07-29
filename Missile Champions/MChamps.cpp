@@ -43,23 +43,3 @@ int main(int argc, char* argv[]) {
 
 	return mc.OnExecute();
 }
-
-void MChamps::Ball::updateSpeed(Uint32 ts) {
-	if (speed > .4) {
-		speed = .4;
-	}
-	if (speed > 0.0) {
-		if (!ballAnimate.isStarted()) {
-			ballAnimate.start();
-		}
-		speed -= 0.000225 * (double)ts;
-	}
-	if (speed <= 0.0) {
-		if (ballAnimate.isStarted()) {
-			ballAnimate.stop();
-		}
-		dx = 0;
-		dy = 0;
-		speed = 0.0;
-	}
-}
