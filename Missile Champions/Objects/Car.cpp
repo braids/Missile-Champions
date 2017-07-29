@@ -26,6 +26,7 @@ void Car::InitCar(Assets* a) {
 	this->boostFuel = 0;
 	this->ballCollide = false;
 	this->isBoosting = false;
+	this->isJumping = false;
 	this->boostStreakTimer.stop();
 	this->boostRechargeTimer.stop();
 }
@@ -51,14 +52,17 @@ void Car::SetCarKickoff(int team, int carpos) {
 		case 0:
 			this->x = 400.0;
 			this->y = 192.0;
+			this->z = 0.0;
 			break;
 		case 1:
 			this->x = 368.0;
 			this->y = 160.0;
+			this->z = 0.0;
 			break;
 		case 2:
 			this->x = 368.0;
 			this->y = 224.0;
+			this->z = 0.0;
 			break;
 		}
 		this->angle = 90.0;
@@ -69,14 +73,17 @@ void Car::SetCarKickoff(int team, int carpos) {
 		case 0:
 			this->x = 592.0;
 			this->y = 192.0;
+			this->z = 0.0;
 			break;
 		case 1:
 			this->x = 624.0;
 			this->y = 160.0;
+			this->z = 0.0;
 			break;
 		case 2:
 			this->x = 624.0;
 			this->y = 224.0;
+			this->z = 0.0;
 			break;
 		}
 		this->angle = 270.0;
@@ -89,6 +96,8 @@ void Car::SetCarKickoff(int team, int carpos) {
 	this->speed = 0.0;
 	this->boostStreakCounter = 0;
 	this->boostFuel = MAX_BOOST_FUEL;
+	this->isBoosting = false;
+	this->isJumping = false;
 	this->MoveDirection = Car::NoMovement;
 	this->Turning = Car::NoTurning;
 }

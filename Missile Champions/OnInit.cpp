@@ -20,6 +20,7 @@ bool MChamps::OnInit() {
 		mAssets->images.CarSprites[i++][j] = { Assets::Instance()->GetTexture(IMAGE_CAR_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 32 * j) };
 		if (i == CAR_ROT_FRAMES) { i = 0; j++; }
 	}
+	mAssets->images.CarShadow = { Assets::Instance()->GetTexture(IMAGE_CAR_SHADOW), Graphics::CreateRect(32, 32, 0, 0) };
 	// Car Selection
 	mAssets->images.CarSelectBGDefault = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_BG), Graphics::Fullscreen() };
 	mAssets->images.CarSelectBGP1Flash = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_P1_FLASH), Graphics::Fullscreen() };
@@ -71,9 +72,9 @@ bool MChamps::OnInit() {
 		mAssets->images.BallSprites,		// Ball sprite sheet
 		Graphics::CreateRect(48, 48, 0, 0),	// Init viewport rect
 		0,			// Frame
-		0, 0, 0,	// x, y, z
-		0, 0, 0,	// dx, dy, dz
-		0, 0		// vx, vy
+		0.0, 0.0, 0.0,	// x, y, z
+		0.0, 0.0, 0.0,	// dx, dy, dz
+		0.0, 0.0		// vx, vy
 	};
 
 	//// Players
