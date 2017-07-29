@@ -68,14 +68,7 @@ bool MChamps::OnInit() {
 	FieldBottom->rect = GameplayCamera.drawarea->rect;
 
 	// Ball
-	GameBall = {
-		mAssets->images.BallSprites,		// Ball sprite sheet
-		Graphics::CreateRect(48, 48, 0, 0),	// Init viewport rect
-		0,			// Frame
-		0.0, 0.0, 0.0,	// x, y, z
-		0.0, 0.0, 0.0,	// dx, dy, dz
-		0.0, 0.0		// vx, vy
-	};
+	GameBall.initBall(mAssets->images.BallSprites);
 
 	//// Players
 	// Player 1 init
