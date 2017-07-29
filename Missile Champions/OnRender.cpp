@@ -51,7 +51,7 @@ void MChamps::OnRender() {
 				if (!CarShadowBlinkTimer.isStarted()) {
 					CarShadowBlinkTimer.start();
 				}
-				if (ShadowTimerTicks < 16.6) {
+				if (ShadowTimerTicks < 16.6 && Players[i].cars[j].z > 0.0) {
 					mAssets->images.CarShadow.rect->x = Players[i].cars[j].viewportRect->x;
 					mAssets->images.CarShadow.rect->y = Players[i].cars[j].viewportRect->y + (int)Players[i].cars[j].z;
 					DrawImage(&mAssets->images.CarShadow);
