@@ -184,13 +184,13 @@ void MChamps::OnLoop() {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
 				// Update car positions in viewport
-				Players[i].cars[j].viewportRect->x = Players[i].cars[j].x - GameplayCamera.drawarea->rect->x;
-				Players[i].cars[j].viewportRect->y = Players[i].cars[j].y - Players[i].cars[j].z - GameplayCamera.drawarea->rect->y;
+				Players[i].cars[j].viewportRect->x = (int)Players[i].cars[j].x - GameplayCamera.drawarea->rect->x;
+				Players[i].cars[j].viewportRect->y = (int)Players[i].cars[j].y - (int)Players[i].cars[j].z - GameplayCamera.drawarea->rect->y;
 				// Update boost streak positions in viewport
 				for (int k = 0; k < 5; k++) {
 					if (Players[i].cars[j].streak[k].timeAlive > 0) {
-						Players[i].cars[j].streak[k].viewportRect->x = Players[i].cars[j].streak[k].x - GameplayCamera.drawarea->rect->x;
-						Players[i].cars[j].streak[k].viewportRect->y = Players[i].cars[j].streak[k].y - GameplayCamera.drawarea->rect->y;
+						Players[i].cars[j].streak[k].viewportRect->x = (int)Players[i].cars[j].streak[k].x - GameplayCamera.drawarea->rect->x;
+						Players[i].cars[j].streak[k].viewportRect->y = (int)Players[i].cars[j].streak[k].y - GameplayCamera.drawarea->rect->y;
 					}
 				}
 			}
@@ -227,13 +227,20 @@ void MChamps::BallUpdate() {
 				
 				// Get collision angle in rads (atan2), convert to deg (* 180 / M_PI)
 				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180.0 / M_PI;
+				double newZ = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cz() - Players[i].cars[j].cz()) * 180.0 / M_PI;
 				// Rotate to match axes
 				newAngle -= 90.0;
+				newZ -= 90.0;
 				// Keep angle between 0 - 359 deg inclusive
 				if (newAngle >= 360.0) newAngle -= 360.0;
 				if (newAngle < 0.0) newAngle += 360.0;
 				// Invert angle
 				newAngle = 360.0 - newAngle;
+				// Keep angle between 0 - 359 deg inclusive
+				if (newZ >= 360.0) newZ -= 360.0;
+				if (newZ < 0.0) newZ += 360.0;
+				// Invert angle
+				newZ = 360.0 - newZ;
 				// Debug output of ball collision angles
 				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
 				std::cout << "Ball cx: " << GameBall.cx() << "\nBall cy: " << GameBall.cy() << "\nBall cz: " << GameBall.cz() << std::endl;
@@ -241,6 +248,7 @@ void MChamps::BallUpdate() {
 				// Ball direction set to collision angle
 				GameBall.dx = sin(newAngle * M_PI / 180.0);
 				GameBall.dy = cos(newAngle * M_PI / 180.0);
+				GameBall.dz = sin(newZ * M_PI / 180.0);
 				// Car speed added to ball speed
 				GameBall.speed += abs(Players[i].cars[j].speed * 1.5);
 			}
@@ -254,10 +262,28 @@ void MChamps::BallUpdate() {
 	}
 	// Update current ball speed
 	GameBall.updateSpeed(timeStep);
-
+	
+	if (GameBall.z > 0.0) {
+		GameBall.dz -= 0.003 * (double)timeStep;
+	}
+	if (GameBall.dz < -1.0) {
+		GameBall.dz = -1.0;
+	}
+	
 	// Move ball
 	GameBall.x += GameBall.dx * GameBall.speed * (double)timeStep;
 	GameBall.y += GameBall.dy * GameBall.speed * (double)timeStep;
+	GameBall.z += GameBall.dz * GameBall.speed * (double)timeStep;
+
+	if (GameBall.z <= 0.0 ) {
+		GameBall.z = 0.0;
+		if(GameBall.dz > 0.0)
+			GameBall.dz *= -1.0;
+	}
+	if (GameBall.z >= 48.0) {
+		GameBall.z = 48.0;
+		GameBall.dz *= -1.0;
+	}
 
 	double moveBallX = 0.0;
 	double moveBallY = 0.0;
@@ -399,7 +425,7 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		// Set display angle of player.cars[i] sprite
 		for (double a = 11.25, j = 0.0; a <= 371.25; a += 22.5, j++) {
 			if (player->cars[i].angle < a && player->cars[i].angle >= (a - 22.5)) {
-				player->cars[i].anglesprite = j;
+				player->cars[i].anglesprite = (int)j;
 			}
 			if (j == 15.0) j = -1.0;
 		}

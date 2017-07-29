@@ -16,6 +16,7 @@ void Ball::updateSpeed(Uint32 ts) {
 		}
 		this->dx = 0.0;
 		this->dy = 0.0;
+		this->dz = 0.0;
 		this->speed = 0.0;
 	}
 }
@@ -47,8 +48,8 @@ void Ball::resetBall() {
 }
 
 void Ball::UpdateViewport(SDL_Rect* camera) {
-	this->viewportRect->x = (Uint32)this->x - camera->x;
-	this->viewportRect->y = (Uint32)this->y - camera->y;
+	this->viewportRect->x = (int)this->x - camera->x;
+	this->viewportRect->y = (int)(this->y - this->z) - camera->y;
 }
 
 double Ball::cx() { 
