@@ -124,6 +124,9 @@
     <Image Include="res\img\car_sprite_sheet_final.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\img\car_shadow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="libfreetype-6.dll" />

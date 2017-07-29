@@ -44,9 +44,21 @@ void MChamps::OnRender() {
 			}
 		}
 
+		Uint32 ShadowTimerTicks = CarShadowBlinkTimer.getTicks();
 		// Draw cars
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
+				if (!CarShadowBlinkTimer.isStarted()) {
+					CarShadowBlinkTimer.start();
+				}
+				if (ShadowTimerTicks < 16.6) {
+					mAssets->images.CarShadow.rect->x = Players[i].cars[j].viewportRect->x;
+					mAssets->images.CarShadow.rect->y = Players[i].cars[j].viewportRect->y + (int)Players[i].cars[j].z;
+					DrawImage(&mAssets->images.CarShadow);
+				}
+				if (ShadowTimerTicks >= 33.3) {
+					CarShadowBlinkTimer.stop();
+				}
 				DrawImage(Players[i].cars[j].image, Players[i].cars[j].viewportRect);
 			}
 		}

@@ -91,6 +91,8 @@ private:
 	Assets::Image*	FieldBottom;
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
+	
+	Timer		CarShadowBlinkTimer;
 
 	// Events and effects
 	bool Event_CarSelected;

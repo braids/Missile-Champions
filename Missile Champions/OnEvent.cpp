@@ -51,6 +51,8 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Event_ChangeCar = true;
 			if (Event->key.keysym.sym == SDLK_b)
 				Players[0].activeCar->isBoosting = true;
+			if (Event->key.keysym.sym == SDLK_SPACE && Players[0].activeCar->z <= 0 && Event->key.repeat == 0)
+				Players[0].activeCar->isJumping = true;
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				CurrentScene = Scene_TitleScreen;

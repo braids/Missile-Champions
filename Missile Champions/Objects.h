@@ -28,6 +28,7 @@ struct Car {
 	double angle, speed;
 	bool ballCollide;
 	bool isBoosting;
+	bool isJumping;
 	int boostStreakCounter;
 	int boostFuel;
 	enum Movement {
@@ -43,6 +44,7 @@ struct Car {
 	} Turning;
 	Timer boostStreakTimer;
 	Timer boostRechargeTimer;
+	Timer jumpTimer;
 	BoostStreak streak[5];
 	
 	void InitCar(Assets* a);
