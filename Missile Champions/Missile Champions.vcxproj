@@ -180,6 +180,9 @@
     <Image Include="res\img\field_bottom.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+    <Image Include="res\img\football_shadow.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="res\img\football_sheet.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>

@@ -64,7 +64,7 @@ struct Ball {
 	double dx, dy, dz;
 	double speed;
 	Timer ballAnimate;
-	void updateSpeed(Uint32 ts);
+	void updatePosition(Uint32 ts);
 	void initBall(Assets::Image* a);
 	void resetBall();
 	void UpdateViewport(SDL_Rect* camera);

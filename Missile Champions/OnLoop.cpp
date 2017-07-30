@@ -220,107 +220,62 @@ void MChamps::BallUpdate() {
 			if (sqrt(
 				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
 				pow(GameBall.cy() - Players[i].cars[j].cy(), 2) +
-				pow(GameBall.cz() - Players[i].cars[j].cz(), 2)) <= 36.0 &&
+				pow(GameBall.cz() - Players[i].cars[j].cz(), 2)) <= 40.0 &&
 				Players[i].cars[j].ballCollide == false) {
 				// Set colliding flag
 				Players[i].cars[j].ballCollide = true;
 				
 				// Get collision angle in rads (atan2), convert to deg (* 180 / M_PI)
 				double newAngle = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cx() - Players[i].cars[j].cx()) * 180.0 / M_PI;
-				double newZ = atan2(GameBall.cy() - Players[i].cars[j].cy(), GameBall.cz() - Players[i].cars[j].cz()) * 180.0 / M_PI;
+				double newZX = atan2(GameBall.cx() - Players[i].cars[j].cx(), GameBall.cz() - Players[i].cars[j].cz()) * 180.0 / M_PI;
+				
 				// Rotate to match axes
 				newAngle -= 90.0;
-				newZ -= 90.0;
+				newZX += 90.0;
+				
 				// Keep angle between 0 - 359 deg inclusive
 				if (newAngle >= 360.0) newAngle -= 360.0;
 				if (newAngle < 0.0) newAngle += 360.0;
 				// Invert angle
 				newAngle = 360.0 - newAngle;
+				
 				// Keep angle between 0 - 359 deg inclusive
-				if (newZ >= 360.0) newZ -= 360.0;
-				if (newZ < 0.0) newZ += 360.0;
+				if (newZX >= 360.0) newZX -= 360.0;
+				if (newZX < 0.0) newZX += 360.0;
 				// Invert angle
-				newZ = 360.0 - newZ;
+				newZX = 360.0 - newZX;
+				
 				// Debug output of ball collision angles
 				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
 				std::cout << "Ball cx: " << GameBall.cx() << "\nBall cy: " << GameBall.cy() << "\nBall cz: " << GameBall.cz() << std::endl;
 				std::cout << "Car cx: " << Players[i].cars[j].cx() << "\nCar cy: " << Players[i].cars[j].cy() << "\nCar cz: " << Players[i].cars[j].cz() << std::endl;
+				
 				// Ball direction set to collision angle
 				GameBall.dx = sin(newAngle * M_PI / 180.0);
 				GameBall.dy = cos(newAngle * M_PI / 180.0);
-				GameBall.dz = sin(newZ * M_PI / 180.0);
+				
+				// If car colliding is faster on x/y/z, get new dz value
+				if (abs(Players[i].cars[j].speed * 1.25) > GameBall.speed || abs(Players[i].cars[j].speed * 1.25) > abs(GameBall.dx))
+					GameBall.dz = abs(sin(newZX * M_PI / 180.0)) + abs(cos(newZX * M_PI / 180.0));
+				std::cout << "Ball dz: " << GameBall.dz << std::endl;
+				
 				// Car speed added to ball speed
-				GameBall.speed += abs(Players[i].cars[j].speed * 1.5);
+				// If car colliding is faster, add to ball speed.
+				if(abs(Players[i].cars[j].speed * 1.25) > GameBall.speed)
+					GameBall.speed += abs(Players[i].cars[j].speed * 1.25);
 			}
 			// If car/ball spheres no longer colliding, set collision flag false
 			else if (sqrt(
 				pow(GameBall.cx() - Players[i].cars[j].cx(), 2) +
-				pow(GameBall.cy() - Players[i].cars[j].cy(), 2)) > 40.0) {
+				pow(GameBall.cy() - Players[i].cars[j].cy(), 2) +
+				pow(GameBall.cz() - Players[i].cars[j].cz(), 2)) > 40.0) {
 				Players[i].cars[j].ballCollide = false;
 			}
 		}
 	}
-	// Update current ball speed
-	GameBall.updateSpeed(timeStep);
-	
-	if (GameBall.z > 0.0) {
-		GameBall.dz -= 0.003 * (double)timeStep;
-	}
-	if (GameBall.dz < -1.0) {
-		GameBall.dz = -1.0;
-	}
-	
-	// Move ball
-	GameBall.x += GameBall.dx * GameBall.speed * (double)timeStep;
-	GameBall.y += GameBall.dy * GameBall.speed * (double)timeStep;
-	GameBall.z += GameBall.dz * GameBall.speed * (double)timeStep;
 
-	if (GameBall.z <= 0.0 ) {
-		GameBall.z = 0.0;
-		if(GameBall.dz > 0.0)
-			GameBall.dz *= -1.0;
-	}
-	if (GameBall.z >= 48.0) {
-		GameBall.z = 48.0;
-		GameBall.dz *= -1.0;
-	}
-
-	double moveBallX = 0.0;
-	double moveBallY = 0.0;
-
-	// Inner wall collision
-	if (GameBall.x < 32.0 && (GameBall.cy() < 116.0 || GameBall.cy() > 236.0 + 48.0)) {
-		moveBallX = 32.0;
-	}
-	if (GameBall.x > 1024.0 - 32.0 - 48.0 && (GameBall.cy() < 116.0 || GameBall.cy() > 236.0 + 48.0)) {
-		moveBallX = 1024.0 - 32.0 - 48.0;
-	}
-	if (GameBall.y < 116.0 && (GameBall.cx() < 32.0 || GameBall.cx() > 1024.0 - 32.0)) {
-		moveBallY = 116.0;
-	}
-	if (GameBall.y > 236.0 && (GameBall.cx() < 32.0 || GameBall.cx() > 1024.0 - 32.0)) {
-		moveBallY = 236.0;
-	}
-	if (moveBallX > 0.0) { GameBall.dx *= -1.0; GameBall.x = moveBallX; }
-	if (moveBallY > 0.0) { GameBall.dy *= -1.0; GameBall.y = moveBallY; }
-
-	// Outer boundary collision
-	if (GameBall.x < -24.0) {
-		GameBall.x = -24.0;
-		GameBall.dx *= -1.0;
-	}
-	if (GameBall.x > 1000.0) {
-		GameBall.x = 1000.0;
-		GameBall.dx *= -1.0;
-	}
-	if (GameBall.y < 20.0) {
-		GameBall.y = 20.0;
-		GameBall.dy *= -1.0;
-	}
-	if (GameBall.y > 348.0) {
-		GameBall.y = 348.0;
-		GameBall.dy *= -1.0;
-	}
+	// Update current ball position
+	GameBall.updatePosition(timeStep);
 
 	// Ball Sprite Update
 	Uint32 ballAnimTicks = GameBall.ballAnimate.getTicks();
@@ -337,6 +292,10 @@ void MChamps::BallUpdate() {
 			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.5)) GameBall.frame = 2;
 			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.75)) GameBall.frame = 3;
 			else GameBall.frame = 0;
+		}
+		if (ballAnimTicks > ballAnimSpeed) {
+			GameBall.ballAnimate.stop();
+			GameBall.ballAnimate.start();
 		}
 	}
 }
