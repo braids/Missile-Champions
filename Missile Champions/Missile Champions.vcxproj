@@ -122,6 +122,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="MChamps.cpp" />
+    <ClCompile Include="Objects\Ball.cpp" />
     <ClCompile Include="Objects\BoostStreak.cpp" />
     <ClCompile Include="Objects\Car.cpp" />
     <ClCompile Include="OnCleanup.cpp" />
@@ -177,6 +178,9 @@
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\field_bottom.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\football_shadow.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\football_sheet.png">

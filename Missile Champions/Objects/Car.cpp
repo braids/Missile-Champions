@@ -103,9 +103,13 @@ void Car::SetCarKickoff(int team, int carpos) {
 }
 
 double Car::cx() { 
-	return this->x + (double)this->viewportRect->w / 2.0; 
+	return this->x + ((double)this->viewportRect->w / 2.0); 
 }
 
 double Car::cy() {
-	return this->y + (double)this->viewportRect->h / 2.0;
+	return this->y + ((double)this->viewportRect->h / 2.0);
+}
+
+double Car::cz() {
+	return (this->z + ((double)this->viewportRect->h / 4.0)) * 2.0;
 }

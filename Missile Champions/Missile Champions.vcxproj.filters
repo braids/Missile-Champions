@@ -74,6 +74,9 @@
     <ClCompile Include="Objects\BoostStreak.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Ball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\img\title_screen.png">
@@ -125,6 +128,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\img\car_shadow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\football_shadow.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

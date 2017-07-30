@@ -44,27 +44,34 @@ void MChamps::OnRender() {
 			}
 		}
 
-		Uint32 ShadowTimerTicks = CarShadowBlinkTimer.getTicks();
+		Uint32 ShadowTimerTicks = ShadowBlinkTimer.getTicks();
+		if (!ShadowBlinkTimer.isStarted()) {
+			ShadowBlinkTimer.start();
+		}
 		// Draw cars
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (!CarShadowBlinkTimer.isStarted()) {
-					CarShadowBlinkTimer.start();
-				}
 				if (ShadowTimerTicks < 16.6 && Players[i].cars[j].z > 0.0) {
 					mAssets->images.CarShadow.rect->x = Players[i].cars[j].viewportRect->x;
 					mAssets->images.CarShadow.rect->y = Players[i].cars[j].viewportRect->y + (int)Players[i].cars[j].z;
 					DrawImage(&mAssets->images.CarShadow);
 				}
-				if (ShadowTimerTicks >= 33.3) {
-					CarShadowBlinkTimer.stop();
-				}
 				DrawImage(Players[i].cars[j].image, Players[i].cars[j].viewportRect);
 			}
 		}
 
+		if (ShadowTimerTicks < 16.6) {
+			mAssets->images.BallShadow.rect->x = GameBall.viewportRect->x;
+			mAssets->images.BallShadow.rect->y = GameBall.viewportRect->y + (int)GameBall.z + 8;
+			DrawImage(&mAssets->images.BallShadow);
+		}
 		DrawImage(&GameBall.image[GameBall.frame], GameBall.viewportRect);
 		
+
+		if (ShadowTimerTicks >= 33.3) {
+			ShadowBlinkTimer.stop();
+		}
+
 		/* Disabling debug lines
 		// Draw angle line on active car
 		mGraphics->DrawLine(255, 0, 0, 

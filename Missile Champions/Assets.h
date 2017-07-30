@@ -43,6 +43,7 @@ public:
 		Image CarSelectCursor;
 		// Gameplay
 		Image BallSprites[BALL_FRAMES];
+		Image BallShadow;
 		Image FieldDrawArea;
 		Image FieldBottom;
 		Image FieldViewport;

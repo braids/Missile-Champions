@@ -44,20 +44,7 @@ private:
 	} Players[2];
 	int ActiveCar;
 
-	// Ball
-	struct Ball {
-		Assets::Image* image;
-		SDL_Rect* viewportRect;
-		int frame;
-		double x, y, z;
-		double dx, dy, dz;
-		double vx, vy;
-		double speed;
-		Timer ballAnimate;
-		void updateSpeed(Uint32 ts);
-		double cx() { return x + (double) (viewportRect->w / 2); }
-		double cy() { return y + (double) (viewportRect->h / 2); }
-	} GameBall;
+	Ball GameBall;
 
 	// Camera
 	struct Camera {
@@ -92,7 +79,7 @@ private:
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
 	
-	Timer		CarShadowBlinkTimer;
+	Timer		ShadowBlinkTimer;
 
 	// Events and effects
 	bool Event_CarSelected;

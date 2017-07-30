@@ -52,8 +52,26 @@ struct Car {
 	void SetCarKickoff(int team, int car);
 	double cx();
 	double cy();
+	double cz();
 };
 
+struct Ball {
+	Assets::Image* sprites;
+	Assets::Image* image;
+	SDL_Rect* viewportRect;
+	int frame;
+	double x, y, z;
+	double dx, dy, dz;
+	double speed;
+	Timer ballAnimate;
+	void updatePosition(Uint32 ts);
+	void initBall(Assets::Image* a);
+	void resetBall();
+	void UpdateViewport(SDL_Rect* camera);
+	double cx();
+	double cy();
+	double cz();
+};
 
 
 #endif
