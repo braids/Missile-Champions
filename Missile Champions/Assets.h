@@ -2,7 +2,8 @@
 #define _ASSETS_H_
 
 #define BALL_FRAMES 4
-#define CAR_ROT_FRAMES	4
+#define BOOST_ROT_FRAMES 8
+#define CAR_ROT_FRAMES	16
 #define CAR_PALETTES	8
 
 #include <map>
@@ -32,6 +33,7 @@ public:
 		Image TitleScreenStartHidden;
 		// Car Sprites
 		Image CarSprites[CAR_ROT_FRAMES][CAR_PALETTES];
+		Image CarShadow;
 		// Car Selection
 		Image CarSelectBGDefault;
 		Image CarSelectBGP1Flash;
@@ -41,10 +43,16 @@ public:
 		Image CarSelectCursor;
 		// Gameplay
 		Image BallSprites[BALL_FRAMES];
+		Image BallShadow;
 		Image FieldDrawArea;
 		Image FieldBottom;
 		Image FieldViewport;
 		Image StatusBar;
+		Image BoostBar;
+		// Boost
+		Image BoostSprite[BOOST_ROT_FRAMES];
+		Image BoostF1Sprite[BOOST_ROT_FRAMES];
+		Image BoostF2Sprite[BOOST_ROT_FRAMES];
 	} images;
 };
 

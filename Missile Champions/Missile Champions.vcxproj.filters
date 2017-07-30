@@ -36,6 +36,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MChamps.cpp">
@@ -65,6 +68,15 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Car.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\BoostStreak.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Ball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\img\title_screen.png">
@@ -77,9 +89,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\img\car_selection_sheet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\img\car_palette_swap_sheet.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\img\car_select_p1_flash.png">
@@ -101,6 +110,27 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\img\football_sheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\boost_streak_fade1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\boost_streak_fade2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\boost_streak_full.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\boost_bar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\car_sprite_sheet_final.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\car_shadow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\football_shadow.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

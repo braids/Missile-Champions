@@ -20,6 +20,7 @@ bool MChamps::OnInit() {
 		mAssets->images.CarSprites[i++][j] = { Assets::Instance()->GetTexture(IMAGE_CAR_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 32 * j) };
 		if (i == CAR_ROT_FRAMES) { i = 0; j++; }
 	}
+	mAssets->images.CarShadow = { Assets::Instance()->GetTexture(IMAGE_CAR_SHADOW), Graphics::CreateRect(32, 32, 0, 0) };
 	// Car Selection
 	mAssets->images.CarSelectBGDefault = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_BG), Graphics::Fullscreen() };
 	mAssets->images.CarSelectBGP1Flash = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_P1_FLASH), Graphics::Fullscreen() };
@@ -31,12 +32,22 @@ bool MChamps::OnInit() {
 	// Gameplay
 	for (int i = 0; i < BALL_FRAMES; i++)
 		mAssets->images.BallSprites[i] = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SPRITE_SHEET), Graphics::CreateRect(48, 48, 48 * i, 0) };
+	mAssets->images.BallShadow = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SHADOW), Graphics::CreateRect(48, 48, 0, 0) };
 	mAssets->images.FieldDrawArea = { Assets::Instance()->GetTexture(IMAGE_FIELD), Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.FieldBottom = { Assets::Instance()->GetTexture(IMAGE_FIELD_BOTTOM) };
 	FieldBottom = &mAssets->images.FieldBottom;
 	mAssets->images.FieldViewport = { NULL, Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.StatusBar = { Assets::Instance()->GetTexture(IMAGE_STATUS_BAR), Graphics::Fullscreen() };
 	StatusBar = &mAssets->images.StatusBar;
+	mAssets->images.BoostBar = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(1, 8, 0, 0) };
+	BoostBar = &mAssets->images.BoostBar;
+	BoostBarScaleRect = Graphics::CreateRect(64, 8, 96, 200);
+	// Boost Streak
+	for (int i = 0; i < BOOST_ROT_FRAMES; i++) {
+		mAssets->images.BoostSprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
+		mAssets->images.BoostF1Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F1_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
+		mAssets->images.BoostF2Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F2_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
+	}
 
 	//// Effects
 	Effect_StartFlashLength = 0;
@@ -58,82 +69,20 @@ bool MChamps::OnInit() {
 	FieldBottom->rect = GameplayCamera.drawarea->rect;
 
 	// Ball
-	GameBall = {
-		mAssets->images.BallSprites,		// Ball sprite sheet
-		Graphics::CreateRect(48, 48, 0, 0),	// Init viewport rect
-		0,			// Frame
-		0, 0, 0,	// x, y, z
-		0, 0, 0,	// dx, dy, dz
-		0, 0		// vx, vy
-	};
+	GameBall.initBall(mAssets->images.BallSprites);
 
 	//// Players
 	// Player 1 init
 	Players[0] = { 0, 0, Graphics::CreateRect(64, 64, 40, 8), &Players[0].cars[0] };
-	// Player 1 car init
-	Players[0].cars[0] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 56, 24),
-		0,
-		0, 0, 0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		Car::NoMovement, Car::NoTurning};
-	Players[0].cars[1] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 56, 24),
-		0,
-		0, 0, 0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		Car::NoMovement, Car::NoTurning };
-	Players[0].cars[2] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 56, 24),
-		0,
-		0, 0, 0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		Car::NoMovement, Car::NoTurning };
 	// Player 2 init
 	Players[1] = { 0, 0, Graphics::CreateRect(64, 64, 152, 8), &Players[1].cars[0] };
-	// Player 2 car init
-	Players[1].cars[0] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 168, 24),
-		0,
-		0, 0, 0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		Car::NoMovement, Car::NoTurning };
-	Players[1].cars[1] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 168, 24),
-		0,
-		0, 0, 0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		Car::NoMovement, Car::NoTurning };
-	Players[1].cars[2] = {
-		nullptr, // Image
-		Graphics::CreateRect(32, 32, 168, 24),
-		0,
-		0, 0, 0,
-		0, 0, 0,
-		0, 0,
-		0, 0,
-		false,
-		Car::NoMovement, Car::NoTurning };
+	
+	// Car init
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 3; j++) {
+			Players[i].cars[j].InitCar(mAssets);
+		}
+	}
 
 	return true;
 }

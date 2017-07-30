@@ -122,6 +122,9 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="MChamps.cpp" />
+    <ClCompile Include="Objects\Ball.cpp" />
+    <ClCompile Include="Objects\BoostStreak.cpp" />
+    <ClCompile Include="Objects\Car.cpp" />
     <ClCompile Include="OnCleanup.cpp" />
     <ClCompile Include="OnEvent.cpp" />
     <ClCompile Include="OnInit.cpp" />
@@ -134,10 +137,20 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="MChamps.h" />
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\img\car_palette_swap_sheet.png">
+    <Image Include="res\img\boost_bar.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\boost_streak_fade1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\boost_streak_fade2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\boost_streak_full.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\car_select.png">
@@ -155,10 +168,19 @@
     <Image Include="res\img\car_select_p2_flash.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+    <Image Include="res\img\car_shadow.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\car_sprite_sheet_final.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="res\img\field.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\field_bottom.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="res\img\football_shadow.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
     <Image Include="res\img\football_sheet.png">

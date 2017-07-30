@@ -5,9 +5,7 @@
 # define SDL_MAIN_HANDLED
 # endif
 
-#include "Graphics.h"
-#include "Assets.h"
-#include "Timer.h"
+#include "Objects.h"
 
 #define CAMERA_W 256
 #define CAMERA_H 176
@@ -36,31 +34,6 @@ private:
 	Assets*			mAssets;
 
 	//// Object structs
-	// Car
-	struct Car {
-		Assets::Image* image;
-		SDL_Rect* viewportRect;
-		int anglesprite;
-		double x, y, z;
-		double vx, vy, vz;
-		double dx, dy;
-		double angle, speed;
-		bool ballCollide;
-		enum Movement {
-			NoMovement,
-			Forward,
-			Backward
-		} MoveDirection;
-		enum Turn {
-			NoTurning,
-			Left,
-			Right
-		} Turning;
-
-		double cx() { return x + (double) (viewportRect->w / 2); }
-		double cy() { return y + (double) (viewportRect->h / 2); }
-	};
-	
 	// Player
 	struct Player {
 		int		team;
@@ -71,20 +44,7 @@ private:
 	} Players[2];
 	int ActiveCar;
 
-	// Ball
-	struct Ball {
-		Assets::Image* image;
-		SDL_Rect* viewportRect;
-		int frame;
-		double x, y, z;
-		double dx, dy, dz;
-		double vx, vy;
-		double speed;
-		Timer ballAnimate;
-		void updateSpeed(Uint32 ts);
-		double cx() { return x + (double) (viewportRect->w / 2); }
-		double cy() { return y + (double) (viewportRect->h / 2); }
-	} GameBall;
+	Ball GameBall;
 
 	// Camera
 	struct Camera {
@@ -116,6 +76,12 @@ private:
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
+	Assets::Image*	BoostBar;
+	SDL_Rect*		BoostBarScaleRect;
+	Car* drawCars[6];
+	
+
+	Timer		ShadowBlinkTimer;
 
 	// Events and effects
 	bool Event_CarSelected;
@@ -143,7 +109,7 @@ public:
 	void OnRender();
 		void DrawImage(Assets::Image * image);
 		void DrawImage(Assets::Image * image, SDL_Rect * drawRect);
-		void DrawImageFrame(Assets::Image * image, SDL_Rect * drawRect, int frame);
+		void DrawBall(int shadowticks);
 
 	void OnCleanup();
 };

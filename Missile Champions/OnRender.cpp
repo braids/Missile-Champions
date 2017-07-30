@@ -30,38 +30,79 @@ void MChamps::OnRender() {
 		break;
 
 	case Scene_Gameplay:
-		// Draw field camera
+		// Get ticks for shadow blink timer
+		Uint32 ShadowTimerTicks = ShadowBlinkTimer.getTicks();
+		// Start shadow blink timer if stopped
+		if (!ShadowBlinkTimer.isStarted()) {
+			ShadowBlinkTimer.start();
+		}
+
+		//// Draw field camera
 		DrawImage(GameplayCamera.drawarea, GameplayCamera.viewport->rect);
-		
-		// Draw cars
+
+		//// Draw cars & shadows, boost trails, and ball & shadow.
+		// Populate car draw list
+		int drawCarNum = 0;
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
-				DrawImage(Players[i].cars[j].image, Players[i].cars[j].viewportRect);
+				drawCars[drawCarNum++] = &Players[i].cars[j];
 			}
 		}
 
-		DrawImage(&GameBall.image[GameBall.frame], GameBall.viewportRect);
+		// Order cars by y-coord ascending
+		Car* tempCar;
+		for (int i = 1, swapped = 1; (i <= 6) && swapped; i++) {
+			swapped = 0;	// If no swap occurs on a pass, exit loop.
+			for (int j = 0; j < (6 - 1); j++) {
+				if (drawCars[j + 1]->y < drawCars[j]->y) {	// If next car y smaller than current
+					tempCar = drawCars[j];					// Store current into temp
+					drawCars[j] = drawCars[j + 1];			// Next car stored into current
+					drawCars[j + 1] = tempCar;				// Temp car stored into next
+					swapped = 1;							// Set swapped flag
+				}
+			}
+		}
 
-		// Draw angle line on active car
-		mGraphics->DrawLine(255, 0, 0, 
-			(int) Players[0].activeCar->vx + 16, 
-			(int) Players[0].activeCar->vy + 16, 
-			(int) Players[0].activeCar->vx + 16 + (int) (Players[0].activeCar->dx * 20.0), 
-			(int) Players[0].activeCar->vy + 16 + (int) (Players[0].activeCar->dy * 20.0));
+		// Draw cars and ball in z-order
+		for (int i = 0; i < 6; i++) {
+			// Draw ball if before cars
+			if (i == 0 && GameBall.y < drawCars[i]->y) DrawBall(ShadowTimerTicks);
+			// Draw ball if between cars
+			else if (GameBall.y >= drawCars[i - 1]->y && GameBall.y < drawCars[i]->y) DrawBall(ShadowTimerTicks);
+			
+			// Draw car shadow
+			if (ShadowTimerTicks < 16.6 && drawCars[i]->z > 0.0) {
+				mAssets->images.CarShadow.rect->x = drawCars[i]->viewportRect->x;
+				mAssets->images.CarShadow.rect->y = drawCars[i]->viewportRect->y + (int)drawCars[i]->z;
+				DrawImage(&mAssets->images.CarShadow);
+			}
+			// Draw car boost
+			for (int k = 0; k < 5; k++) {
+				if (drawCars[i]->streak[k].timeAlive > 0) {
+					DrawImage(drawCars[i]->streak[k].image, drawCars[i]->streak[k].viewportRect);
+				}
+			}
+			// Draw car sprite
+			DrawImage(drawCars[i]->image, drawCars[i]->viewportRect);
+			
+			// Draw ball if after last car
+			if (i == 5 && GameBall.y >= drawCars[i]->y) DrawBall(ShadowTimerTicks);
+		}
 		
-		// Draw angle line on active car
-		mGraphics->DrawLine(255, 0, 0,
-			(int)GameBall.viewportRect->x + 24,
-			(int)GameBall.viewportRect->y + 24,
-			(int)GameBall.viewportRect->x + 24 + (int)(GameBall.dx * GameBall.speed * 48.0),
-			(int)GameBall.viewportRect->y + 24 + (int)(GameBall.dy * GameBall.speed * 48.0));
-
+		// Reset shadow blink timer
+		if (ShadowTimerTicks >= 33.3) {
+			ShadowBlinkTimer.stop();
+		}
 
 		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
 
 		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
+
+		// Draw boost bar
+		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
+		DrawImage(BoostBar, BoostBarScaleRect);
 
 		break;
 	}
@@ -78,4 +119,13 @@ void MChamps::DrawImage(Assets::Image* image) {
 // Draw an Asset::Image to the renderer at a specific SDL_Rect
 void MChamps::DrawImage(Assets::Image* image, SDL_Rect* drawRect) {
 	mGraphics->DrawTextureAtLocation(image->texture, image->rect, drawRect);
+}
+
+void MChamps::DrawBall(int shadowticks) {
+	if (shadowticks < 16.6) {
+		mAssets->images.BallShadow.rect->x = GameBall.viewportRect->x;
+		mAssets->images.BallShadow.rect->y = GameBall.viewportRect->y + (int)GameBall.z + 8;
+		DrawImage(&mAssets->images.BallShadow);
+	}
+	DrawImage(&GameBall.image[GameBall.frame], GameBall.viewportRect);
 }
