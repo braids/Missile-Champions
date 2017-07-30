@@ -43,6 +43,10 @@ bool MChamps::OnInit() {
 		mAssets->images.Numbers[i] = { Assets::Instance()->GetTexture(IMAGE_NUMBERS), Graphics::CreateRect(8, 8, 8 * i, 0) };
 	P1Score = Graphics::CreateRect(8, 8, 40, 192);
 	P2Score = Graphics::CreateRect(8, 8, 40, 208);
+	Minute10sRect = Graphics::CreateRect(8, 8, 108, 212);
+	Minute1sRect = Graphics::CreateRect(8, 8, 116, 212);
+	Second10sRect = Graphics::CreateRect(8, 8, 132, 212);
+	Second1sRect = Graphics::CreateRect(8, 8, 140, 212); 
 	mAssets->images.BoostBar = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(1, 8, 0, 0) };
 	BoostBar = &mAssets->images.BoostBar;
 	BoostBarScaleRect = Graphics::CreateRect(64, 8, 96, 200);

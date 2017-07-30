@@ -78,12 +78,16 @@ private:
 	Assets::Image*	FieldBottom;
 	SDL_Rect* P1Score;
 	SDL_Rect* P2Score;
+	SDL_Rect* Minute10sRect;
+	SDL_Rect* Minute1sRect;
+	SDL_Rect* Second10sRect;
+	SDL_Rect* Second1sRect;
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
 	Car* drawCars[6];
-	
 
-	Timer		ShadowBlinkTimer;
+	Timer	ShadowBlinkTimer;
+	Timer	RoundTimer;
 
 	// Events and effects
 	bool Event_CarSelected;
