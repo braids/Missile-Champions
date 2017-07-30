@@ -32,7 +32,7 @@ void MChamps::OnRender() {
 	case Scene_Gameplay:
 		// Draw field camera
 		DrawImage(GameplayCamera.drawarea, GameplayCamera.viewport->rect);
-		
+		/*
 		// Draw boost lines
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -43,6 +43,7 @@ void MChamps::OnRender() {
 				}
 			}
 		}
+		*/
 
 		Uint32 ShadowTimerTicks = ShadowBlinkTimer.getTicks();
 		if (!ShadowBlinkTimer.isStarted()) {
@@ -55,6 +56,11 @@ void MChamps::OnRender() {
 					mAssets->images.CarShadow.rect->x = Players[i].cars[j].viewportRect->x;
 					mAssets->images.CarShadow.rect->y = Players[i].cars[j].viewportRect->y + (int)Players[i].cars[j].z;
 					DrawImage(&mAssets->images.CarShadow);
+				}
+				for (int k = 0; k < 5; k++) {
+					if (Players[i].cars[j].streak[k].timeAlive > 0) {
+						DrawImage(Players[i].cars[j].streak[k].image, Players[i].cars[j].streak[k].viewportRect);
+					}
 				}
 				DrawImage(Players[i].cars[j].image, Players[i].cars[j].viewportRect);
 			}
