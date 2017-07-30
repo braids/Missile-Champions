@@ -78,7 +78,9 @@ private:
 	Assets::Image*	FieldBottom;
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
+	Car* drawCars[6];
 	
+
 	Timer		ShadowBlinkTimer;
 
 	// Events and effects
@@ -107,7 +109,7 @@ public:
 	void OnRender();
 		void DrawImage(Assets::Image * image);
 		void DrawImage(Assets::Image * image, SDL_Rect * drawRect);
-		void DrawImageFrame(Assets::Image * image, SDL_Rect * drawRect, int frame);
+		void DrawBall(int shadowticks);
 
 	void OnCleanup();
 };
