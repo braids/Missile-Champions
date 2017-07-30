@@ -5,6 +5,7 @@
 #define BOOST_ROT_FRAMES 8
 #define CAR_ROT_FRAMES	16
 #define CAR_PALETTES	8
+#define NUMBER_FRAMES 10
 
 #include <map>
 #include "Graphics.h"
@@ -48,6 +49,7 @@ public:
 		Image FieldBottom;
 		Image FieldViewport;
 		Image StatusBar;
+		Image Numbers[NUMBER_FRAMES];
 		Image BoostBar;
 		// Boost
 		Image BoostSprite[BOOST_ROT_FRAMES];

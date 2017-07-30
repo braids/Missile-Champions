@@ -11,6 +11,7 @@
 #define IMAGE_FIELD					"field.png"
 #define IMAGE_FIELD_BOTTOM			"field_bottom.png"
 #define IMAGE_STATUS_BAR			"status_bar.png"
+#define IMAGE_NUMBERS				"numbers.png"
 #define IMAGE_BOOST_BAR				"boost_bar.png"
 #define IMAGE_CAR_SELECT_BG			"car_select.png"
 #define IMAGE_CAR_SELECT_P1_FLASH	"car_select_p1_flash.png"

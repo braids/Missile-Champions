@@ -76,6 +76,8 @@ private:
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
+	SDL_Rect* P1Score;
+	SDL_Rect* P2Score;
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
 	Car* drawCars[6];

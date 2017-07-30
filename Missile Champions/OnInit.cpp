@@ -39,6 +39,10 @@ bool MChamps::OnInit() {
 	mAssets->images.FieldViewport = { NULL, Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.StatusBar = { Assets::Instance()->GetTexture(IMAGE_STATUS_BAR), Graphics::Fullscreen() };
 	StatusBar = &mAssets->images.StatusBar;
+	for (int i = 0; i < NUMBER_FRAMES; i++)
+		mAssets->images.Numbers[i] = { Assets::Instance()->GetTexture(IMAGE_NUMBERS), Graphics::CreateRect(8, 8, 8 * i, 0) };
+	P1Score = Graphics::CreateRect(8, 8, 40, 192);
+	P2Score = Graphics::CreateRect(8, 8, 40, 208);
 	mAssets->images.BoostBar = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(1, 8, 0, 0) };
 	BoostBar = &mAssets->images.BoostBar;
 	BoostBarScaleRect = Graphics::CreateRect(64, 8, 96, 200);
