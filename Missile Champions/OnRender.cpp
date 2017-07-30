@@ -100,6 +100,19 @@ void MChamps::OnRender() {
 		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
 
+		// Draw player scores
+		DrawImage(&mAssets->images.Numbers[Players[0].score], P1Score);
+		DrawImage(&mAssets->images.Numbers[Players[1].score], P2Score);
+
+		Uint32 RoundTicks = RoundTimer.getTicks();
+		Uint32 Seconds10s = (RoundTicks / 10000) % 6;
+
+		// Draw Round Timer
+		DrawImage(&mAssets->images.Numbers[(RoundTicks / 600000) % 6], Minute10sRect);
+		DrawImage(&mAssets->images.Numbers[(RoundTicks / 60000) % 10], Minute1sRect);
+		DrawImage(&mAssets->images.Numbers[(RoundTicks / 10000) % 6], Second10sRect);
+		DrawImage(&mAssets->images.Numbers[(RoundTicks / 1000) % 10], Second1sRect);
+
 		// Draw boost bar
 		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
 		DrawImage(BoostBar, BoostBarScaleRect);
