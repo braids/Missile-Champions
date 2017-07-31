@@ -144,5 +144,17 @@
     <None Include="SDL2_image.dll" />
     <None Include="SDL2_ttf.dll" />
     <None Include="zlib1.dll" />
+    <None Include="SDL2_mixer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\snd\movecursor.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="res\snd\selection.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="res\snd\startselection.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

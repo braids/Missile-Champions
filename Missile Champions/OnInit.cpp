@@ -10,6 +10,12 @@ bool MChamps::OnInit() {
 	// Initialize assets
 	mAssets = Assets::Instance();
 
+	// Initialize sound
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	mAssets->sounds.StartSelection = Assets::Instance()->GetSound(SOUND_START_SELECTION);
+	mAssets->sounds.Selection = Assets::Instance()->GetSound(SOUND_SELECTION);
+	mAssets->sounds.MoveCursor = Assets::Instance()->GetSound(SOUND_MOVE_CURSOR);
+
 	//// Initialize art assets
 	// Title Screen
 	mAssets->images.TitleScreenStartHidden = { Assets::Instance()->GetTexture(IMAGE_TITLE_START_HIDDEN), Graphics::Fullscreen() };
@@ -56,7 +62,7 @@ bool MChamps::OnInit() {
 		mAssets->images.BoostF1Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F1_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 		mAssets->images.BoostF2Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F2_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 	}
-
+	
 	//// Effects
 	Effect_StartFlashLength = 0;
 	Effect_P1FlashLength = 0;

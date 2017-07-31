@@ -42,3 +42,10 @@ SDL_Texture* Assets::GetTexture(std::string name) {
 
 	return mTextures[fullPath];
 }
+
+Mix_Chunk* Assets::GetSound(std::string name) {
+	std::string fullPath = SDL_GetBasePath();
+	fullPath.append("res/snd/" + name);
+
+	return Mix_LoadWAV(fullPath.c_str());
+}
