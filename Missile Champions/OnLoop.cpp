@@ -160,7 +160,16 @@ void MChamps::OnLoop() {
 		if (Event_ChangeCar) {
 			ActiveCar++;
 			if (ActiveCar > 2) ActiveCar = 0;
+
+			// Initialize new active car with current active car controls.
+			Players[0].cars[ActiveCar].isBoosting = Players[0].activeCar->isBoosting;
+			Players[0].cars[ActiveCar].isJumping = Players[0].activeCar->isJumping;
+			Players[0].cars[ActiveCar].MoveDirection = Players[0].activeCar->MoveDirection;
+			Players[0].cars[ActiveCar].Turning = Players[0].activeCar->Turning;
+
+			// Swap to new active car.
 			Players[0].activeCar = &Players[0].cars[ActiveCar];
+			
 			Event_ChangeCar = false;
 		}
 
@@ -375,6 +384,9 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			player->cars[i].speed += (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL ? 0.0 : 0.2);
 		else if (player->cars[i].MoveDirection == Car::Backward)
 			player->cars[i].speed -= 0.2;
+
+		if (&player->cars[i] != *&Players[0].activeCar)
+			player->cars[i].speed * 0.8;
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
