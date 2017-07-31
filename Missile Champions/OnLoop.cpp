@@ -160,7 +160,16 @@ void MChamps::OnLoop() {
 		if (Event_ChangeCar) {
 			ActiveCar++;
 			if (ActiveCar > 2) ActiveCar = 0;
+
+			// Initialize new active car with current active car controls.
+			Players[0].cars[ActiveCar].isBoosting = Players[0].activeCar->isBoosting;
+			Players[0].cars[ActiveCar].isJumping = Players[0].activeCar->isJumping;
+			Players[0].cars[ActiveCar].MoveDirection = Players[0].activeCar->MoveDirection;
+			Players[0].cars[ActiveCar].Turning = Players[0].activeCar->Turning;
+
+			// Swap to new active car.
 			Players[0].activeCar = &Players[0].cars[ActiveCar];
+			
 			Event_ChangeCar = false;
 		}
 
@@ -247,9 +256,9 @@ void MChamps::BallUpdate() {
 				newZX = 360.0 - newZX;
 				
 				// Debug output of ball collision angles
-				std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
-				std::cout << "Ball cx: " << GameBall.cx() << "\nBall cy: " << GameBall.cy() << "\nBall cz: " << GameBall.cz() << std::endl;
-				std::cout << "Car cx: " << Players[i].cars[j].cx() << "\nCar cy: " << Players[i].cars[j].cy() << "\nCar cz: " << Players[i].cars[j].cz() << std::endl;
+				//std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
+				//std::cout << "Ball cx: " << GameBall.cx() << "\nBall cy: " << GameBall.cy() << "\nBall cz: " << GameBall.cz() << std::endl;
+				//std::cout << "Car cx: " << Players[i].cars[j].cx() << "\nCar cy: " << Players[i].cars[j].cy() << "\nCar cz: " << Players[i].cars[j].cz() << std::endl;
 				
 				// Ball direction set to collision angle
 				GameBall.dx = sin(newAngle * M_PI / 180.0);
@@ -258,7 +267,7 @@ void MChamps::BallUpdate() {
 				// If car colliding is faster on x/y/z, get new dz value
 				if (abs(Players[i].cars[j].speed * 1.25) > GameBall.speed || abs(Players[i].cars[j].speed * 1.25) > abs(GameBall.dx))
 					GameBall.dz = abs(sin(newZX * M_PI / 180.0)) + abs(cos(newZX * M_PI / 180.0));
-				std::cout << "Ball dz: " << GameBall.dz << std::endl;
+				//std::cout << "Ball dz: " << GameBall.dz << std::endl;
 				
 				// Car speed added to ball speed
 				// If car colliding is faster, add to ball speed.
@@ -302,7 +311,73 @@ void MChamps::BallUpdate() {
 }
 
 void MChamps::PlayerCarsUpdate(Player * player) {
+	std::uniform_int_distribution<int> badAction(1, 1000);
 	for (int i = 0; i < 3; i++) {
+		//// AI state set
+		// If not active human car
+		if (&player->cars[i] != *&Players[0].activeCar) {
+			if(badAction(randomEngine) > 999)
+				player->cars[i].isBoosting = false;
+			if (badAction(randomEngine) > 100) {
+				// Get ball XY angle relational to car
+				double ballAngle = -atan2(GameBall.cy() - player->cars[i].cy(), GameBall.cx() - player->cars[i].cx()) * 180.0 / M_PI;
+				// Rotate to match axes
+				ballAngle -= 90.0;
+				// Adjust ball angle to within 180 degrees of car forward angle
+				if (ballAngle < player->cars[i].angle - 180.0)
+					ballAngle += 360.0;
+				if (ballAngle >= player->cars[i].angle + 180.0)
+					ballAngle -= 360.0;
+
+				//// Determine when to turn
+				// Turn to left side of field for positioning if car is P1, and ball is to the left
+				if (*&player == &Players[0] && GameBall.cx() - 12 < player->cars[i].cx()) {
+					// If left side is closer counterclockwise, turn left.
+					if (270.0 > player->cars[i].angle && player->cars[i].angle >= 90.0)
+						player->cars[i].Turning = Car::Left;
+					// If left side is closer clockwise, turn right.
+					else if ((270.0 < player->cars[i].angle && player->cars[i].angle < 360.0) ||
+						(0.0 <= player->cars[i].angle && player->cars[i].angle < 90.0))
+						player->cars[i].Turning = Car::Right;
+					// If facing left, don't turn.
+					else
+						player->cars[i].Turning = Car::NoTurning;
+				}
+				// Turn to right side of field for positioning if car is P2, and ball is to the right
+				else if (*&player == &Players[1] && GameBall.cx() + 12 > player->cars[i].cx()) {
+					// If right side is closer clockwise, turn right.
+					if (90.0 <= player->cars[i].angle && player->cars[i].angle < 270.0)
+						player->cars[i].Turning = Car::Right;
+					// If right side is closer counterclockwise, turn left.
+					else if ((270.0 <= player->cars[i].angle && player->cars[i].angle < 360.0) ||
+						(90.0 > player->cars[i].angle && player->cars[i].angle >= 0.0))
+						player->cars[i].Turning = Car::Left;
+					// If facing right, don't turn.
+					else
+						player->cars[i].Turning = Car::NoTurning;
+				}
+				else {
+					// Set car turn based on ball angle
+					if (ballAngle > player->cars[i].angle && ballAngle < player->cars[i].angle + 180.0)
+						player->cars[i].Turning = Car::Right;
+					else if (ballAngle < player->cars[i].angle && ballAngle >= player->cars[i].angle - 180.0)
+						player->cars[i].Turning = Car::Left;
+					else
+						player->cars[i].Turning = Car::NoTurning;
+				}
+				// Boost if full boost gague, don't boost if no fuel gague.
+				if (!player->cars[i].isBoosting && player->cars[i].boostFuel > (int)((double)MAX_BOOST_FUEL * 0.9))
+					player->cars[i].isBoosting = true;
+				if (player->cars[i].isBoosting && player->cars[i].boostFuel == 0)
+					player->cars[i].isBoosting = false;
+			}
+			// Move forward, always move forward.
+			if (badAction(randomEngine) > 100)
+				player->cars[i].MoveDirection = Car::Forward;
+			else
+				player->cars[i].MoveDirection = Car::NoMovement;
+		}
+
 		// Set player.cars[i] speed
 		player->cars[i].speed = (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL ? 0.3 : 0.0);
 		if (player->cars[i].MoveDirection == Car::Forward)
@@ -310,17 +385,31 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		else if (player->cars[i].MoveDirection == Car::Backward)
 			player->cars[i].speed -= 0.2;
 
+		if (&player->cars[i] != *&Players[0].activeCar)
+			player->cars[i].speed * 0.8;
+
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
 			player->cars[i].angle += 0.25 * (double)timeStep;
 			player->cars[i].dx = sin(player->cars[i].angle * M_PI / 180.0);
 			player->cars[i].dy = cos(player->cars[i].angle * M_PI / 180.0);
+			// Variation in turning speeds for AI cars, one slower and one faster.
+			if (&player->cars[i] == &player->cars[1] && &player->cars[i] != *&player->activeCar)
+				player->cars[i].angle += 0.05 * (double)timeStep;
+			if (&player->cars[i] == &player->cars[2] && &player->cars[i] != *&player->activeCar)
+				player->cars[i].angle -= 0.05 * (double)timeStep;
+
 		}
 		// Turn Right
 		if (player->cars[i].Turning == Car::Right) {
 			player->cars[i].angle -= 0.25 * (double)timeStep;
 			player->cars[i].dx = sin(player->cars[i].angle * M_PI / 180.0);
 			player->cars[i].dy = cos(player->cars[i].angle * M_PI / 180.0);
+			// Variation in turning speeds for AI cars, one slower and one faster.
+			if (&player->cars[i] == &player->cars[1] && &player->cars[i] != *&player->activeCar)
+				player->cars[i].angle -= 0.05 * (double)timeStep;
+			if (&player->cars[i] == &player->cars[2] && &player->cars[i] != *&player->activeCar)
+				player->cars[i].angle += 0.05 * (double)timeStep;
 		}
 
 		// Keep rotation angle within 0 - 360		
