@@ -87,13 +87,19 @@ void MChamps::OnLoop() {
 	switch (CurrentScene) {
 	case Scene_TitleScreen:
 		// Loop music (because SDL_mixer doesn't seamlessly loop)
-		if ((TitleMusicTimer.getTicks() >= 6400 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
+		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
 			Mix_PlayMusic(mAssets->music.Title, -1);
-			TitleMusicTimer.stop();
-			TitleMusicTimer.start();
+			MusicTimer.stop();
+			MusicTimer.start();
 		}
 		break;
 	case Scene_CarSelection:
+		if (MusicTimer.getTicks() > 6400 || Mix_PlayingMusic() == 0) {
+			Mix_PlayMusic(mAssets->music.CarSelection, -1);
+			Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+			MusicTimer.stop();
+			MusicTimer.start();
+		}
 		if (Event_CarSelected) {
 			if (Players[0].team == 0) {
 				Event_P1Selected = true;
@@ -164,6 +170,10 @@ void MChamps::OnLoop() {
 		break;
 
 	case Scene_Gameplay:
+		if (MusicTimer.isStarted()) {
+			Mix_HaltMusic();
+			MusicTimer.stop();
+		}
 		// Check Active Car Change
 		if (Event_ChangeCar) {
 			ActiveCar++;

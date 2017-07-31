@@ -39,12 +39,14 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectRight;
 			}
 			// Car selection event
-			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0) {
+			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0 && !Event_P2Selected) {
 				Mix_PlayChannel(-1, mAssets->sounds.Selection, 0);
 				Event_CarSelected = true;
 			}
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
+				Mix_VolumeMusic(MIX_MAX_VOLUME);
+				Mix_HaltMusic();
 				CurrentScene = Scene_TitleScreen;
 			}
 			break;
@@ -68,6 +70,8 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Players[0].activeCar->isJumping = true;
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
+				Mix_VolumeMusic(MIX_MAX_VOLUME);
+				Mix_HaltMusic();
 				CurrentScene = Scene_TitleScreen;
 			}
 			break;			

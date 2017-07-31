@@ -27,5 +27,6 @@
 #define SOUND_SELECTION				"selection.wav"
 #define SOUND_MOVE_CURSOR			"movecursor.wav"
 #define MUSIC_TITLE					"titlemusic.wav"
+#define MUSIC_CAR_SELECTION			"carselectionmusic.wav"
 
 #endif

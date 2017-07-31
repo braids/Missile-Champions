@@ -90,7 +90,7 @@ private:
 	SDL_Rect*		BoostBarScaleRect;
 	Car* drawCars[6];
 
-	Timer	TitleMusicTimer;
+	Timer	MusicTimer;
 	Timer	ShadowBlinkTimer;
 	Timer	RoundTimer;
 
