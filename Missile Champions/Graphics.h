@@ -28,8 +28,8 @@ private:
 public:
 	static const int GAMEAREA_WIDTH = 256;
 	static const int GAMEAREA_HEIGHT = 224;
-	static const int SCREEN_WIDTH = 1372;//256;//512;//1372;
-	static const int SCREEN_HEIGHT = 1200;//224;//448;//1200;
+	static const int SCREEN_WIDTH = GAMEAREA_WIDTH * 4;//1372;//256;//512;//1372;
+	static const int SCREEN_HEIGHT = GAMEAREA_HEIGHT * 4;//1200;//224;//448;//1200;
 	
 	static Graphics* Instance();
 	static void Release();
