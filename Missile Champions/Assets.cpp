@@ -49,3 +49,10 @@ Mix_Chunk* Assets::GetSound(std::string name) {
 
 	return Mix_LoadWAV(fullPath.c_str());
 }
+
+Mix_Music* Assets::GetMusic(std::string name) {
+	std::string fullPath = SDL_GetBasePath();
+	fullPath.append("res/snd/" + name);
+
+	return Mix_LoadMUS(fullPath.c_str());
+}

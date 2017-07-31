@@ -85,6 +85,14 @@ void MChamps::OnLoop() {
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
+	case Scene_TitleScreen:
+		// Loop music (because SDL_mixer doesn't seamlessly loop)
+		if ((TitleMusicTimer.getTicks() >= 6400 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
+			Mix_PlayMusic(mAssets->music.Title, -1);
+			TitleMusicTimer.stop();
+			TitleMusicTimer.start();
+		}
+		break;
 	case Scene_CarSelection:
 		if (Event_CarSelected) {
 			if (Players[0].team == 0) {

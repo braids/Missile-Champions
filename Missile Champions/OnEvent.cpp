@@ -11,6 +11,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 		case Scene_TitleScreen:
 			// Start game event
 			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0) {
+				Mix_HaltMusic();
 				Mix_PlayChannel(-1, mAssets->sounds.StartSelection, 0);
 				Event_StartGame = true;
 			}

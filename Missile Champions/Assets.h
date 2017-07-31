@@ -24,6 +24,7 @@ public:
 	static void Release();
 	SDL_Texture* GetTexture(std::string name);
 	Mix_Chunk* GetSound(std::string name);
+	Mix_Music* GetMusic(std::string name);
 
 	struct Image {
 		SDL_Texture* texture;
@@ -64,6 +65,10 @@ public:
 		Mix_Chunk* Selection;
 		Mix_Chunk* MoveCursor;
 	} sounds;
+
+	struct Music {
+		Mix_Music* Title;
+	} music;
 };
 
 #endif
