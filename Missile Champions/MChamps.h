@@ -5,6 +5,7 @@
 # define SDL_MAIN_HANDLED
 # endif
 
+#include <random>
 #include "Objects.h"
 
 #define CAMERA_W 256
@@ -19,6 +20,9 @@ private:
 	Uint32			currTick;
 	Uint32			lastTick;
 	Uint32			timeStep;
+
+	// Random generator
+	std::default_random_engine randomEngine;
 
 	// Scenes
 	enum Scenes { 
