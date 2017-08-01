@@ -8,6 +8,7 @@
 #define NUMBER_FRAMES 10
 
 #include <map>
+#include <SDL2/SDL_mixer.h>
 #include "Graphics.h"
 
 typedef std::map<std::string, SDL_Texture*> TextureList;
@@ -22,6 +23,8 @@ public:
 	static Assets* Instance();
 	static void Release();
 	SDL_Texture* GetTexture(std::string name);
+	Mix_Chunk* GetSound(std::string name);
+	Mix_Music* GetMusic(std::string name);
 
 	struct Image {
 		SDL_Texture* texture;
@@ -56,6 +59,20 @@ public:
 		Image BoostF1Sprite[BOOST_ROT_FRAMES];
 		Image BoostF2Sprite[BOOST_ROT_FRAMES];
 	} images;
+
+	struct Sounds {
+		Mix_Chunk* StartSelection;
+		Mix_Chunk* Selection;
+		Mix_Chunk* MoveCursor;
+		Mix_Chunk* Engine;
+		Mix_Chunk* Boost;
+	} sounds;
+
+	struct Music {
+		Mix_Music* Title;
+		Mix_Music* CarSelection;
+		Mix_Music* Eurobeat;
+	} music;
 };
 
 #endif

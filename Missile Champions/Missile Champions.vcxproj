@@ -98,8 +98,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>F:\SDL\SDL2-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /E "$(ProjDir)res" "$(OutDir)res\" &amp; xcopy /Y "$(ProjDir)*.dll" "$(OutDir)"</Command>
@@ -200,12 +200,39 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="libfreetype-6.dll" />
     <None Include="libpng16-16.dll" />
     <None Include="SDL2.dll" />
     <None Include="SDL2_image.dll" />
-    <None Include="SDL2_ttf.dll" />
+    <None Include="SDL2_mixer.dll">
+      <DeploymentContent>false</DeploymentContent>
+    </None>
     <None Include="zlib1.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\snd\boost.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\carselectionmusic.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\engine.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\eurobeat.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\movecursor.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\selection.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\startselection.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\titlemusic.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

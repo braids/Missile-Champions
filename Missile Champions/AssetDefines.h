@@ -22,4 +22,14 @@
 #define IMAGE_BOOST_F1_SPRITE_SHEET	"boost_streak_fade1.png"
 #define IMAGE_BOOST_F2_SPRITE_SHEET	"boost_streak_fade2.png"
 
+//// Sound
+#define SOUND_START_SELECTION		"startselection.wav"
+#define SOUND_SELECTION				"selection.wav"
+#define SOUND_MOVE_CURSOR			"movecursor.wav"
+#define SOUND_ENGINE				"engine.wav"
+#define SOUND_BOOST					"boost.wav"
+#define MUSIC_TITLE					"titlemusic.wav"
+#define MUSIC_CAR_SELECTION			"carselectionmusic.wav"
+#define MUSIC_EUROBEAT				"eurobeat.wav"
+
 #endif

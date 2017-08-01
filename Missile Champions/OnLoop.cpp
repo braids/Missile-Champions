@@ -80,12 +80,27 @@ void MChamps::OnLoop() {
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 			RoundTimer.start();
+			Mix_HaltMusic();
 		}
 	}
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
+	case Scene_TitleScreen:
+		// Loop music (because SDL_mixer doesn't seamlessly loop)
+		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
+			Mix_PlayMusic(mAssets->music.Title, -1);
+			MusicTimer.stop();
+			MusicTimer.start();
+		}
+		break;
 	case Scene_CarSelection:
+		if (MusicTimer.getTicks() > 6400 || Mix_PlayingMusic() == 0) {
+			Mix_PlayMusic(mAssets->music.CarSelection, -1);
+			Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+			MusicTimer.stop();
+			MusicTimer.start();
+		}
 		if (Event_CarSelected) {
 			if (Players[0].team == 0) {
 				Event_P1Selected = true;
@@ -156,6 +171,12 @@ void MChamps::OnLoop() {
 		break;
 
 	case Scene_Gameplay:
+		if (MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) {
+			Mix_PlayMusic(mAssets->music.Eurobeat, -1);
+			Mix_VolumeMusic(MIX_MAX_VOLUME);
+			MusicTimer.stop();
+			MusicTimer.start();
+		}
 		// Check Active Car Change
 		if (Event_ChangeCar) {
 			ActiveCar++;
@@ -217,6 +238,14 @@ void MChamps::OnLoop() {
 			Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z);
 		else if (Players[0].activeCar->y >= 280.0)
 			Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z) - 208;
+
+		if ((Players[0].activeCar->MoveDirection == Car::Forward ||
+			Players[0].activeCar->MoveDirection == Car::Backward) &&
+			!Players[0].activeCar->isBoosting) {
+			Mix_PlayChannel(-1, mAssets->sounds.Engine, 0);
+		}
+		if(Players[0].activeCar->isBoosting && Players[0].activeCar->boostFuel > 0)
+			Mix_PlayChannel(-1, mAssets->sounds.Boost, 0);
 
 		break;
 	}	
@@ -386,7 +415,7 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			player->cars[i].speed -= 0.2;
 
 		if (&player->cars[i] != *&Players[0].activeCar)
-			player->cars[i].speed * 0.8;
+			player->cars[i].speed *= 0.8;
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {
