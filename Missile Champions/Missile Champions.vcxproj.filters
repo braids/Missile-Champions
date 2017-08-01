@@ -169,5 +169,8 @@
     <Media Include="res\snd\boost.wav">
       <Filter>Resource Files</Filter>
     </Media>
+    <Media Include="res\snd\buzzer.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

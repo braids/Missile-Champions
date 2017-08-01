@@ -77,6 +77,8 @@ void MChamps::OnLoop() {
 					Players[i].cars[j].SetCarKickoff(i, j);
 				}
 			}
+			Players[0].score = 0;
+			Players[1].score = 0;
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 			RoundStartTimer.start();
@@ -171,8 +173,29 @@ void MChamps::OnLoop() {
 
 	case Scene_Gameplay:
 		int startTimerTicks = RoundStartTimer.getTicks();
-		if (RoundTimer.isStarted() || (startTimerTicks == 0 && RoundStartTimer.isStarted())) {
-			if ((MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) && RoundTimer.isStarted()) {
+		if (GoalTimer.getTicks() > 1500) {
+			GoalTimer.stop();
+			GameBall.resetBall();
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 3; j++) {
+					Players[i].cars[j].SetCarKickoff(i, j);
+				}
+			}
+			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
+			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
+			
+			// If either team scores max points, return to title screen.
+			if (Players[0].score == 9 || Players[1].score == 9) {
+				Mix_HaltMusic();
+				CurrentScene = Scene_TitleScreen;
+				break;
+			}
+			// Else, start next kickoff.
+			else
+				RoundStartTimer.start();
+		}
+		if ((RoundTimer.isStarted() && !RoundTimer.isPaused()) || (startTimerTicks == 0 && RoundStartTimer.isStarted())) {
+			if ((MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) && (RoundTimer.isStarted() && !RoundTimer.isPaused())) {
 				Mix_PlayMusic(mAssets->music.Eurobeat, -1);
 				MusicTimer.stop();
 				MusicTimer.start();
@@ -243,35 +266,56 @@ void MChamps::OnLoop() {
 			if ((Players[0].activeCar->MoveDirection == Car::Forward ||
 				Players[0].activeCar->MoveDirection == Car::Backward) &&
 				!Players[0].activeCar->isBoosting) {
-				Mix_PlayChannel(-1, mAssets->sounds.Engine, 0);
+				Mix_PlayChannel(CHANNEL_ENGINE, mAssets->sounds.Engine, 0);
 			}
 			if (Players[0].activeCar->isBoosting && Players[0].activeCar->boostFuel > 0)
-				Mix_PlayChannel(-1, mAssets->sounds.Boost, 0);
+				Mix_PlayChannel(CHANNEL_BOOST, mAssets->sounds.Boost, 0);
+
+			// Scored goal
+			if (GameBall.cx() < 16) {
+				Players[1].score += 1;
+				Mix_PlayChannel(CHANNEL_BUZZER, mAssets->sounds.Buzzer, 0);
+				RoundTimer.pause();
+				GoalTimer.start();
+				Mix_HaltMusic();
+			}
+			if (GameBall.cx() > 1008) {
+				Players[0].score += 1;
+				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
+				RoundTimer.pause();
+				GoalTimer.start();
+				Mix_HaltMusic();
+			}
 		}
 		
 		if (RoundStartTimer.isStarted()) {
 			if (startTimerTicks == 300) {
 				Countdown321 = &mAssets->images.Numbers[3];
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
 			if (startTimerTicks == 1000) {
 				Countdown321 = &mAssets->images.Numbers[2];
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
 			if (startTimerTicks == 1700) {
 				Countdown321 = &mAssets->images.Numbers[1];
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
 			if (startTimerTicks == 2400) {
 				Countdown321 = NULL;
 				CountdownG = &mAssets->images.Numbers[6];
 				CountdownO = &mAssets->images.Numbers[0];
-				Mix_PlayChannel(-1, mAssets->sounds.StartSelection, 0);
+				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
 			}
 			if (startTimerTicks == 3000) {
 				CountdownG = NULL;
 				CountdownO = NULL;
-				RoundTimer.start();
+				if (RoundTimer.isPaused()) {
+					RoundTimer.unpause();
+				}
+				else {
+					RoundTimer.start();
+				}
 				RoundStartTimer.stop();
 			}
 		}
