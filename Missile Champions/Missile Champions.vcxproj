@@ -212,6 +212,9 @@
     <Media Include="res\snd\boost.wav">
       <DeploymentContent>true</DeploymentContent>
     </Media>
+    <Media Include="res\snd\buzzer.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
     <Media Include="res\snd\carselectionmusic.wav">
       <DeploymentContent>true</DeploymentContent>
     </Media>

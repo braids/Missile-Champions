@@ -183,7 +183,16 @@ void MChamps::OnLoop() {
 			}
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
-			RoundStartTimer.start();
+			
+			// If either team scores max points, return to title screen.
+			if (Players[0].score == 9 || Players[1].score == 9) {
+				Mix_HaltMusic();
+				CurrentScene = Scene_TitleScreen;
+				break;
+			}
+			// Else, start next kickoff.
+			else
+				RoundStartTimer.start();
 		}
 		if ((RoundTimer.isStarted() && !RoundTimer.isPaused()) || (startTimerTicks == 0 && RoundStartTimer.isStarted())) {
 			if ((MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) && (RoundTimer.isStarted() && !RoundTimer.isPaused())) {
@@ -265,6 +274,7 @@ void MChamps::OnLoop() {
 			// Scored goal
 			if (GameBall.cx() < 16) {
 				Players[1].score += 1;
+				Mix_PlayChannel(CHANNEL_BUZZER, mAssets->sounds.Buzzer, 0);
 				RoundTimer.pause();
 				GoalTimer.start();
 				Mix_HaltMusic();

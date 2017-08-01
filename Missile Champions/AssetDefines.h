@@ -28,6 +28,9 @@
 #define SOUND_MOVE_CURSOR			"movecursor.wav"
 #define SOUND_ENGINE				"engine.wav"
 #define SOUND_BOOST					"boost.wav"
+#define SOUND_BUZZER				"buzzer.wav"
+
+// Music
 #define MUSIC_TITLE					"titlemusic.wav"
 #define MUSIC_CAR_SELECTION			"carselectionmusic.wav"
 #define MUSIC_EUROBEAT				"eurobeat.wav"
