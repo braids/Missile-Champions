@@ -334,7 +334,7 @@ void MChamps::OnLoop() {
 				CountdownO = &mAssets->images.Numbers[0];
 				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
 			}
-			if (startTimerTicks == 3000) {
+			if (startTimerTicks >= 3000) {
 				CountdownG = NULL;
 				CountdownO = NULL;
 				if (RoundTimer.isPaused()) {

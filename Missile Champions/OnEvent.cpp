@@ -51,22 +51,24 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			break;
 
 		case Scene_Gameplay:
-			// Active car control events
-			if (Event->key.keysym.sym == SDLK_UP)
-				Players[0].activeCar->MoveDirection = Car::Forward;
-			if (Event->key.keysym.sym == SDLK_DOWN)
-				Players[0].activeCar->MoveDirection = Car::Backward;
-			if (Event->key.keysym.sym == SDLK_LEFT)
-				Players[0].activeCar->Turning = Car::Left;
-			if (Event->key.keysym.sym == SDLK_RIGHT)
-				Players[0].activeCar->Turning = Car::Right;
-			// Change active car event
-			if (Event->key.keysym.sym == SDLK_c && Event->key.repeat == 0)
-				Event_ChangeCar = true;
-			if (Event->key.keysym.sym == SDLK_b)
-				Players[0].activeCar->isBoosting = true;
-			if (Event->key.keysym.sym == SDLK_SPACE && Players[0].activeCar->z <= 0 && Event->key.repeat == 0)
-				Players[0].activeCar->isJumping = true;
+			if (RoundTimer.isStarted() && !RoundTimer.isPaused()) {
+				// Active car control events
+				if (Event->key.keysym.sym == SDLK_UP)
+					Players[0].activeCar->MoveDirection = Car::Forward;
+				if (Event->key.keysym.sym == SDLK_DOWN)
+					Players[0].activeCar->MoveDirection = Car::Backward;
+				if (Event->key.keysym.sym == SDLK_LEFT)
+					Players[0].activeCar->Turning = Car::Left;
+				if (Event->key.keysym.sym == SDLK_RIGHT)
+					Players[0].activeCar->Turning = Car::Right;
+				// Change active car event
+				if (Event->key.keysym.sym == SDLK_c && Event->key.repeat == 0)
+					Event_ChangeCar = true;
+				if (Event->key.keysym.sym == SDLK_b)
+					Players[0].activeCar->isBoosting = true;
+				if (Event->key.keysym.sym == SDLK_SPACE && Players[0].activeCar->z <= 0 && Event->key.repeat == 0)
+					Players[0].activeCar->isJumping = true;
+			}
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_VolumeMusic(MIX_MAX_VOLUME);
