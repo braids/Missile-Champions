@@ -14,6 +14,7 @@ bool MChamps::OnInit() {
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	mAssets->music.Title = Assets::Instance()->GetMusic(MUSIC_TITLE);
 	mAssets->music.CarSelection = Assets::Instance()->GetMusic(MUSIC_CAR_SELECTION);
+	mAssets->music.Eurobeat = Assets::Instance()->GetMusic(MUSIC_EUROBEAT);
 	mAssets->sounds.StartSelection = Assets::Instance()->GetSound(SOUND_START_SELECTION);
 	mAssets->sounds.Selection = Assets::Instance()->GetSound(SOUND_SELECTION);
 	mAssets->sounds.MoveCursor = Assets::Instance()->GetSound(SOUND_MOVE_CURSOR);

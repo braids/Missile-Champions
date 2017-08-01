@@ -80,6 +80,7 @@ void MChamps::OnLoop() {
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 			RoundTimer.start();
+			Mix_HaltMusic();
 		}
 	}
 
@@ -170,9 +171,11 @@ void MChamps::OnLoop() {
 		break;
 
 	case Scene_Gameplay:
-		if (MusicTimer.isStarted()) {
-			Mix_HaltMusic();
+		if (MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) {
+			Mix_PlayMusic(mAssets->music.Eurobeat, -1);
+			Mix_VolumeMusic(MIX_MAX_VOLUME);
 			MusicTimer.stop();
+			MusicTimer.start();
 		}
 		// Check Active Car Change
 		if (Event_ChangeCar) {

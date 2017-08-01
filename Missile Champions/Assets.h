@@ -69,6 +69,7 @@ public:
 	struct Music {
 		Mix_Music* Title;
 		Mix_Music* CarSelection;
+		Mix_Music* Eurobeat;
 	} music;
 };
 
