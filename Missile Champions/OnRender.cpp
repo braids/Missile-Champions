@@ -104,7 +104,8 @@ void MChamps::OnRender() {
 		DrawImage(&mAssets->images.Numbers[Players[0].score], P1Score);
 		DrawImage(&mAssets->images.Numbers[Players[1].score], P2Score);
 
-		Uint32 RoundTicks = RoundTimer.getTicks();
+		if (RoundTimer.isStarted() && !RoundTimer.isPaused())
+			RoundTicks = RoundTimer.getTicks();
 
 		// Draw Round Timer
 		DrawImage(&mAssets->images.Numbers[(RoundTicks / 600000) % 6], Minute10sRect);

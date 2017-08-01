@@ -101,6 +101,8 @@ private:
 	Timer	ShadowBlinkTimer;
 	Timer	RoundStartTimer;
 	Timer	RoundTimer;
+	Uint32	RoundTicks;
+	Timer	GoalTimer;
 
 	// Events and effects
 	bool Event_CarSelected;
@@ -111,6 +113,8 @@ private:
 	Uint32 Effect_StartFlashLength;
 	bool Event_StartGame;
 	bool Event_ChangeCar;
+	bool Event_LeftGoal;
+	bool Event_RightGoal;
 
 public:
 	MChamps();

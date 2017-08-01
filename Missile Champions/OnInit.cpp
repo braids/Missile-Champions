@@ -12,6 +12,7 @@ bool MChamps::OnInit() {
 
 	// Initialize sound
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	Mix_AllocateChannels(16);
 	mAssets->music.Title = Assets::Instance()->GetMusic(MUSIC_TITLE);
 	mAssets->music.CarSelection = Assets::Instance()->GetMusic(MUSIC_CAR_SELECTION);
 	mAssets->music.Eurobeat = Assets::Instance()->GetMusic(MUSIC_EUROBEAT);
@@ -85,6 +86,8 @@ bool MChamps::OnInit() {
 	Event_CarSelected = false;
 	Event_P1Selected = false;
 	Event_P2Selected = false;
+	Event_LeftGoal = false;
+	Event_RightGoal = false;
 
 	//// Car Selection Cursor
 	CarSelectionCursor = { &mAssets->images.CarSelectCursor, 0, 0 };

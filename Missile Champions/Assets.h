@@ -7,6 +7,13 @@
 #define CAR_PALETTES	8
 #define NUMBER_FRAMES 10
 
+//#define CHANNEL_MUSIC 0
+#define CHANNEL_ENGINE 1
+#define CHANNEL_BOOST 2
+#define CHANNEL_SELECTION 3
+#define CHANNEL_CURSOR 4
+#define CHANNEL_TITLESTART 5
+
 #include <map>
 #include <SDL2/SDL_mixer.h>
 #include "Graphics.h"

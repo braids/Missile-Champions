@@ -12,7 +12,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			// Start game event
 			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0) {
 				Mix_HaltMusic();
-				Mix_PlayChannel(-1, mAssets->sounds.StartSelection, 0);
+				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
 				Event_StartGame = true;
 			}
 			// Exit game event
@@ -23,29 +23,28 @@ void MChamps::OnEvent(SDL_Event* Event) {
 		case Scene_CarSelection:
 			// Cursor control events
 			if (Event->key.keysym.sym == SDLK_UP && Event->key.repeat == 0) {
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectUp;
 			}
 			if (Event->key.keysym.sym == SDLK_DOWN && Event->key.repeat == 0) {
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectDown;
 			}
 			if (Event->key.keysym.sym == SDLK_LEFT && Event->key.repeat == 0) {
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectLeft;
 			}
 			if (Event->key.keysym.sym == SDLK_RIGHT && Event->key.repeat == 0) {
-				Mix_PlayChannel(-1, mAssets->sounds.MoveCursor, 0);
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectRight;
 			}
 			// Car selection event
 			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0 && !Event_P2Selected) {
-				Mix_PlayChannel(-1, mAssets->sounds.Selection, 0);
+				Mix_PlayChannel(CHANNEL_SELECTION, mAssets->sounds.Selection, 0);
 				Event_CarSelected = true;
 			}
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
-				Mix_VolumeMusic(MIX_MAX_VOLUME);
 				Mix_HaltMusic();
 				CurrentScene = Scene_TitleScreen;
 			}
