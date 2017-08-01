@@ -72,6 +72,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_VolumeMusic(MIX_MAX_VOLUME);
 				Mix_HaltMusic();
+				RoundTimer.stop();
 				CurrentScene = Scene_TitleScreen;
 			}
 			break;			

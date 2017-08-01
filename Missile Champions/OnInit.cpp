@@ -67,6 +67,13 @@ bool MChamps::OnInit() {
 		mAssets->images.BoostF1Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F1_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 		mAssets->images.BoostF2Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F2_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 	}
+	// Countdown Timer
+	Countdown321 = NULL;
+	Countdown321Rect = Graphics::CreateRect(8, 8, 124, 100);
+	CountdownG = NULL;
+	CountdownGRect = Graphics::CreateRect(8, 8, 120, 100);
+	CountdownO = NULL;
+	CountdownORect = Graphics::CreateRect(8, 8, 128, 100);
 	
 	//// Effects
 	Effect_StartFlashLength = 0;
