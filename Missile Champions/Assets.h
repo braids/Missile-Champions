@@ -66,6 +66,10 @@ public:
 		Image BoostSprite[BOOST_ROT_FRAMES];
 		Image BoostF1Sprite[BOOST_ROT_FRAMES];
 		Image BoostF2Sprite[BOOST_ROT_FRAMES];
+		// Credits
+		Image Credits;
+		// Game Over
+		Image GameOver;
 	} images;
 
 	struct Sounds {
@@ -81,6 +85,7 @@ public:
 		Mix_Music* Title;
 		Mix_Music* CarSelection;
 		Mix_Music* Eurobeat;
+		Mix_Music* Credits;
 	} music;
 };
 
