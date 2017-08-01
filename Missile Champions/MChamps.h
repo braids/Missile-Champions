@@ -86,12 +86,20 @@ private:
 	SDL_Rect* Minute1sRect;
 	SDL_Rect* Second10sRect;
 	SDL_Rect* Second1sRect;
+	Assets::Image* Countdown321;
+	SDL_Rect* Countdown321Rect;
+	Assets::Image* CountdownG;
+	SDL_Rect* CountdownGRect;
+	Assets::Image* CountdownO;
+	SDL_Rect* CountdownORect;
+
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
 	Car* drawCars[6];
 
 	Timer	MusicTimer;
 	Timer	ShadowBlinkTimer;
+	Timer	RoundStartTimer;
 	Timer	RoundTimer;
 
 	// Events and effects

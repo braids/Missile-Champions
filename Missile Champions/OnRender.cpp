@@ -116,6 +116,16 @@ void MChamps::OnRender() {
 		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
 		DrawImage(BoostBar, BoostBarScaleRect);
 
+		// Draw countdown numbers
+		if (Countdown321 != NULL) {
+			DrawImage(Countdown321, Countdown321Rect);
+		}
+
+		if (CountdownG != NULL) {
+			DrawImage(CountdownG, CountdownGRect);
+			DrawImage(CountdownO, CountdownORect);
+		}
+		
 		break;
 	}
 
