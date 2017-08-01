@@ -29,6 +29,14 @@ void MChamps::OnRender() {
 		}
 		break;
 
+	case Scene_GameOver:
+		DrawImage(&mAssets->images.GameOver);
+		break;
+
+	case Scene_Credits:
+		DrawImage(&mAssets->images.Credits, CreditsRect);
+		break;
+
 	case Scene_Gameplay:
 		// Get ticks for shadow blink timer
 		Uint32 ShadowTimerTicks = ShadowBlinkTimer.getTicks();
@@ -128,6 +136,8 @@ void MChamps::OnRender() {
 		}
 		
 		break;
+
+	
 	}
 
 	// Render dat

@@ -74,7 +74,25 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				RoundTimer.stop();
 				CurrentScene = Scene_TitleScreen;
 			}
-			break;			
+			break;
+			
+		case Scene_GameOver:
+			// Exit to title screen
+			if (Event->key.keysym.sym == SDLK_ESCAPE) {
+				Mix_HaltMusic();
+				GameOverTimer.stop();
+				CurrentScene = Scene_TitleScreen;
+			}
+			break;
+
+		case Scene_Credits:
+			// Exit to title screen
+			if (Event->key.keysym.sym == SDLK_ESCAPE) {
+				Mix_HaltMusic();
+				CreditsTimer.stop();
+				CurrentScene = Scene_TitleScreen;
+			}
+			break;
 		}
 		break;
 	case SDL_KEYUP:

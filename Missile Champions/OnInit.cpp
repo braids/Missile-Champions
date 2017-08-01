@@ -80,7 +80,9 @@ bool MChamps::OnInit() {
 	// Game Over
 	mAssets->images.GameOver = { Assets::Instance()->GetTexture(IMAGE_GAME_OVER), Graphics::Fullscreen() };
 	// Credits
-	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(256, 896, 0, 0) };
+	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_CREDITS), Graphics::CreateRect(256, 896, 0, 0) };
+	CreditsRect = Graphics::CreateRect(256, 896, 0, 0);
+	CreditsY = 0.0;
 
 	//// Effects
 	Effect_StartFlashLength = 0;

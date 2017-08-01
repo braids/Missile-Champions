@@ -88,6 +88,33 @@ void MChamps::OnLoop() {
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
+	case Scene_Credits:
+		if (!CreditsTimer.isStarted()) {
+			CreditsTimer.start();
+			Mix_PlayMusic(mAssets->music.Credits, 0);
+		}
+
+		creditsTicks = CreditsTimer.getTicks();
+
+		if (creditsTicks > 3000 && CreditsY > -672.0) {
+			CreditsY -= 0.0075 * timeStep;
+			CreditsRect->y = (int)CreditsY;
+		}
+
+		if (creditsTicks > 107000) {
+			CurrentScene = Scene_TitleScreen;
+		}
+		break;
+
+	case Scene_GameOver:
+		if (!GameOverTimer.isStarted()) {
+			GameOverTimer.start();
+		}
+		if (GameOverTimer.getTicks() > 5000) {
+			CurrentScene = Scene_TitleScreen;
+		}
+		break;
+
 	case Scene_TitleScreen:
 		// Loop music (because SDL_mixer doesn't seamlessly loop)
 		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
@@ -187,7 +214,7 @@ void MChamps::OnLoop() {
 			// If either team scores max points, return to title screen.
 			if (Players[0].score == 9 || Players[1].score == 9) {
 				Mix_HaltMusic();
-				CurrentScene = Scene_TitleScreen;
+				CurrentScene = (Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
 				break;
 			}
 			// Else, start next kickoff.
@@ -320,7 +347,10 @@ void MChamps::OnLoop() {
 			}
 		}
 		break;
-	}	
+	
+	
+
+	}
 }
 
 void MChamps::BallUpdate() {
