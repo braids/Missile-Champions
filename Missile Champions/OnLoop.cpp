@@ -239,6 +239,14 @@ void MChamps::OnLoop() {
 		else if (Players[0].activeCar->y >= 280.0)
 			Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z) - 208;
 
+		if ((Players[0].activeCar->MoveDirection == Car::Forward ||
+			Players[0].activeCar->MoveDirection == Car::Backward) &&
+			!Players[0].activeCar->isBoosting) {
+			Mix_PlayChannel(-1, mAssets->sounds.Engine, 0);
+		}
+		if(Players[0].activeCar->isBoosting && Players[0].activeCar->boostFuel > 0)
+			Mix_PlayChannel(-1, mAssets->sounds.Boost, 0);
+
 		break;
 	}	
 }
@@ -407,7 +415,7 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			player->cars[i].speed -= 0.2;
 
 		if (&player->cars[i] != *&Players[0].activeCar)
-			player->cars[i].speed * 0.8;
+			player->cars[i].speed *= 0.8;
 
 		// Turn Left
 		if (player->cars[i].Turning == Car::Left) {

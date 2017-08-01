@@ -64,6 +64,8 @@ public:
 		Mix_Chunk* StartSelection;
 		Mix_Chunk* Selection;
 		Mix_Chunk* MoveCursor;
+		Mix_Chunk* Engine;
+		Mix_Chunk* Boost;
 	} sounds;
 
 	struct Music {

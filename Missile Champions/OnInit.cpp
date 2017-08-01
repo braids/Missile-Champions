@@ -18,6 +18,8 @@ bool MChamps::OnInit() {
 	mAssets->sounds.StartSelection = Assets::Instance()->GetSound(SOUND_START_SELECTION);
 	mAssets->sounds.Selection = Assets::Instance()->GetSound(SOUND_SELECTION);
 	mAssets->sounds.MoveCursor = Assets::Instance()->GetSound(SOUND_MOVE_CURSOR);
+	mAssets->sounds.Engine = Assets::Instance()->GetSound(SOUND_ENGINE);
+	mAssets->sounds.Boost = Assets::Instance()->GetSound(SOUND_BOOST);
 
 	//// Initialize art assets
 	// Title Screen

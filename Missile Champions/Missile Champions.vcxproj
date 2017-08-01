@@ -209,7 +209,13 @@
     <None Include="zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="res\snd\boost.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
     <Media Include="res\snd\carselectionmusic.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="res\snd\engine.wav">
       <DeploymentContent>true</DeploymentContent>
     </Media>
     <Media Include="res\snd\eurobeat.wav">
