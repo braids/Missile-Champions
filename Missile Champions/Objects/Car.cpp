@@ -90,6 +90,7 @@ void Car::SetCarKickoff(int team, int carpos) {
 		this->anglesprite = 12;
 		break;
 	}
+	for (int i = 0; i < 5; i++) this->streak[i].timeAlive = 0;
 	this->image = &this->assets->images.CarSprites[this->anglesprite][team];
 	this->dx = sin(this->angle * M_PI / 180.0);
 	this->dy = cos(this->angle * M_PI / 180.0);
