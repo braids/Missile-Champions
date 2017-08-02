@@ -316,19 +316,19 @@ void MChamps::OnLoop() {
 		}
 		
 		if (RoundStartTimer.isStarted()) {
-			if (startTimerTicks == 300) {
+			if (startTimerTicks >= 300 && Countdown321 == NULL && CountdownG == NULL) {
 				Countdown321 = &mAssets->images.Numbers[3];
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
-			if (startTimerTicks == 1000) {
+			if (startTimerTicks >= 1000 && Countdown321 == &mAssets->images.Numbers[3]) {
 				Countdown321 = &mAssets->images.Numbers[2];
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
-			if (startTimerTicks == 1700) {
+			if (startTimerTicks >= 1700 && Countdown321 == &mAssets->images.Numbers[2]) {
 				Countdown321 = &mAssets->images.Numbers[1];
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
-			if (startTimerTicks == 2400) {
+			if (startTimerTicks >= 2400 && Countdown321 == &mAssets->images.Numbers[1]) {
 				Countdown321 = NULL;
 				CountdownG = &mAssets->images.Numbers[6];
 				CountdownO = &mAssets->images.Numbers[0];
