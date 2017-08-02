@@ -88,6 +88,33 @@ void MChamps::OnLoop() {
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
+	case Scene_Credits:
+		if (!CreditsTimer.isStarted()) {
+			CreditsTimer.start();
+			Mix_PlayMusic(mAssets->music.Credits, 0);
+		}
+
+		creditsTicks = CreditsTimer.getTicks();
+
+		if (creditsTicks > 3000 && CreditsY > -672.0) {
+			CreditsY -= 0.0075 * timeStep;
+			CreditsRect->y = (int)CreditsY;
+		}
+
+		if (creditsTicks > 102000) {
+			CurrentScene = Scene_TitleScreen;
+		}
+		break;
+
+	case Scene_GameOver:
+		if (!GameOverTimer.isStarted()) {
+			GameOverTimer.start();
+		}
+		if (GameOverTimer.getTicks() > 5000) {
+			CurrentScene = Scene_TitleScreen;
+		}
+		break;
+
 	case Scene_TitleScreen:
 		// Loop music (because SDL_mixer doesn't seamlessly loop)
 		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
@@ -187,7 +214,7 @@ void MChamps::OnLoop() {
 			// If either team scores max points, return to title screen.
 			if (Players[0].score == 9 || Players[1].score == 9) {
 				Mix_HaltMusic();
-				CurrentScene = Scene_TitleScreen;
+				CurrentScene = (Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
 				break;
 			}
 			// Else, start next kickoff.
@@ -289,25 +316,25 @@ void MChamps::OnLoop() {
 		}
 		
 		if (RoundStartTimer.isStarted()) {
-			if (startTimerTicks == 300) {
+			if (startTimerTicks >= 300 && Countdown321 == NULL && CountdownG == NULL) {
 				Countdown321 = &mAssets->images.Numbers[3];
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
-			if (startTimerTicks == 1000) {
+			if (startTimerTicks >= 1000 && Countdown321 == &mAssets->images.Numbers[3]) {
 				Countdown321 = &mAssets->images.Numbers[2];
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
-			if (startTimerTicks == 1700) {
+			if (startTimerTicks >= 1700 && Countdown321 == &mAssets->images.Numbers[2]) {
 				Countdown321 = &mAssets->images.Numbers[1];
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 			}
-			if (startTimerTicks == 2400) {
+			if (startTimerTicks >= 2400 && Countdown321 == &mAssets->images.Numbers[1]) {
 				Countdown321 = NULL;
 				CountdownG = &mAssets->images.Numbers[6];
 				CountdownO = &mAssets->images.Numbers[0];
 				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
 			}
-			if (startTimerTicks == 3000) {
+			if (startTimerTicks >= 3000) {
 				CountdownG = NULL;
 				CountdownO = NULL;
 				if (RoundTimer.isPaused()) {
@@ -320,7 +347,10 @@ void MChamps::OnLoop() {
 			}
 		}
 		break;
-	}	
+	
+	
+
+	}
 }
 
 void MChamps::BallUpdate() {

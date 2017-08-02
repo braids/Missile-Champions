@@ -16,6 +16,7 @@ bool MChamps::OnInit() {
 	mAssets->music.Title = Assets::Instance()->GetMusic(MUSIC_TITLE);
 	mAssets->music.CarSelection = Assets::Instance()->GetMusic(MUSIC_CAR_SELECTION);
 	mAssets->music.Eurobeat = Assets::Instance()->GetMusic(MUSIC_EUROBEAT);
+	mAssets->music.Credits = Assets::Instance()->GetMusic(MUSIC_CREDITS);
 	mAssets->sounds.StartSelection = Assets::Instance()->GetSound(SOUND_START_SELECTION);
 	mAssets->sounds.Selection = Assets::Instance()->GetSound(SOUND_SELECTION);
 	mAssets->sounds.MoveCursor = Assets::Instance()->GetSound(SOUND_MOVE_CURSOR);
@@ -76,7 +77,13 @@ bool MChamps::OnInit() {
 	CountdownGRect = Graphics::CreateRect(8, 8, 120, 100);
 	CountdownO = NULL;
 	CountdownORect = Graphics::CreateRect(8, 8, 128, 100);
-	
+	// Game Over
+	mAssets->images.GameOver = { Assets::Instance()->GetTexture(IMAGE_GAME_OVER), Graphics::Fullscreen() };
+	// Credits
+	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_CREDITS), Graphics::CreateRect(256, 896, 0, 0) };
+	CreditsRect = Graphics::CreateRect(256, 896, 0, 0);
+	CreditsY = 0.0;
+
 	//// Effects
 	Effect_StartFlashLength = 0;
 	Effect_P1FlashLength = 0;
