@@ -105,6 +105,10 @@ void MChamps::OnRender() {
 		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
 
+		// Draw off-screen ball indicator if ball is offscreen.
+		if(BallOffscreen)
+			DrawImage(&mAssets->images.BallIndicatorSprites[BallIndicatorDirection], BallIndicatorRect);
+
 		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
 

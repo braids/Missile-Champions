@@ -277,8 +277,61 @@ void MChamps::OnLoop() {
 					}
 				}
 			}
+			
 			// Set ball
 			GameBall.UpdateViewport(GameplayCamera.drawarea->rect);
+
+			// Set ball indicator
+			if (GameBall.viewportRect->x < (0 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				if (GameBall.viewportRect->y < (0 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = UP_LEFT;
+					BallIndicatorRect->x = 8;
+					BallIndicatorRect->y = 8;
+				}
+				else if (GameBall.viewportRect->y > (176 - 32 - 8 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = DOWN_LEFT;
+					BallIndicatorRect->x = 8;
+					BallIndicatorRect->y = 176 - 8 - 32;
+				}
+				else {
+					BallIndicatorDirection = LEFT;
+					BallIndicatorRect->x = 8;
+					BallIndicatorRect->y = GameBall.viewportRect->y + 16;
+				}
+			}
+			else if (GameBall.viewportRect->x > (256 - 8 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				if (GameBall.viewportRect->y < (0 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = UP_RIGHT;
+					BallIndicatorRect->x = 256 - 32 - 8;
+					BallIndicatorRect->y = 8;
+				}
+				else if (GameBall.viewportRect->y > (176 - 32 - 8 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = DOWN_RIGHT;
+					BallIndicatorRect->x = 256 - 32 - 8;
+					BallIndicatorRect->y = 176 - 8 - 32;
+				}
+				else {
+					BallIndicatorDirection = RIGHT;
+					BallIndicatorRect->x = 256 - 32 - 8;
+					BallIndicatorRect->y = GameBall.viewportRect->y + 16;
+				}
+			}
+			else if (GameBall.viewportRect->y < (0 - (GameBall.viewportRect->h / 2)) && GameBall.viewportRect->x >= (0 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				BallIndicatorDirection = UP;
+				BallIndicatorRect->x = GameBall.viewportRect->x + 16;
+				BallIndicatorRect->y = 8;
+			}
+			else if (GameBall.viewportRect->y > (176 - 32 - 8 - (GameBall.viewportRect->h / 2)) && GameBall.viewportRect->x <= (256 - 8 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				BallIndicatorDirection = DOWN;
+				BallIndicatorRect->x = GameBall.viewportRect->x + 16;
+				BallIndicatorRect->y = 176 - 8 - 32;
+			}
+			else
+				BallOffscreen = false;
 
 			// Set viewport coordinates based on active car
 			if (Players[0].activeCar->x <= 112.0)
@@ -315,6 +368,7 @@ void MChamps::OnLoop() {
 			}
 		}
 		
+		//// Round Start Countdown
 		if (RoundStartTimer.isStarted()) {
 			if (startTimerTicks >= 300 && Countdown321 == NULL && CountdownG == NULL) {
 				Countdown321 = &mAssets->images.Numbers[3];
@@ -347,9 +401,6 @@ void MChamps::OnLoop() {
 			}
 		}
 		break;
-	
-	
-
 	}
 }
 
@@ -634,7 +685,7 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			}
 			
 			if (player->cars[i].boostFuel < MAX_BOOST_FUEL) {
-				if (BoostRechargeTicks < 2000)
+				if (BoostRechargeTicks < 750)
 					player->cars[i].boostFuel += 1 * timeStep;
 				else
 					player->cars[i].boostFuel += 5 * timeStep;
