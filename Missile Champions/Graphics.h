@@ -6,7 +6,6 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 
 class Graphics {
 private:
@@ -35,11 +34,7 @@ public:
 	static void Release();
 	static bool Initialized();
 
-	TTF_Font* LoadFont(std::string filePath, int size);
-
 	SDL_Texture* LoadTexture(std::string filePath);
-
-	SDL_Texture* LoadText(TTF_Font* font, std::string text, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 	void ClearBackBuffer();
 
