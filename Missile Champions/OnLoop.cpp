@@ -101,7 +101,7 @@ void MChamps::OnLoop() {
 			CreditsRect->y = (int)CreditsY;
 		}
 
-		if (creditsTicks > 107000) {
+		if (creditsTicks > 102000) {
 			CurrentScene = Scene_TitleScreen;
 		}
 		break;

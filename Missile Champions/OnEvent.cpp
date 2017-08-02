@@ -62,9 +62,9 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				if (Event->key.keysym.sym == SDLK_RIGHT)
 					Players[0].activeCar->Turning = Car::Right;
 				// Change active car event
-				if (Event->key.keysym.sym == SDLK_c && Event->key.repeat == 0)
+				if (Event->key.keysym.sym == SDLK_x && Event->key.repeat == 0)
 					Event_ChangeCar = true;
-				if (Event->key.keysym.sym == SDLK_b)
+				if (Event->key.keysym.sym == SDLK_z)
 					Players[0].activeCar->isBoosting = true;
 				if (Event->key.keysym.sym == SDLK_SPACE && Players[0].activeCar->z <= 0 && Event->key.repeat == 0)
 					Players[0].activeCar->isJumping = true;
@@ -109,7 +109,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Players[0].activeCar->Turning = Car::NoTurning;
 			if (Event->key.keysym.sym == SDLK_RIGHT && Players[0].activeCar->Turning != Car::Left)
 				Players[0].activeCar->Turning = Car::NoTurning;
-			if (Event->key.keysym.sym == SDLK_b)
+			if (Event->key.keysym.sym == SDLK_z)
 				Players[0].activeCar->isBoosting = false;
 		}
 		break;
