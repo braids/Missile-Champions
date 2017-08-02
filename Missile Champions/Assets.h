@@ -2,6 +2,7 @@
 #define _ASSETS_H_
 
 #define BALL_FRAMES 4
+#define BALL_INDICATOR_FRAMES 8
 #define BOOST_ROT_FRAMES 8
 #define CAR_ROT_FRAMES	16
 #define CAR_PALETTES	8
@@ -56,6 +57,7 @@ public:
 		// Gameplay
 		Image BallSprites[BALL_FRAMES];
 		Image BallShadow;
+		Image BallIndicatorSprites[BALL_INDICATOR_FRAMES];
 		Image FieldDrawArea;
 		Image FieldBottom;
 		Image FieldViewport;

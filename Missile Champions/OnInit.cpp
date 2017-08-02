@@ -46,6 +46,9 @@ bool MChamps::OnInit() {
 	// Gameplay
 	for (int i = 0; i < BALL_FRAMES; i++)
 		mAssets->images.BallSprites[i] = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SPRITE_SHEET), Graphics::CreateRect(48, 48, 48 * i, 0) };
+	for (int i = 0; i < BALL_INDICATOR_FRAMES; i++)
+		mAssets->images.BallIndicatorSprites[i] = { Assets::Instance()->GetTexture(IMAGE_BALL_INDICATOR), Graphics::CreateRect(32, 32, 32 * i, 0) };
+	BallIndicatorRect = Graphics::CreateRect(32, 32, 0, 0);
 	mAssets->images.BallShadow = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SHADOW), Graphics::CreateRect(48, 48, 0, 0) };
 	mAssets->images.FieldDrawArea = { Assets::Instance()->GetTexture(IMAGE_FIELD), Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.FieldBottom = { Assets::Instance()->GetTexture(IMAGE_FIELD_BOTTOM) };

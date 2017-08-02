@@ -8,6 +8,7 @@
 #define IMAGE_CAR_SHADOW			"car_shadow.png"
 #define IMAGE_FOOTBALL_SPRITE_SHEET	"football_sheet.png"
 #define IMAGE_FOOTBALL_SHADOW		"football_shadow.png"
+#define IMAGE_BALL_INDICATOR		"ball_indicator_sheet.png"
 #define IMAGE_FIELD					"field.png"
 #define IMAGE_FIELD_BOTTOM			"field_bottom.png"
 #define IMAGE_STATUS_BAR			"status_bar.png"
