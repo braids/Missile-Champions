@@ -102,6 +102,7 @@ void MChamps::OnLoop() {
 		}
 
 		if (creditsTicks > 102000) {
+			CreditsTimer.stop();
 			CurrentScene = Scene_TitleScreen;
 		}
 		break;
@@ -111,6 +112,7 @@ void MChamps::OnLoop() {
 			GameOverTimer.start();
 		}
 		if (GameOverTimer.getTicks() > 5000) {
+			GameOverTimer.stop();
 			CurrentScene = Scene_TitleScreen;
 		}
 		break;
