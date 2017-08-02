@@ -103,6 +103,7 @@ void MChamps::OnLoop() {
 
 		if (creditsTicks > 102000) {
 			CreditsTimer.stop();
+			creditsTicks = 0;
 			CurrentScene = Scene_TitleScreen;
 		}
 		break;
