@@ -32,6 +32,7 @@
 #define SOUND_ENGINE				"engine.wav"
 #define SOUND_BOOST					"boost.wav"
 #define SOUND_BUZZER				"buzzer.wav"
+#define SOUND_BALLHIT				"ballhit.wav"
 
 // Music
 #define MUSIC_TITLE					"titlemusic.wav"

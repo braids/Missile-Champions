@@ -218,6 +218,9 @@
     <None Include="zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="res\snd\ballhit.wav">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
     <Media Include="res\snd\boost.wav">
       <DeploymentContent>true</DeploymentContent>
     </Media>

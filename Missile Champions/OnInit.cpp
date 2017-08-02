@@ -23,6 +23,7 @@ bool MChamps::OnInit() {
 	mAssets->sounds.Engine = Assets::Instance()->GetSound(SOUND_ENGINE);
 	mAssets->sounds.Boost = Assets::Instance()->GetSound(SOUND_BOOST);
 	mAssets->sounds.Buzzer = Assets::Instance()->GetSound(SOUND_BUZZER);
+	mAssets->sounds.Ballhit = Assets::Instance()->GetSound(SOUND_BALLHIT);
 
 	//// Initialize art assets
 	// Title Screen
