@@ -416,6 +416,9 @@ void MChamps::BallUpdate() {
 				pow(GameBall.cy() - Players[i].cars[j].cy(), 2) +
 				pow(GameBall.cz() - Players[i].cars[j].cz(), 2)) <= 40.0 &&
 				Players[i].cars[j].ballCollide == false) {
+				// Play ballhit sound
+				Mix_PlayChannel(CHANNEL_BALLHIT, mAssets->sounds.Ballhit, 0);
+
 				// Set colliding flag
 				Players[i].cars[j].ballCollide = true;
 				

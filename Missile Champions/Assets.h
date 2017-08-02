@@ -15,6 +15,7 @@
 #define CHANNEL_CURSOR 4
 #define CHANNEL_TITLESTART 5
 #define CHANNEL_BUZZER 6
+#define CHANNEL_BALLHIT 7
 
 // Ball Indicator defines
 #define UP_LEFT 0
@@ -92,6 +93,7 @@ public:
 		Mix_Chunk* Engine;
 		Mix_Chunk* Boost;
 		Mix_Chunk* Buzzer;
+		Mix_Chunk* Ballhit;
 	} sounds;
 
 	struct Music {
