@@ -28,7 +28,9 @@ private:
 	enum Scenes { 
 		Scene_TitleScreen, 
 		Scene_CarSelection, 
-		Scene_Gameplay 
+		Scene_Gameplay,
+		Scene_Credits,
+		Scene_GameOver
 	} CurrentScene;
 
 	// Graphics
@@ -80,19 +82,39 @@ private:
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
+
+	SDL_Rect* BallIndicatorRect;
+	bool BallOffscreen;
+	int BallIndicatorDirection;
+
 	SDL_Rect* P1Score;
 	SDL_Rect* P2Score;
 	SDL_Rect* Minute10sRect;
 	SDL_Rect* Minute1sRect;
 	SDL_Rect* Second10sRect;
 	SDL_Rect* Second1sRect;
+	Assets::Image* Countdown321;
+	SDL_Rect* Countdown321Rect;
+	Assets::Image* CountdownG;
+	SDL_Rect* CountdownGRect;
+	Assets::Image* CountdownO;
+	SDL_Rect* CountdownORect;
+	SDL_Rect* CreditsRect;
+	double CreditsY;
+
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
 	Car* drawCars[6];
 
 	Timer	MusicTimer;
 	Timer	ShadowBlinkTimer;
+	Timer	RoundStartTimer;
 	Timer	RoundTimer;
+	Uint32	RoundTicks;
+	Timer	GoalTimer;
+	Timer	CreditsTimer;
+	Uint32	creditsTicks;
+	Timer	GameOverTimer;
 
 	// Events and effects
 	bool Event_CarSelected;
@@ -103,6 +125,8 @@ private:
 	Uint32 Effect_StartFlashLength;
 	bool Event_StartGame;
 	bool Event_ChangeCar;
+	bool Event_LeftGoal;
+	bool Event_RightGoal;
 
 public:
 	MChamps();

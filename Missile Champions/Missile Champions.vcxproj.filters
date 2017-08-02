@@ -136,6 +136,15 @@
     <Image Include="res\img\numbers.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\img\credits.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\gameover.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img\ball_indicator_sheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="libpng16-16.dll" />
@@ -167,6 +176,12 @@
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="res\snd\boost.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="res\snd\buzzer.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="res\snd\credits.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

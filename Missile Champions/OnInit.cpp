@@ -12,14 +12,17 @@ bool MChamps::OnInit() {
 
 	// Initialize sound
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	Mix_AllocateChannels(16);
 	mAssets->music.Title = Assets::Instance()->GetMusic(MUSIC_TITLE);
 	mAssets->music.CarSelection = Assets::Instance()->GetMusic(MUSIC_CAR_SELECTION);
 	mAssets->music.Eurobeat = Assets::Instance()->GetMusic(MUSIC_EUROBEAT);
+	mAssets->music.Credits = Assets::Instance()->GetMusic(MUSIC_CREDITS);
 	mAssets->sounds.StartSelection = Assets::Instance()->GetSound(SOUND_START_SELECTION);
 	mAssets->sounds.Selection = Assets::Instance()->GetSound(SOUND_SELECTION);
 	mAssets->sounds.MoveCursor = Assets::Instance()->GetSound(SOUND_MOVE_CURSOR);
 	mAssets->sounds.Engine = Assets::Instance()->GetSound(SOUND_ENGINE);
 	mAssets->sounds.Boost = Assets::Instance()->GetSound(SOUND_BOOST);
+	mAssets->sounds.Buzzer = Assets::Instance()->GetSound(SOUND_BUZZER);
 
 	//// Initialize art assets
 	// Title Screen
@@ -43,6 +46,9 @@ bool MChamps::OnInit() {
 	// Gameplay
 	for (int i = 0; i < BALL_FRAMES; i++)
 		mAssets->images.BallSprites[i] = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SPRITE_SHEET), Graphics::CreateRect(48, 48, 48 * i, 0) };
+	for (int i = 0; i < BALL_INDICATOR_FRAMES; i++)
+		mAssets->images.BallIndicatorSprites[i] = { Assets::Instance()->GetTexture(IMAGE_BALL_INDICATOR), Graphics::CreateRect(32, 32, 32 * i, 0) };
+	BallIndicatorRect = Graphics::CreateRect(32, 32, 0, 0);
 	mAssets->images.BallShadow = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SHADOW), Graphics::CreateRect(48, 48, 0, 0) };
 	mAssets->images.FieldDrawArea = { Assets::Instance()->GetTexture(IMAGE_FIELD), Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.FieldBottom = { Assets::Instance()->GetTexture(IMAGE_FIELD_BOTTOM) };
@@ -67,7 +73,20 @@ bool MChamps::OnInit() {
 		mAssets->images.BoostF1Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F1_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 		mAssets->images.BoostF2Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F2_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 	}
-	
+	// Countdown Timer
+	Countdown321 = NULL;
+	Countdown321Rect = Graphics::CreateRect(8, 8, 124, 100);
+	CountdownG = NULL;
+	CountdownGRect = Graphics::CreateRect(8, 8, 120, 100);
+	CountdownO = NULL;
+	CountdownORect = Graphics::CreateRect(8, 8, 128, 100);
+	// Game Over
+	mAssets->images.GameOver = { Assets::Instance()->GetTexture(IMAGE_GAME_OVER), Graphics::Fullscreen() };
+	// Credits
+	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_CREDITS), Graphics::CreateRect(256, 896, 0, 0) };
+	CreditsRect = Graphics::CreateRect(256, 896, 0, 0);
+	CreditsY = 0.0;
+
 	//// Effects
 	Effect_StartFlashLength = 0;
 	Effect_P1FlashLength = 0;
@@ -78,6 +97,8 @@ bool MChamps::OnInit() {
 	Event_CarSelected = false;
 	Event_P1Selected = false;
 	Event_P2Selected = false;
+	Event_LeftGoal = false;
+	Event_RightGoal = false;
 
 	//// Car Selection Cursor
 	CarSelectionCursor = { &mAssets->images.CarSelectCursor, 0, 0 };

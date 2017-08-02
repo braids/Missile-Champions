@@ -8,6 +8,7 @@
 #define IMAGE_CAR_SHADOW			"car_shadow.png"
 #define IMAGE_FOOTBALL_SPRITE_SHEET	"football_sheet.png"
 #define IMAGE_FOOTBALL_SHADOW		"football_shadow.png"
+#define IMAGE_BALL_INDICATOR		"ball_indicator_sheet.png"
 #define IMAGE_FIELD					"field.png"
 #define IMAGE_FIELD_BOTTOM			"field_bottom.png"
 #define IMAGE_STATUS_BAR			"status_bar.png"
@@ -21,6 +22,8 @@
 #define IMAGE_BOOST_SPRITE_SHEET	"boost_streak_full.png"
 #define IMAGE_BOOST_F1_SPRITE_SHEET	"boost_streak_fade1.png"
 #define IMAGE_BOOST_F2_SPRITE_SHEET	"boost_streak_fade2.png"
+#define IMAGE_CREDITS				"credits.png"
+#define IMAGE_GAME_OVER				"gameover.png"
 
 //// Sound
 #define SOUND_START_SELECTION		"startselection.wav"
@@ -28,8 +31,12 @@
 #define SOUND_MOVE_CURSOR			"movecursor.wav"
 #define SOUND_ENGINE				"engine.wav"
 #define SOUND_BOOST					"boost.wav"
+#define SOUND_BUZZER				"buzzer.wav"
+
+// Music
 #define MUSIC_TITLE					"titlemusic.wav"
 #define MUSIC_CAR_SELECTION			"carselectionmusic.wav"
 #define MUSIC_EUROBEAT				"eurobeat.wav"
+#define MUSIC_CREDITS				"credits.wav"
 
 #endif

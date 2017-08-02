@@ -29,6 +29,14 @@ void MChamps::OnRender() {
 		}
 		break;
 
+	case Scene_GameOver:
+		DrawImage(&mAssets->images.GameOver);
+		break;
+
+	case Scene_Credits:
+		DrawImage(&mAssets->images.Credits, CreditsRect);
+		break;
+
 	case Scene_Gameplay:
 		// Get ticks for shadow blink timer
 		Uint32 ShadowTimerTicks = ShadowBlinkTimer.getTicks();
@@ -97,6 +105,10 @@ void MChamps::OnRender() {
 		// Draw bottom of field over gameplay objects.
 		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
 
+		// Draw off-screen ball indicator if ball is offscreen.
+		if(BallOffscreen)
+			DrawImage(&mAssets->images.BallIndicatorSprites[BallIndicatorDirection], BallIndicatorRect);
+
 		// Draw UI status bar at bottom over gameplay objects.
 		DrawImage(StatusBar);
 
@@ -104,7 +116,8 @@ void MChamps::OnRender() {
 		DrawImage(&mAssets->images.Numbers[Players[0].score], P1Score);
 		DrawImage(&mAssets->images.Numbers[Players[1].score], P2Score);
 
-		Uint32 RoundTicks = RoundTimer.getTicks();
+		if (RoundTimer.isStarted() && !RoundTimer.isPaused())
+			RoundTicks = RoundTimer.getTicks();
 
 		// Draw Round Timer
 		DrawImage(&mAssets->images.Numbers[(RoundTicks / 600000) % 6], Minute10sRect);
@@ -116,7 +129,19 @@ void MChamps::OnRender() {
 		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
 		DrawImage(BoostBar, BoostBarScaleRect);
 
+		// Draw countdown numbers
+		if (Countdown321 != NULL) {
+			DrawImage(Countdown321, Countdown321Rect);
+		}
+
+		if (CountdownG != NULL) {
+			DrawImage(CountdownG, CountdownGRect);
+			DrawImage(CountdownO, CountdownORect);
+		}
+		
 		break;
+
+	
 	}
 
 	// Render dat

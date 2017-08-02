@@ -77,15 +77,46 @@ void MChamps::OnLoop() {
 					Players[i].cars[j].SetCarKickoff(i, j);
 				}
 			}
+			Players[0].score = 0;
+			Players[1].score = 0;
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
-			RoundTimer.start();
+			RoundStartTimer.start();
 			Mix_HaltMusic();
 		}
 	}
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
+	case Scene_Credits:
+		if (!CreditsTimer.isStarted()) {
+			CreditsTimer.start();
+			Mix_PlayMusic(mAssets->music.Credits, 0);
+		}
+
+		creditsTicks = CreditsTimer.getTicks();
+
+		if (creditsTicks > 3000 && CreditsY > -672.0) {
+			CreditsY -= 0.0075 * timeStep;
+			CreditsRect->y = (int)CreditsY;
+		}
+
+		if (creditsTicks > 102000) {
+			CreditsTimer.stop();
+			CurrentScene = Scene_TitleScreen;
+		}
+		break;
+
+	case Scene_GameOver:
+		if (!GameOverTimer.isStarted()) {
+			GameOverTimer.start();
+		}
+		if (GameOverTimer.getTicks() > 5000) {
+			GameOverTimer.stop();
+			CurrentScene = Scene_TitleScreen;
+		}
+		break;
+
 	case Scene_TitleScreen:
 		// Loop music (because SDL_mixer doesn't seamlessly loop)
 		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
@@ -97,7 +128,6 @@ void MChamps::OnLoop() {
 	case Scene_CarSelection:
 		if (MusicTimer.getTicks() > 6400 || Mix_PlayingMusic() == 0) {
 			Mix_PlayMusic(mAssets->music.CarSelection, -1);
-			Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 			MusicTimer.stop();
 			MusicTimer.start();
 		}
@@ -171,84 +201,209 @@ void MChamps::OnLoop() {
 		break;
 
 	case Scene_Gameplay:
-		if (MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) {
-			Mix_PlayMusic(mAssets->music.Eurobeat, -1);
-			Mix_VolumeMusic(MIX_MAX_VOLUME);
-			MusicTimer.stop();
-			MusicTimer.start();
-		}
-		// Check Active Car Change
-		if (Event_ChangeCar) {
-			ActiveCar++;
-			if (ActiveCar > 2) ActiveCar = 0;
-
-			// Initialize new active car with current active car controls.
-			Players[0].cars[ActiveCar].isBoosting = Players[0].activeCar->isBoosting;
-			Players[0].cars[ActiveCar].isJumping = Players[0].activeCar->isJumping;
-			Players[0].cars[ActiveCar].MoveDirection = Players[0].activeCar->MoveDirection;
-			Players[0].cars[ActiveCar].Turning = Players[0].activeCar->Turning;
-
-			// Swap to new active car.
-			Players[0].activeCar = &Players[0].cars[ActiveCar];
+		int startTimerTicks = RoundStartTimer.getTicks();
+		if (GoalTimer.getTicks() > 1500) {
+			GoalTimer.stop();
+			GameBall.resetBall();
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 3; j++) {
+					Players[i].cars[j].SetCarKickoff(i, j);
+				}
+			}
+			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
+			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 			
-			Event_ChangeCar = false;
+			// If either team scores max points, return to title screen.
+			if (Players[0].score == 9 || Players[1].score == 9) {
+				Mix_HaltMusic();
+				CurrentScene = (Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
+				break;
+			}
+			// Else, start next kickoff.
+			else
+				RoundStartTimer.start();
 		}
+		if ((RoundTimer.isStarted() && !RoundTimer.isPaused()) || (startTimerTicks == 0 && RoundStartTimer.isStarted())) {
+			if ((MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) && (RoundTimer.isStarted() && !RoundTimer.isPaused())) {
+				Mix_PlayMusic(mAssets->music.Eurobeat, -1);
+				MusicTimer.stop();
+				MusicTimer.start();
+			}
 
-		//// Car Update
-		PlayerCarsUpdate(&Players[0]);
-		PlayerCarsUpdate(&Players[1]);
-		
-		//// Ball Update
-		BallUpdate();
+			// Check Active Car Change
+			if (Event_ChangeCar) {
+				ActiveCar++;
+				if (ActiveCar > 2) ActiveCar = 0;
 
-		//// Camera update
-		GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + 16) - (GameplayCamera.drawarea->rect->w / 2);
-		GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + 16) - (GameplayCamera.drawarea->rect->h / 2);
-		// Prevent camera from leaving the level boundary
-		if (GameplayCamera.drawarea->rect->x < 0) GameplayCamera.drawarea->rect->x = 0;
-		if (GameplayCamera.drawarea->rect->y < 0) GameplayCamera.drawarea->rect->y = 0;
-		if (GameplayCamera.drawarea->rect->x > 768) GameplayCamera.drawarea->rect->x = 768;
-		if (GameplayCamera.drawarea->rect->y > 208) GameplayCamera.drawarea->rect->y = 208;
-		
-		///// Viewport positioning
-		// Update car and child object positions in viewport
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 3; j++) {
-				// Update car positions in viewport
-				Players[i].cars[j].viewportRect->x = (int)Players[i].cars[j].x - GameplayCamera.drawarea->rect->x;
-				Players[i].cars[j].viewportRect->y = (int)Players[i].cars[j].y - (int)Players[i].cars[j].z - GameplayCamera.drawarea->rect->y;
-				// Update boost streak positions in viewport
-				for (int k = 0; k < 5; k++) {
-					if (Players[i].cars[j].streak[k].timeAlive > 0) {
-						Players[i].cars[j].streak[k].viewportRect->x = (int)Players[i].cars[j].streak[k].x - GameplayCamera.drawarea->rect->x;
-						Players[i].cars[j].streak[k].viewportRect->y = (int)Players[i].cars[j].streak[k].y - GameplayCamera.drawarea->rect->y;
+				// Initialize new active car with current active car controls.
+				Players[0].cars[ActiveCar].isBoosting = Players[0].activeCar->isBoosting;
+				Players[0].cars[ActiveCar].isJumping = Players[0].activeCar->isJumping;
+				Players[0].cars[ActiveCar].MoveDirection = Players[0].activeCar->MoveDirection;
+				Players[0].cars[ActiveCar].Turning = Players[0].activeCar->Turning;
+
+				// Swap to new active car.
+				Players[0].activeCar = &Players[0].cars[ActiveCar];
+
+				Event_ChangeCar = false;
+			}
+
+			//// Car Update
+			PlayerCarsUpdate(&Players[0]);
+			PlayerCarsUpdate(&Players[1]);
+
+			//// Ball Update
+			BallUpdate();
+
+			//// Camera update
+			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + 16) - (GameplayCamera.drawarea->rect->w / 2);
+			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + 16) - (GameplayCamera.drawarea->rect->h / 2);
+			// Prevent camera from leaving the level boundary
+			if (GameplayCamera.drawarea->rect->x < 0) GameplayCamera.drawarea->rect->x = 0;
+			if (GameplayCamera.drawarea->rect->y < 0) GameplayCamera.drawarea->rect->y = 0;
+			if (GameplayCamera.drawarea->rect->x > 768) GameplayCamera.drawarea->rect->x = 768;
+			if (GameplayCamera.drawarea->rect->y > 208) GameplayCamera.drawarea->rect->y = 208;
+
+			///// Viewport positioning
+			// Update car and child object positions in viewport
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 3; j++) {
+					// Update car positions in viewport
+					Players[i].cars[j].viewportRect->x = (int)Players[i].cars[j].x - GameplayCamera.drawarea->rect->x;
+					Players[i].cars[j].viewportRect->y = (int)Players[i].cars[j].y - (int)Players[i].cars[j].z - GameplayCamera.drawarea->rect->y;
+					// Update boost streak positions in viewport
+					for (int k = 0; k < 5; k++) {
+						if (Players[i].cars[j].streak[k].timeAlive > 0) {
+							Players[i].cars[j].streak[k].viewportRect->x = (int)Players[i].cars[j].streak[k].x - GameplayCamera.drawarea->rect->x;
+							Players[i].cars[j].streak[k].viewportRect->y = (int)Players[i].cars[j].streak[k].y - GameplayCamera.drawarea->rect->y;
+						}
 					}
 				}
 			}
+			
+			// Set ball
+			GameBall.UpdateViewport(GameplayCamera.drawarea->rect);
+
+			// Set ball indicator
+			if (GameBall.viewportRect->x < (0 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				if (GameBall.viewportRect->y < (0 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = UP_LEFT;
+					BallIndicatorRect->x = 8;
+					BallIndicatorRect->y = 8;
+				}
+				else if (GameBall.viewportRect->y > (176 - 32 - 8 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = DOWN_LEFT;
+					BallIndicatorRect->x = 8;
+					BallIndicatorRect->y = 176 - 8 - 32;
+				}
+				else {
+					BallIndicatorDirection = LEFT;
+					BallIndicatorRect->x = 8;
+					BallIndicatorRect->y = GameBall.viewportRect->y + 16;
+				}
+			}
+			else if (GameBall.viewportRect->x > (256 - 8 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				if (GameBall.viewportRect->y < (0 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = UP_RIGHT;
+					BallIndicatorRect->x = 256 - 32 - 8;
+					BallIndicatorRect->y = 8;
+				}
+				else if (GameBall.viewportRect->y > (176 - 32 - 8 - (GameBall.viewportRect->h / 2))) {
+					BallIndicatorDirection = DOWN_RIGHT;
+					BallIndicatorRect->x = 256 - 32 - 8;
+					BallIndicatorRect->y = 176 - 8 - 32;
+				}
+				else {
+					BallIndicatorDirection = RIGHT;
+					BallIndicatorRect->x = 256 - 32 - 8;
+					BallIndicatorRect->y = GameBall.viewportRect->y + 16;
+				}
+			}
+			else if (GameBall.viewportRect->y < (0 - (GameBall.viewportRect->h / 2)) && GameBall.viewportRect->x >= (0 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				BallIndicatorDirection = UP;
+				BallIndicatorRect->x = GameBall.viewportRect->x + 16;
+				BallIndicatorRect->y = 8;
+			}
+			else if (GameBall.viewportRect->y > (176 - 32 - 8 - (GameBall.viewportRect->h / 2)) && GameBall.viewportRect->x <= (256 - 8 - (GameBall.viewportRect->w / 2))) {
+				BallOffscreen = true;
+				BallIndicatorDirection = DOWN;
+				BallIndicatorRect->x = GameBall.viewportRect->x + 16;
+				BallIndicatorRect->y = 176 - 8 - 32;
+			}
+			else
+				BallOffscreen = false;
+
+			// Set viewport coordinates based on active car
+			if (Players[0].activeCar->x <= 112.0)
+				Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x;
+			else if (Players[0].activeCar->x >= 880.0)
+				Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x - 768;
+			if (Players[0].activeCar->y <= 72.0)
+				Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z);
+			else if (Players[0].activeCar->y >= 280.0)
+				Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z) - 208;
+
+			if ((Players[0].activeCar->MoveDirection == Car::Forward ||
+				Players[0].activeCar->MoveDirection == Car::Backward) &&
+				!Players[0].activeCar->isBoosting) {
+				Mix_PlayChannel(CHANNEL_ENGINE, mAssets->sounds.Engine, 0);
+			}
+			if (Players[0].activeCar->isBoosting && Players[0].activeCar->boostFuel > 0)
+				Mix_PlayChannel(CHANNEL_BOOST, mAssets->sounds.Boost, 0);
+
+			// Scored goal
+			if (GameBall.cx() < 16) {
+				Players[1].score += 1;
+				Mix_PlayChannel(CHANNEL_BUZZER, mAssets->sounds.Buzzer, 0);
+				RoundTimer.pause();
+				GoalTimer.start();
+				Mix_HaltMusic();
+			}
+			if (GameBall.cx() > 1008) {
+				Players[0].score += 1;
+				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
+				RoundTimer.pause();
+				GoalTimer.start();
+				Mix_HaltMusic();
+			}
 		}
-		// Set ball
-		GameBall.UpdateViewport(GameplayCamera.drawarea->rect);
-
-		// Set viewport coordinates based on active car
-		if (Players[0].activeCar->x <= 112.0)
-			Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x;
-		else if (Players[0].activeCar->x >= 880.0)
-			Players[0].activeCar->viewportRect->x = (int)Players[0].activeCar->x - 768;
-		if (Players[0].activeCar->y <= 72.0)
-			Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z);
-		else if (Players[0].activeCar->y >= 280.0)
-			Players[0].activeCar->viewportRect->y = (int)(Players[0].activeCar->y - Players[0].activeCar->z) - 208;
-
-		if ((Players[0].activeCar->MoveDirection == Car::Forward ||
-			Players[0].activeCar->MoveDirection == Car::Backward) &&
-			!Players[0].activeCar->isBoosting) {
-			Mix_PlayChannel(-1, mAssets->sounds.Engine, 0);
+		
+		//// Round Start Countdown
+		if (RoundStartTimer.isStarted()) {
+			if (startTimerTicks >= 300 && Countdown321 == NULL && CountdownG == NULL) {
+				Countdown321 = &mAssets->images.Numbers[3];
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
+			}
+			if (startTimerTicks >= 1000 && Countdown321 == &mAssets->images.Numbers[3]) {
+				Countdown321 = &mAssets->images.Numbers[2];
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
+			}
+			if (startTimerTicks >= 1700 && Countdown321 == &mAssets->images.Numbers[2]) {
+				Countdown321 = &mAssets->images.Numbers[1];
+				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
+			}
+			if (startTimerTicks >= 2400 && Countdown321 == &mAssets->images.Numbers[1]) {
+				Countdown321 = NULL;
+				CountdownG = &mAssets->images.Numbers[6];
+				CountdownO = &mAssets->images.Numbers[0];
+				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
+			}
+			if (startTimerTicks >= 3000) {
+				CountdownG = NULL;
+				CountdownO = NULL;
+				if (RoundTimer.isPaused()) {
+					RoundTimer.unpause();
+				}
+				else {
+					RoundTimer.start();
+				}
+				RoundStartTimer.stop();
+			}
 		}
-		if(Players[0].activeCar->isBoosting && Players[0].activeCar->boostFuel > 0)
-			Mix_PlayChannel(-1, mAssets->sounds.Boost, 0);
-
 		break;
-	}	
+	}
 }
 
 void MChamps::BallUpdate() {
@@ -532,7 +687,7 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 			}
 			
 			if (player->cars[i].boostFuel < MAX_BOOST_FUEL) {
-				if (BoostRechargeTicks < 2000)
+				if (BoostRechargeTicks < 750)
 					player->cars[i].boostFuel += 1 * timeStep;
 				else
 					player->cars[i].boostFuel += 5 * timeStep;

@@ -118,8 +118,8 @@ void Ball::initBall(Assets::Image* a) {
 
 void Ball::resetBall() {
 	this->x = 512.0 - ((double)this->viewportRect->w / 2.0);
-	this->y = 208.0 - ((double)this->viewportRect->h / 2.0);
-	this->z = 0.0;
+	this->y = 200.0 - ((double)this->viewportRect->h / 2.0);
+	this->z = 20.0;
 	this->dx = 0.0;
 	this->dy = 0.0;
 	this->dz = 0.0;
