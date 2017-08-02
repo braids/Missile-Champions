@@ -141,6 +141,9 @@
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\img\ball_indicator_sheet.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="res\img\boost_bar.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>

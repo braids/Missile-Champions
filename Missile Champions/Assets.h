@@ -2,6 +2,7 @@
 #define _ASSETS_H_
 
 #define BALL_FRAMES 4
+#define BALL_INDICATOR_FRAMES 8
 #define BOOST_ROT_FRAMES 8
 #define CAR_ROT_FRAMES	16
 #define CAR_PALETTES	8
@@ -14,6 +15,17 @@
 #define CHANNEL_CURSOR 4
 #define CHANNEL_TITLESTART 5
 #define CHANNEL_BUZZER 6
+
+// Ball Indicator defines
+#define UP_LEFT 0
+#define UP 1
+#define UP_RIGHT 2
+#define RIGHT 3
+#define DOWN_RIGHT 4
+#define DOWN 5
+#define DOWN_LEFT 6
+#define LEFT 7
+
 
 #include <map>
 #include <SDL2/SDL_mixer.h>
@@ -56,6 +68,7 @@ public:
 		// Gameplay
 		Image BallSprites[BALL_FRAMES];
 		Image BallShadow;
+		Image BallIndicatorSprites[BALL_INDICATOR_FRAMES];
 		Image FieldDrawArea;
 		Image FieldBottom;
 		Image FieldViewport;

@@ -142,6 +142,9 @@
     <Image Include="res\img\gameover.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\img\ball_indicator_sheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="libpng16-16.dll" />

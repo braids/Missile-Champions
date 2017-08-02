@@ -82,6 +82,11 @@ private:
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
+
+	SDL_Rect* BallIndicatorRect;
+	bool BallOffscreen;
+	int BallIndicatorDirection;
+
 	SDL_Rect* P1Score;
 	SDL_Rect* P2Score;
 	SDL_Rect* Minute10sRect;
