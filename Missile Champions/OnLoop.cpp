@@ -91,6 +91,8 @@ void MChamps::OnLoop() {
 	case Scene_Credits:
 		if (!CreditsTimer.isStarted()) {
 			CreditsTimer.start();
+			CreditsY = 0.0;
+			CreditsRect->y = 0;
 			Mix_PlayMusic(mAssets->music.Credits, 0);
 		}
 
@@ -103,7 +105,6 @@ void MChamps::OnLoop() {
 
 		if (creditsTicks > 102000) {
 			CreditsTimer.stop();
-			creditsTicks = 0;
 			CurrentScene = Scene_TitleScreen;
 		}
 		break;
