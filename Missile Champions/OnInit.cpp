@@ -113,17 +113,10 @@ bool MChamps::OnInit() {
 	GameBall.initBall(mAssets->images.BallSprites);
 
 	//// Players
-	// Player 1 init
-	Players[0] = { 0, 0, Graphics::CreateRect(64, 64, 40, 8), &Players[0].cars[0] };
-	// Player 2 init
-	Players[1] = { 0, 0, Graphics::CreateRect(64, 64, 152, 8), &Players[1].cars[0] };
-	
-	// Car init
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 3; j++) {
-			Players[i].cars[j].InitCar(mAssets);
-		}
-	}
+	Players[0].Init(mAssets);
+	Players[0].selectionViewport->x = 40;
+	Players[1].Init(mAssets);
+	Players[1].selectionViewport->x = 152;
 
 	return true;
 }

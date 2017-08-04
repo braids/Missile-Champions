@@ -79,6 +79,7 @@ struct Player {
 	SDL_Rect* selectionViewport;
 	Car*	activeCar;
 	Car		cars[3];
+	void Init(Assets* assets);
 };
 
 #endif
