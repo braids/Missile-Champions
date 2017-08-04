@@ -70,8 +70,8 @@ void MChamps::OnLoop() {
 			Event_P2Selected = false;
 			CurrentScene = Scene_Gameplay;
 
-			Players[0].SetKickoff(0);
-			Players[1].SetKickoff(1);
+			Players[0].SetStartRound(0);
+			Players[1].SetStartRound(1);
 			
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
@@ -201,12 +201,12 @@ void MChamps::OnLoop() {
 		int startTimerTicks = RoundStartTimer.getTicks();
 		if (GoalTimer.getTicks() > 1500) {
 			GoalTimer.stop();
+			
 			GameBall.resetBall();
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 3; j++) {
-					Players[i].cars[j].SetCarKickoff(i, j);
-				}
-			}
+			
+			Players[0].SetKickoff(0);
+			Players[1].SetKickoff(1);
+
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 			

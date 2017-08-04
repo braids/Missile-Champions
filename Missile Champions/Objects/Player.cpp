@@ -18,7 +18,11 @@ void Player::SetCarSelection(int player_num) {
 	this->activeCar->SetCarSelect(player_num);
 }
 
+void Player::SetStartRound(int player_num) {
+	this->SetKickoff(player_num);
+	this->score = 0;
+}
+
 void Player::SetKickoff(int player_num) {
 	for (int i = 0; i < 3; i++) this->cars[i].SetCarKickoff(player_num, i);
-	this->score = 0;
 }
