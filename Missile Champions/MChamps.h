@@ -41,13 +41,7 @@ private:
 
 	//// Object structs
 	// Player
-	struct Player {
-		int		team;
-		int		score;
-		SDL_Rect* selectionViewport;
-		Car*	activeCar;
-		Car		cars[3];
-	} Players[2];
+	Player Players[2];
 	int ActiveCar;
 
 	Ball GameBall;

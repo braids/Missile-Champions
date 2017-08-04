@@ -73,5 +73,12 @@ struct Ball {
 	double cz();
 };
 
+struct Player {
+	int		team;
+	int		score;
+	SDL_Rect* selectionViewport;
+	Car*	activeCar;
+	Car		cars[3];
+};
 
 #endif
