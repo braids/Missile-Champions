@@ -113,9 +113,9 @@ bool MChamps::OnInit() {
 	GameBall.initBall(mAssets->images.BallSprites);
 
 	//// Players
-	Players[0].Init(mAssets);
+	Players[0].Init(mAssets, 0);
 	Players[0].selectionViewport->x = 40;
-	Players[1].Init(mAssets);
+	Players[1].Init(mAssets, 1);
 	Players[1].selectionViewport->x = 152;
 
 	return true;

@@ -27,8 +27,8 @@ void MChamps::OnLoop() {
 			CarSelectionCursor.image->rect->x = 16;
 			CarSelectionCursor.image->rect->y = 64;
 			
-			Players[0].SetCarSelection(0);
-			Players[1].SetCarSelection(1);
+			Players[0].SetCarSelection();
+			Players[1].SetCarSelection();
 		}
 		return;
 	}
@@ -70,8 +70,8 @@ void MChamps::OnLoop() {
 			Event_P2Selected = false;
 			CurrentScene = Scene_Gameplay;
 
-			Players[0].SetStartRound(0);
-			Players[1].SetStartRound(1);
+			Players[0].SetStartRound();
+			Players[1].SetStartRound();
 			
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
@@ -204,8 +204,8 @@ void MChamps::OnLoop() {
 			
 			GameBall.resetBall();
 			
-			Players[0].SetKickoff(0);
-			Players[1].SetKickoff(1);
+			Players[0].SetKickoff();
+			Players[1].SetKickoff();
 
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
