@@ -7,6 +7,11 @@
 #define MAX_BOOST_FUEL 10000
 #define MIN_BOOST_FUEL 0
 
+struct Ball;
+struct BoostStreak;
+struct Car;
+struct Player;
+
 struct BoostStreak {
 	Assets::Image* image;
 	SDL_Rect* viewportRect;
@@ -80,6 +85,7 @@ struct Player {
 	Car*	activeCar;
 	Car		cars[3];
 	void Init(Assets* assets);
+	void SetCarSelection(int player_num);
 };
 
 #endif

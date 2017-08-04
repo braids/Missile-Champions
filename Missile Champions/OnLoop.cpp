@@ -22,16 +22,13 @@ void MChamps::OnLoop() {
 			
 			CurrentScene = Scene_CarSelection;
 			
-			Players[0].team = 0;
-			Players[1].team = 0;
 			CarSelectionCursor.column = 0;
 			CarSelectionCursor.row = 0;
 			CarSelectionCursor.image->rect->x = 16;
 			CarSelectionCursor.image->rect->y = 64;
-			Players[0].activeCar = &Players[0].cars[0];
-			Players[0].activeCar->SetCarSelect(0);
-			Players[1].activeCar = &Players[1].cars[0];
-			Players[1].activeCar->SetCarSelect(1);
+			
+			Players[0].SetCarSelection(0);
+			Players[1].SetCarSelection(1);
 		}
 		return;
 	}

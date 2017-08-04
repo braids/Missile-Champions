@@ -11,3 +11,9 @@ void Player::Init(Assets* assets) {
 
 	for (int i = 0; i < 3; i++) this->cars[i].InitCar(assets);
 }
+
+void Player::SetCarSelection(int player_num) {
+	this->team = 0;
+	this->activeCar = &this->cars[0];
+	this->activeCar->SetCarSelect(player_num);
+}
