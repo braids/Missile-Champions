@@ -86,6 +86,7 @@ struct Player {
 	Car		cars[3];
 	void Init(Assets* assets);
 	void SetCarSelection(int player_num);
+	void SetKickoff(int player_num);
 };
 
 #endif

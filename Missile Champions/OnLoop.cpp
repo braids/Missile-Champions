@@ -69,15 +69,13 @@ void MChamps::OnLoop() {
 			Effect_P2FlashLength = 0;
 			Event_P2Selected = false;
 			CurrentScene = Scene_Gameplay;
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 3; j++) {
-					Players[i].cars[j].SetCarKickoff(i, j);
-				}
-			}
-			Players[0].score = 0;
-			Players[1].score = 0;
+
+			Players[0].SetKickoff(0);
+			Players[1].SetKickoff(1);
+			
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
+			
 			RoundStartTimer.start();
 			Mix_HaltMusic();
 		}

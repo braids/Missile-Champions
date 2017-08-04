@@ -17,3 +17,8 @@ void Player::SetCarSelection(int player_num) {
 	this->activeCar = &this->cars[0];
 	this->activeCar->SetCarSelect(player_num);
 }
+
+void Player::SetKickoff(int player_num) {
+	for (int i = 0; i < 3; i++) this->cars[i].SetCarKickoff(player_num, i);
+	this->score = 0;
+}
