@@ -15,14 +15,16 @@ struct Player;
 struct Camera;
 
 struct BoostStreak {
+	Car* parent;
 	Assets::Image* image;
 	SDL_Rect* viewportRect;
 	int angleSprite, decaySprite;
 	double x, y, z;
 	int timeAlive;
 
-	void SpawnSprite(double _x, double _y, double _angle, Assets* assets);
+	void SpawnSprite(Assets* assets, Car* car);
 	void UpdateDecaySprite(Uint32 timestep);
+	void UpdateViewport(Camera* camera);
 };
 
 struct Car {

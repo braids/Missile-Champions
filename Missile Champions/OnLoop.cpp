@@ -271,12 +271,8 @@ void MChamps::OnLoop() {
 					Players[i].cars[j].UpdateViewport(&GameplayCamera);
 					
 					// Update boost streak positions in viewport
-					for (int k = 0; k < 5; k++) {
-						if (Players[i].cars[j].streak[k].timeAlive > 0) {
-							Players[i].cars[j].streak[k].viewportRect->x = (int)Players[i].cars[j].streak[k].x - GameplayCamera.drawarea->rect->x;
-							Players[i].cars[j].streak[k].viewportRect->y = (int)Players[i].cars[j].streak[k].y - GameplayCamera.drawarea->rect->y;
-						}
-					}
+					for (int k = 0; k < 5; k++) 
+						Players[i].cars[j].streak[k].UpdateViewport(&GameplayCamera);
 				}
 			}
 			
@@ -710,8 +706,7 @@ void MChamps::PlayerCarsUpdate(Player * player) {
 		}
 
 		if (player->cars[i].isBoosting && player->cars[i].boostFuel > MIN_BOOST_FUEL && (!player->cars[i].boostStreakTimer.isStarted() || BoostStreakTicks > 50)) {
-			player->cars[i].streak[player->cars[i].boostStreakCounter].SpawnSprite(
-				player->cars[i].x, player->cars[i].y - Players[0].cars[i].z, player->cars[i].angle, mAssets);
+			player->cars[i].streak[player->cars[i].boostStreakCounter].SpawnSprite(mAssets, &player->cars[i]);
 
 			player->cars[i].boostStreakCounter++;
 			if (player->cars[i].boostStreakCounter > 4) 
