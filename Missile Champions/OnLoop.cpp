@@ -277,7 +277,7 @@ void MChamps::OnLoop() {
 			}
 			
 			// Set ball
-			GameBall.UpdateViewport(GameplayCamera.drawarea->rect);
+			GameBall.UpdateViewport(&GameplayCamera);
 
 			// Set ball indicator
 			if (GameBall.viewportRect->x < (0 - (GameBall.viewportRect->w / 2))) {

@@ -128,9 +128,9 @@ void Ball::resetBall() {
 	this->viewportRect->y = 0;
 }
 
-void Ball::UpdateViewport(SDL_Rect* camera) {
-	this->viewportRect->x = (int)this->x - camera->x;
-	this->viewportRect->y = (int)(this->y - this->z) - camera->y;
+void Ball::UpdateViewport(Camera* camera) {
+	this->viewportRect->x = (int)this->x - camera->drawarea->rect->x;
+	this->viewportRect->y = (int)(this->y - this->z) - camera->drawarea->rect->y;
 }
 
 double Ball::cx() { 

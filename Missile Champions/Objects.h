@@ -78,7 +78,7 @@ struct Ball {
 	void updatePosition(Uint32 ts);
 	void initBall(Assets::Image* a);
 	void resetBall();
-	void UpdateViewport(SDL_Rect* camera);
+	void UpdateViewport(Camera* camera);
 	double cx();
 	double cy();
 	double cz();
