@@ -7,6 +7,11 @@
 #define MAX_BOOST_FUEL 10000
 #define MIN_BOOST_FUEL 0
 
+struct Ball;
+struct BoostStreak;
+struct Car;
+struct Player;
+
 struct BoostStreak {
 	Assets::Image* image;
 	SDL_Rect* viewportRect;
@@ -19,6 +24,7 @@ struct BoostStreak {
 };
 
 struct Car {
+	Player* parent;
 	Assets* assets;
 	Assets::Image* image;
 	SDL_Rect* viewportRect;
@@ -47,9 +53,9 @@ struct Car {
 	Timer jumpTimer;
 	BoostStreak streak[5];
 	
-	void InitCar(Assets* a);
-	void SetCarSelect(int team);
-	void SetCarKickoff(int team, int car);
+	void InitCar(Assets* a, Player* player);
+	void SetCarSelect();
+	void SetCarKickoff(int car);
 	double cx();
 	double cy();
 	double cz();
@@ -73,5 +79,17 @@ struct Ball {
 	double cz();
 };
 
+struct Player {
+	int		player_num;
+	int		team;
+	int		score;
+	SDL_Rect* selectionViewport;
+	Car*	activeCar;
+	Car		cars[3];
+	void Init(Assets* assets, int p_num);
+	void SetCarSelection();
+	void SetStartRound();
+	void SetKickoff();
+};
 
 #endif

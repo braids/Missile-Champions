@@ -22,16 +22,13 @@ void MChamps::OnLoop() {
 			
 			CurrentScene = Scene_CarSelection;
 			
-			Players[0].team = 0;
-			Players[1].team = 0;
 			CarSelectionCursor.column = 0;
 			CarSelectionCursor.row = 0;
 			CarSelectionCursor.image->rect->x = 16;
 			CarSelectionCursor.image->rect->y = 64;
-			Players[0].activeCar = &Players[0].cars[0];
-			Players[0].activeCar->SetCarSelect(0);
-			Players[1].activeCar = &Players[1].cars[0];
-			Players[1].activeCar->SetCarSelect(1);
+			
+			Players[0].SetCarSelection();
+			Players[1].SetCarSelection();
 		}
 		return;
 	}
@@ -72,15 +69,13 @@ void MChamps::OnLoop() {
 			Effect_P2FlashLength = 0;
 			Event_P2Selected = false;
 			CurrentScene = Scene_Gameplay;
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 3; j++) {
-					Players[i].cars[j].SetCarKickoff(i, j);
-				}
-			}
-			Players[0].score = 0;
-			Players[1].score = 0;
+
+			Players[0].SetStartRound();
+			Players[1].SetStartRound();
+			
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
+			
 			RoundStartTimer.start();
 			Mix_HaltMusic();
 		}
@@ -206,12 +201,12 @@ void MChamps::OnLoop() {
 		int startTimerTicks = RoundStartTimer.getTicks();
 		if (GoalTimer.getTicks() > 1500) {
 			GoalTimer.stop();
+			
 			GameBall.resetBall();
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 3; j++) {
-					Players[i].cars[j].SetCarKickoff(i, j);
-				}
-			}
+			
+			Players[0].SetKickoff();
+			Players[1].SetKickoff();
+
 			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
 			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
 			

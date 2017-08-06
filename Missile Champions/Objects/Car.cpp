@@ -1,7 +1,8 @@
 #include "../Objects.h"
 
-void Car::InitCar(Assets* a) {
+void Car::InitCar(Assets* a, Player* player) {
 	// Image
+	this->parent = player;
 	this->assets = a;
 	this->image = nullptr;
 	this->viewportRect = Graphics::CreateRect(32, 32, 0, 0);
@@ -31,10 +32,10 @@ void Car::InitCar(Assets* a) {
 	this->boostRechargeTimer.stop();
 }
 
-void Car::SetCarSelect(int team) {
+void Car::SetCarSelect() {
 	this->image = nullptr;				// Set image null (no displaying on screen)
 	
-	if (team == 0) {
+	if (parent->player_num == 0) {
 		this->viewportRect->x = 56;		// Player 1 Xpos
 		this->anglesprite = 4;			// Player 1 angle sprite
 	}
@@ -45,8 +46,8 @@ void Car::SetCarSelect(int team) {
 	this->viewportRect->y = 24;			// Player 1/2 Ypos
 }
 
-void Car::SetCarKickoff(int team, int carpos) {
-	switch (team) {
+void Car::SetCarKickoff(int carpos) {
+	switch (parent->player_num) {
 	case 0:
 		switch (carpos) {
 		case 0:
@@ -91,7 +92,7 @@ void Car::SetCarKickoff(int team, int carpos) {
 		break;
 	}
 	for (int i = 0; i < 5; i++) this->streak[i].timeAlive = 0;
-	this->image = &this->assets->images.CarSprites[this->anglesprite][team];
+	this->image = &this->assets->images.CarSprites[this->anglesprite][parent->team];
 	this->dx = sin(this->angle * M_PI / 180.0);
 	this->dy = cos(this->angle * M_PI / 180.0);
 	this->speed = 0.0;
