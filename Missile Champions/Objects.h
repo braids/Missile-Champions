@@ -7,10 +7,12 @@
 #define MAX_BOOST_FUEL 10000
 #define MIN_BOOST_FUEL 0
 
+// Forward decs
 struct Ball;
 struct BoostStreak;
 struct Car;
 struct Player;
+struct Camera;
 
 struct BoostStreak {
 	Assets::Image* image;
@@ -90,6 +92,15 @@ struct Player {
 	void SetCarSelection();
 	void SetStartRound();
 	void SetKickoff();
+};
+
+struct Camera {
+	Assets::Image* drawarea;
+	Assets::Image* viewport;
+	double x, y;
+	double dx, dy;
+	void Init(Assets::Image* fielddraw, Assets::Image* fieldview);
+	void CenterOnCar(Car* activeCar);
 };
 
 #endif

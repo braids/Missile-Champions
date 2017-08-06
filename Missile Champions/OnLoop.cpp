@@ -73,8 +73,7 @@ void MChamps::OnLoop() {
 			Players[0].SetStartRound();
 			Players[1].SetStartRound();
 			
-			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
-			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
+			GameplayCamera.CenterOnCar(Players[0].activeCar);
 			
 			RoundStartTimer.start();
 			Mix_HaltMusic();
@@ -198,21 +197,30 @@ void MChamps::OnLoop() {
 		break;
 
 	case Scene_Gameplay:
+		// Fetch current round time
 		int startTimerTicks = RoundStartTimer.getTicks();
+		
+		// If end of goal timer
 		if (GoalTimer.getTicks() > 1500) {
+			// Stop goal timer
 			GoalTimer.stop();
 			
+			// Set ball to center
 			GameBall.resetBall();
 			
+			// Set cars for kickoff
 			Players[0].SetKickoff();
 			Players[1].SetKickoff();
 
-			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + (Players[0].activeCar->image->rect->w / 2)) - (GameplayCamera.drawarea->rect->w / 2);
-			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + (Players[0].activeCar->image->rect->h / 2)) - (GameplayCamera.drawarea->rect->h / 2);
+			// Center camera on active car
+			GameplayCamera.CenterOnCar(Players[0].activeCar);
 			
 			// If either team scores max points, return to title screen.
 			if (Players[0].score == 9 || Players[1].score == 9) {
+				// Stop music before switching scenes
 				Mix_HaltMusic();
+
+				// Switch to Credits or Game Over scene
 				CurrentScene = (Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
 				break;
 			}
@@ -220,6 +228,7 @@ void MChamps::OnLoop() {
 			else
 				RoundStartTimer.start();
 		}
+
 		if ((RoundTimer.isStarted() && !RoundTimer.isPaused()) || (startTimerTicks == 0 && RoundStartTimer.isStarted())) {
 			if ((MusicTimer.getTicks() >= 57160 || Mix_PlayingMusic() == 0) && (RoundTimer.isStarted() && !RoundTimer.isPaused())) {
 				Mix_PlayMusic(mAssets->music.Eurobeat, -1);
@@ -252,13 +261,7 @@ void MChamps::OnLoop() {
 			BallUpdate();
 
 			//// Camera update
-			GameplayCamera.drawarea->rect->x = ((int)Players[0].activeCar->x + 16) - (GameplayCamera.drawarea->rect->w / 2);
-			GameplayCamera.drawarea->rect->y = ((int)Players[0].activeCar->y + 16) - (GameplayCamera.drawarea->rect->h / 2);
-			// Prevent camera from leaving the level boundary
-			if (GameplayCamera.drawarea->rect->x < 0) GameplayCamera.drawarea->rect->x = 0;
-			if (GameplayCamera.drawarea->rect->y < 0) GameplayCamera.drawarea->rect->y = 0;
-			if (GameplayCamera.drawarea->rect->x > 768) GameplayCamera.drawarea->rect->x = 768;
-			if (GameplayCamera.drawarea->rect->y > 208) GameplayCamera.drawarea->rect->y = 208;
+			GameplayCamera.CenterOnCar(Players[0].activeCar);
 
 			///// Viewport positioning
 			// Update car and child object positions in viewport

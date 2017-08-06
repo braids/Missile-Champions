@@ -124,6 +124,7 @@
     <ClCompile Include="MChamps.cpp" />
     <ClCompile Include="Objects\Ball.cpp" />
     <ClCompile Include="Objects\BoostStreak.cpp" />
+    <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Car.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="OnCleanup.cpp" />

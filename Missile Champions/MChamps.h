@@ -47,12 +47,7 @@ private:
 	Ball GameBall;
 
 	// Camera
-	struct Camera {
-		Assets::Image* drawarea;
-		Assets::Image* viewport;
-		float x, y;
-		float dx, dy;
-	} GameplayCamera;
+	Camera GameplayCamera;
 
 	// Car Selection Cursor
 	struct Cursor {

@@ -105,7 +105,7 @@ bool MChamps::OnInit() {
 	CarSelectionCursor = { &mAssets->images.CarSelectCursor, 0, 0 };
 	
 	//// Camera
-	GameplayCamera = { &mAssets->images.FieldDrawArea, &mAssets->images.FieldViewport, 0, 0, 0, 0 };
+	GameplayCamera.Init(&mAssets->images.FieldDrawArea, &mAssets->images.FieldViewport);
 	// Ensure bottom of field tracks with camera
 	FieldBottom->rect = GameplayCamera.drawarea->rect;
 
