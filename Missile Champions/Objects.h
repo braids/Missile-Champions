@@ -58,6 +58,7 @@ struct Car {
 	void InitCar(Assets* a, Player* player);
 	void SetCarSelect();
 	void SetCarKickoff(int car);
+	void UpdateViewport(Camera* camera);
 	double cx();
 	double cy();
 	double cz();

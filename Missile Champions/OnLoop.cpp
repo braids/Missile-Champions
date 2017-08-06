@@ -268,8 +268,8 @@ void MChamps::OnLoop() {
 			for (int i = 0; i < 2; i++) {
 				for (int j = 0; j < 3; j++) {
 					// Update car positions in viewport
-					Players[i].cars[j].viewportRect->x = (int)Players[i].cars[j].x - GameplayCamera.drawarea->rect->x;
-					Players[i].cars[j].viewportRect->y = (int)Players[i].cars[j].y - (int)Players[i].cars[j].z - GameplayCamera.drawarea->rect->y;
+					Players[i].cars[j].UpdateViewport(&GameplayCamera);
+					
 					// Update boost streak positions in viewport
 					for (int k = 0; k < 5; k++) {
 						if (Players[i].cars[j].streak[k].timeAlive > 0) {

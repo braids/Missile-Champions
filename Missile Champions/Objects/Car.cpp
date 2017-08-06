@@ -104,6 +104,13 @@ void Car::SetCarKickoff(int carpos) {
 	this->Turning = Car::NoTurning;
 }
 
+void Car::UpdateViewport(Camera* camera) {
+	// Move viewport rect x to location on camera x
+	this->viewportRect->x = (int)this->x - camera->drawarea->rect->x;
+	// Move viewport y to location on camera y, minus current z.
+	this->viewportRect->y = (int)this->y - (int)this->z - camera->drawarea->rect->y;
+}
+
 double Car::cx() { 
 	return this->x + ((double)this->viewportRect->w / 2.0); 
 }
