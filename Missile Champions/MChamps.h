@@ -50,21 +50,7 @@ private:
 	Camera GameplayCamera;
 
 	// Car Selection Cursor
-	struct Cursor {
-		Assets::Image* image;
-		int column, row;
-		enum Event {
-			SelectUp = 1 << 0,
-			SelectDown = 1 << 1,
-			SelectLeft = 1 << 2,
-			SelectRight = 1 << 3,
-			NoSelection = 0
-		} SelectEvent;
-		friend Event operator |(Event a, Event b) {	return (Event) ((int) a | (int) b); }
-		friend Event& operator |=(Event& a, Event b) { return a = a | b; }
-		friend Event operator &(Event a, Event b) { return (Event) ((int) a & (int) b); }
-		friend Event& operator &=(Event& a, Event b) { return a = a & b; }
-	} CarSelectionCursor;
+	Cursor CarSelectionCursor;
 
 	// Images
 	Assets::Image*	TitleScreenBG;

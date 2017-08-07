@@ -102,7 +102,7 @@ bool MChamps::OnInit() {
 	Event_RightGoal = false;
 
 	//// Car Selection Cursor
-	CarSelectionCursor = { &mAssets->images.CarSelectCursor, 0, 0 };
+	CarSelectionCursor.Init(&mAssets->images.CarSelectCursor);
 	
 	//// Camera
 	GameplayCamera.Init(&mAssets->images.FieldDrawArea, &mAssets->images.FieldViewport);
