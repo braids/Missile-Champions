@@ -30,23 +30,35 @@ void MChamps::OnLoop() {
 		return;
 	}
 
+	// If car selected in Car Selection
 	if (Event_CarSelected) {
+		// P1 Car Selected
 		if (Players[0].team == 0) {
+			// Start P1 Selection Event
 			Event_P1Selected = true;
-
+			
+			// Set P1 Team from cursor selection
 			Players[0].team = CarSelectionCursor.GetSelection();
 
+			// Set P1 active car image for selection window
 			Players[0].activeCar->image = &mAssets->images.CarSprites[Players[0].activeCar->anglesprite][Players[0].team - 1];
 
+			// Move cursor to P2 car select
 			CarSelectionCursor.SetP2();
 		}
+		// P2 Car Selection
 		else if (Players[1].team == 0) {
+			// Start P2 Selection Event
 			Event_P2Selected = true;
 
+			// Set P2 Team from cursor selection
 			Players[1].team = CarSelectionCursor.GetSelection();
 
+			// Set P2 active car image for selection window
 			Players[1].cars[0].image = &mAssets->images.CarSprites[Players[1].activeCar->anglesprite][Players[1].team - 1];
 		}
+
+		// Reset car selection event
 		Event_CarSelected = false;
 	}	
 
