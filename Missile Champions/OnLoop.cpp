@@ -22,17 +22,33 @@ void MChamps::OnLoop() {
 			
 			CurrentScene = Scene_CarSelection;
 			
-			CarSelectionCursor.column = 0;
-			CarSelectionCursor.row = 0;
-			CarSelectionCursor.image->rect->x = 16;
-			CarSelectionCursor.image->rect->y = 64;
-			
+			CarSelectionCursor.SetP1();
+
 			Players[0].SetCarSelection();
 			Players[1].SetCarSelection();
 		}
 		return;
 	}
-		
+
+	if (Event_CarSelected) {
+		if (Players[0].team == 0) {
+			Event_P1Selected = true;
+
+			Players[0].team = CarSelectionCursor.GetSelection();
+
+			Players[0].activeCar->image = &mAssets->images.CarSprites[Players[0].activeCar->anglesprite][Players[0].team - 1];
+
+			CarSelectionCursor.SetP2();
+		}
+		else if (Players[1].team == 0) {
+			Event_P2Selected = true;
+
+			Players[1].team = CarSelectionCursor.GetSelection();
+
+			Players[1].cars[0].image = &mAssets->images.CarSprites[Players[1].activeCar->anglesprite][Players[1].team - 1];
+		}
+		Event_CarSelected = false;
+	}	
 
 	if (Event_P1Selected) {
 		Effect_P1FlashLength += timeStep;
@@ -120,80 +136,21 @@ void MChamps::OnLoop() {
 			MusicTimer.stop();
 			MusicTimer.start();
 		}
+	
 		break;
+	
 	case Scene_CarSelection:
+		// Loop music
 		if (MusicTimer.getTicks() > 6400 || Mix_PlayingMusic() == 0) {
 			Mix_PlayMusic(mAssets->music.CarSelection, -1);
 			MusicTimer.stop();
 			MusicTimer.start();
 		}
-		if (Event_CarSelected) {
-			if (Players[0].team == 0) {
-				Event_P1Selected = true;
-				if (CarSelectionCursor.column == 0) {
-					Players[0].team = CarSelectionCursor.row + 1;
-				}
-				else {
-					Players[0].team = CarSelectionCursor.row + 5;
-				}
-				Players[0].activeCar->image = &mAssets->images.CarSprites[Players[0].activeCar->anglesprite][Players[0].team - 1];
-				CarSelectionCursor.column = 0;
-				CarSelectionCursor.row = 0;
-				CarSelectionCursor.image->rect->x = 128;
-				CarSelectionCursor.image->rect->y = 64;
-			}
-			else if (Players[1].team == 0) {
-				Event_P2Selected = true;
-				if (CarSelectionCursor.column == 0) {
-					Players[1].team = CarSelectionCursor.row + 1;
-				}
-				else {
-					Players[1].team = CarSelectionCursor.row + 5;
-				}
-				Players[1].cars[0].image = &mAssets->images.CarSprites[Players[1].activeCar->anglesprite][Players[1].team - 1];
-			}
-			Event_CarSelected = false;
-		}
 		
-		if (CarSelectionCursor.SelectEvent & CarSelectionCursor.SelectUp) {
-			CarSelectionCursor.row -= 1;
-			if (CarSelectionCursor.row < 0) {
-				CarSelectionCursor.row = 3;
-				CarSelectionCursor.image->rect->y += 96;
-			}
-			else
-				CarSelectionCursor.image->rect->y -= 32;
-		}
-		if (CarSelectionCursor.SelectEvent & CarSelectionCursor.SelectDown) {
-			CarSelectionCursor.row += 1;
-			if (CarSelectionCursor.row > 3) {
-				CarSelectionCursor.row = 0;
-				CarSelectionCursor.image->rect->y -= 96;
-			}
-			else
-				CarSelectionCursor.image->rect->y += 32;
-		}
-		if (CarSelectionCursor.SelectEvent & CarSelectionCursor.SelectLeft) {
-			CarSelectionCursor.column -= 1;
-			if (CarSelectionCursor.column < 0) {
-				CarSelectionCursor.column = 1;
-				CarSelectionCursor.image->rect->x += 48;
-			}
-			else
-				CarSelectionCursor.image->rect->x -= 48;
-		}
-		if (CarSelectionCursor.SelectEvent & CarSelectionCursor.SelectRight) {
-			CarSelectionCursor.column += 1;
-			if (CarSelectionCursor.column > 1) {
-				CarSelectionCursor.column = 0;
-				CarSelectionCursor.image->rect->x -= 48;
-			}
-			else
-				CarSelectionCursor.image->rect->x += 48;
-		}
+		// If there is a move event, move cursor
+		if(CarSelectionCursor.SelectEvent)
+			CarSelectionCursor.MoveCursor();
 
-		// Clear selection inputs
-		CarSelectionCursor.SelectEvent = CarSelectionCursor.NoSelection;
 		break;
 
 	case Scene_Gameplay:

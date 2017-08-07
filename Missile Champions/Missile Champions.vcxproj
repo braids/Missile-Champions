@@ -126,6 +126,7 @@
     <ClCompile Include="Objects\BoostStreak.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Car.cpp" />
+    <ClCompile Include="Objects\Cursor.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="OnCleanup.cpp" />
     <ClCompile Include="OnEvent.cpp" />

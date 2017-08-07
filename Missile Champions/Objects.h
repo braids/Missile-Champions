@@ -4,8 +4,21 @@
 #include "Assets.h"
 #include "Timer.h"
 
+// Boost defs
 #define MAX_BOOST_FUEL 10000
 #define MIN_BOOST_FUEL 0
+
+// Cursor defs
+#define CURSOR_P1_DEFAULT_X 16
+#define CURSOR_P1_DEFAULT_Y 64
+#define CURSOR_P2_DEFAULT_X 128
+#define CURSOR_P2_DEFAULT_Y 64
+#define CURSOR_MOVE_X 48
+#define CURSOR_MOVE_Y 32
+#define CURSOR_ROW_MIN 0
+#define CURSOR_ROW_MAX 3
+#define CURSOR_COL_MIN 0
+#define CURSOR_COL_MAX 1
 
 // Forward decs
 struct Ball;
@@ -13,6 +26,7 @@ struct BoostStreak;
 struct Car;
 struct Player;
 struct Camera;
+struct Cursor;
 
 struct BoostStreak {
 	Car* parent;
@@ -104,6 +118,29 @@ struct Camera {
 	double dx, dy;
 	void Init(Assets::Image* fielddraw, Assets::Image* fieldview);
 	void CenterOnCar(Car* activeCar);
+};
+
+struct Cursor {
+	Assets::Image* image;
+	int column, row;
+	int defaultX, defaultY;
+	enum Event {
+		SelectUp = 1 << 0,
+		SelectDown = 1 << 1,
+		SelectLeft = 1 << 2,
+		SelectRight = 1 << 3,
+		NoSelection = 0
+	} SelectEvent;
+	friend Event operator |(Event a, Event b) { return (Event)((int)a | (int)b); }
+	friend Event& operator |=(Event& a, Event b) { return a = a | b; }
+	friend Event operator &(Event a, Event b) { return (Event)((int)a & (int)b); }
+	friend Event& operator &=(Event& a, Event b) { return a = a & b; }
+
+	void Init(Assets::Image* cursor);
+	void SetP1();
+	void SetP2();
+	void MoveCursor();
+	int GetSelection();
 };
 
 #endif
