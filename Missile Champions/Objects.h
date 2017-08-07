@@ -143,4 +143,26 @@ struct Cursor {
 	int GetSelection();
 };
 
+struct Scene {
+	struct TitleScreen {
+
+	};
+
+	struct CarSelection {
+
+	};
+
+	struct Gameplay {
+
+	};
+
+	struct GameOver {
+
+	};
+
+	struct Credits {
+
+	};
+};
+
 #endif
