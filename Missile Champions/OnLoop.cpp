@@ -12,9 +12,9 @@ void MChamps::OnLoop() {
 		Effect_StartFlashLength += timeStep;
 
 		if (Effect_StartFlashLength % 400 > 200 || Effect_StartFlashLength >= 1200)
-			TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
+			sceneTitleScreen.visible = true;
 		else
-			TitleScreenBG = &mAssets->images.TitleScreenStartHidden;
+			sceneTitleScreen.visible = false;
 		
 		if (Effect_StartFlashLength >= 2000) {
 			Effect_StartFlashLength = 0;

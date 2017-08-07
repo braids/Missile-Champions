@@ -33,6 +33,8 @@ private:
 		Scene_GameOver
 	} CurrentScene;
 
+	Scene::TitleScreen sceneTitleScreen;
+
 	// Graphics
 	Graphics*		mGraphics;
 
@@ -53,7 +55,6 @@ private:
 	Cursor CarSelectionCursor;
 
 	// Images
-	Assets::Image*	TitleScreenBG;
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;

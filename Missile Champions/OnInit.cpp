@@ -29,7 +29,6 @@ bool MChamps::OnInit() {
 	// Title Screen
 	mAssets->images.TitleScreenStartHidden = { Assets::Instance()->GetTexture(IMAGE_TITLE_START_HIDDEN), Graphics::Fullscreen() };
 	mAssets->images.TitleScreenStartVisible = { Assets::Instance()->GetTexture(IMAGE_TITLE), Graphics::Fullscreen() };
-	TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
 	// Car Sprites
 	for (int i = 0, j = 0; j < CAR_PALETTES;) {
 		mAssets->images.CarSprites[i++][j] = { Assets::Instance()->GetTexture(IMAGE_CAR_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 32 * j) };
@@ -87,6 +86,9 @@ bool MChamps::OnInit() {
 	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_CREDITS), Graphics::CreateRect(256, 896, 0, 0) };
 	CreditsRect = Graphics::CreateRect(256, 896, 0, 0);
 	CreditsY = 0.0;
+
+	//// Scenes
+	sceneTitleScreen.Init(mAssets);
 
 	//// Effects
 	Effect_StartFlashLength = 0;

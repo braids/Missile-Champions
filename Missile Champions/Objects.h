@@ -145,7 +145,12 @@ struct Cursor {
 
 struct Scene {
 	struct TitleScreen {
+		Assets::Image*	bgHidden;
+		Assets::Image*	bgVisible;
+		bool visible;
 
+		void Init(Assets* assets);
+		Assets::Image* BG();
 	};
 
 	struct CarSelection {
