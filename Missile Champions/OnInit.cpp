@@ -91,12 +91,10 @@ bool MChamps::OnInit() {
 	sceneTitleScreen.Init(mAssets);
 
 	//// Effects
-	Effect_StartFlashLength = 0;
 	Effect_P1FlashLength = 0;
 	Effect_P2FlashLength = 0;
 
 	//// Events
-	Event_StartGame = false;
 	Event_CarSelected = false;
 	Event_P1Selected = false;
 	Event_P2Selected = false;
