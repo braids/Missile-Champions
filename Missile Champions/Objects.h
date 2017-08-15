@@ -156,6 +156,7 @@ enum Scenes {
 struct SceneManager {
 	Scenes current;
 	Uint32* timeStep;
+	Player* player;
 
 	struct TitleScreen {
 		SceneManager* parent;
@@ -227,7 +228,7 @@ struct SceneManager {
 
 	} credits;
 
-	void Init(Assets* assets, Uint32* ts);
+	void Init(Assets* assets, Uint32* ts, Player* p);
 	Scenes GetScene();
 	bool IsScene(Scenes scene);
 };
