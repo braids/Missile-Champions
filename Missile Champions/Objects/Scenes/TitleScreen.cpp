@@ -27,5 +27,6 @@ void SceneManager::TitleScreen::StartGameEvent() {
 	if (this->effects.flash.duration >= this->effects.flash.endTime) {
 		this->effects.flash.duration = 0;
 		this->events.StartGame = false;
+		this->parent->carSelection.SceneStart();
 	}
 }
