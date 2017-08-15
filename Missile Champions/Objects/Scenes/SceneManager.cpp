@@ -1,7 +1,8 @@
 #include "../../Objects.h"
 
-void SceneManager::Init(Assets* assets, Uint32* ts) {
+void SceneManager::Init(Assets* assets, Uint32* ts, Player* p) {
 	this->timeStep = ts;
+	this->player = p;
 	this->titleScreen.Init(assets, this);
 }
 
