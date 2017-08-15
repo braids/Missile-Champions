@@ -13,7 +13,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0) {
 				Mix_HaltMusic();
 				Mix_PlayChannel(CHANNEL_TITLESTART, mAssets->sounds.StartSelection, 0);
-				Event_StartGame = true;
+				sceneTitleScreen.events.StartGame = true;
 			}
 			// Exit game event
 			if (Event->key.keysym.sym == SDLK_ESCAPE)

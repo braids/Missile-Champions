@@ -33,6 +33,8 @@ private:
 		Scene_GameOver
 	} CurrentScene;
 
+	SceneManager::TitleScreen sceneTitleScreen;
+
 	// Graphics
 	Graphics*		mGraphics;
 
@@ -53,7 +55,6 @@ private:
 	Cursor CarSelectionCursor;
 
 	// Images
-	Assets::Image*	TitleScreenBG;
 	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
@@ -97,8 +98,6 @@ private:
 	bool Event_P1Selected;
 	Uint32 Effect_P2FlashLength;
 	bool Event_P2Selected;
-	Uint32 Effect_StartFlashLength;
-	bool Event_StartGame;
 	bool Event_ChangeCar;
 	bool Event_LeftGoal;
 	bool Event_RightGoal;

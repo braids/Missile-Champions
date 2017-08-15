@@ -27,6 +27,8 @@ struct Car;
 struct Player;
 struct Camera;
 struct Cursor;
+struct SceneManager;
+
 
 struct BoostStreak {
 	Car* parent;
@@ -143,13 +145,39 @@ struct Cursor {
 	int GetSelection();
 };
 
-struct Scene {
-	struct TitleScreen {
+struct SceneManager {
+	struct TitleScreen;
+	struct CarSelection;
+	struct Gameplay;
+	struct GameOver;
+	struct Credits;
 
+	struct TitleScreen {
+		Assets::Image*	bgHidden;
+		Assets::Image*	bgVisible;
+		bool visible;
+		
+		struct {
+			bool StartGame;
+		} events;
+		
+		struct {
+			struct {
+				Uint32 duration;
+				const Uint32 onInterval = 400;
+				const Uint32 offInterval = 200;
+				const Uint32 stopInterval = 1200;
+				const Uint32 endTime = 2000;
+			} flash;
+		} effects;
+
+		void Init(Assets* assets);
+		Assets::Image* BG();
+		void StartGameEvent(int timeStep);
 	};
 
 	struct CarSelection {
-
+		int i;
 	};
 
 	struct Gameplay {

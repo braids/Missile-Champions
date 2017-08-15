@@ -8,26 +8,18 @@ void MChamps::OnLoop() {
 	currTick = SDL_GetTicks();
 	timeStep = currTick - lastTick;
 
-	if (Event_StartGame) {
-		Effect_StartFlashLength += timeStep;
-
-		if (Effect_StartFlashLength % 400 > 200 || Effect_StartFlashLength >= 1200)
-			TitleScreenBG = &mAssets->images.TitleScreenStartVisible;
-		else
-			TitleScreenBG = &mAssets->images.TitleScreenStartHidden;
+	// If starting game from title screen
+	if (sceneTitleScreen.events.StartGame) {
+		sceneTitleScreen.StartGameEvent(timeStep);
 		
-		if (Effect_StartFlashLength >= 2000) {
-			Effect_StartFlashLength = 0;
-			Event_StartGame = false;
-			
+		if (!sceneTitleScreen.events.StartGame) {
 			CurrentScene = Scene_CarSelection;
-			
+
 			CarSelectionCursor.SetP1();
 
 			Players[0].SetCarSelection();
 			Players[1].SetCarSelection();
 		}
-		return;
 	}
 
 	// If car selected in Car Selection
@@ -143,7 +135,7 @@ void MChamps::OnLoop() {
 
 	case Scene_TitleScreen:
 		// Loop music (because SDL_mixer doesn't seamlessly loop)
-		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !Event_StartGame) {
+		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !sceneTitleScreen.events.StartGame) {
 			Mix_PlayMusic(mAssets->music.Title, -1);
 			MusicTimer.stop();
 			MusicTimer.start();
