@@ -8,7 +8,7 @@ void MChamps::OnRender() {
 	switch (CurrentScene) {
 	case Scene_TitleScreen:
 		// Draw title screen background
-		DrawImage(sceneTitleScreen.BG());
+		DrawImage(scene.titleScreen.BG());
 		break;
 
 	case Scene_CarSelection:

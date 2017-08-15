@@ -146,12 +146,6 @@ struct Cursor {
 };
 
 struct SceneManager {
-	struct TitleScreen;
-	struct CarSelection;
-	struct Gameplay;
-	struct GameOver;
-	struct Credits;
-
 	struct TitleScreen {
 		Assets::Image*	bgHidden;
 		Assets::Image*	bgVisible;
@@ -174,23 +168,25 @@ struct SceneManager {
 		void Init(Assets* assets);
 		Assets::Image* BG();
 		void StartGameEvent(int timeStep);
-	};
+	} titleScreen;
 
 	struct CarSelection {
 		int i;
-	};
+	} carSelection;
 
 	struct Gameplay {
 
-	};
+	} gameplay;
 
 	struct GameOver {
 
-	};
+	} gameOver;
 
 	struct Credits {
 
-	};
+	} credits;
+
+	void Init(Assets* assets);
 };
 
 #endif

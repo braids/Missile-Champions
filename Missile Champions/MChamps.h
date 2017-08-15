@@ -33,7 +33,7 @@ private:
 		Scene_GameOver
 	} CurrentScene;
 
-	SceneManager::TitleScreen sceneTitleScreen;
+	SceneManager scene;
 
 	// Graphics
 	Graphics*		mGraphics;

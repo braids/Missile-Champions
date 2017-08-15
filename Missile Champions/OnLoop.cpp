@@ -9,10 +9,10 @@ void MChamps::OnLoop() {
 	timeStep = currTick - lastTick;
 
 	// If starting game from title screen
-	if (sceneTitleScreen.events.StartGame) {
-		sceneTitleScreen.StartGameEvent(timeStep);
+	if (scene.titleScreen.events.StartGame) {
+		scene.titleScreen.StartGameEvent(timeStep);
 		
-		if (!sceneTitleScreen.events.StartGame) {
+		if (!scene.titleScreen.events.StartGame) {
 			CurrentScene = Scene_CarSelection;
 
 			CarSelectionCursor.SetP1();
@@ -135,7 +135,7 @@ void MChamps::OnLoop() {
 
 	case Scene_TitleScreen:
 		// Loop music (because SDL_mixer doesn't seamlessly loop)
-		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !sceneTitleScreen.events.StartGame) {
+		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !scene.titleScreen.events.StartGame) {
 			Mix_PlayMusic(mAssets->music.Title, -1);
 			MusicTimer.stop();
 			MusicTimer.start();

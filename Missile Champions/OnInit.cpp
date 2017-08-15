@@ -88,7 +88,7 @@ bool MChamps::OnInit() {
 	CreditsY = 0.0;
 
 	//// Scenes
-	sceneTitleScreen.Init(mAssets);
+	scene.Init(mAssets);
 
 	//// Effects
 	Effect_P1FlashLength = 0;
