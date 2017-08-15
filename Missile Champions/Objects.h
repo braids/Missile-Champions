@@ -145,8 +145,20 @@ struct Cursor {
 	int GetSelection();
 };
 
+enum Scenes {
+	Scene_TitleScreen,
+	Scene_CarSelection,
+	Scene_Gameplay,
+	Scene_Credits,
+	Scene_GameOver
+};
+
 struct SceneManager {
+	Scenes current;
+	Uint32* timeStep;
+
 	struct TitleScreen {
+		SceneManager* parent;
 		Assets::Image*	bgHidden;
 		Assets::Image*	bgVisible;
 		bool visible;
@@ -165,28 +177,34 @@ struct SceneManager {
 			} flash;
 		} effects;
 
-		void Init(Assets* assets);
+		void Init(Assets* assets, SceneManager* sceneManager);
 		Assets::Image* BG();
-		void StartGameEvent(int timeStep);
+		void StartGameEvent();
 	} titleScreen;
 
 	struct CarSelection {
+		SceneManager* parent;
 		int i;
 	} carSelection;
 
 	struct Gameplay {
+		SceneManager* parent;
 
 	} gameplay;
 
 	struct GameOver {
+		SceneManager* parent;
 
 	} gameOver;
 
 	struct Credits {
+		SceneManager* parent;
 
 	} credits;
 
-	void Init(Assets* assets);
+	void Init(Assets* assets, Uint32* ts);
+	Scenes GetScene();
+	bool IsScene(Scenes scene);
 };
 
 #endif

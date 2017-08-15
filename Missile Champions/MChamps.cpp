@@ -10,6 +10,7 @@ MChamps::MChamps() {
 	// Set timer values
 	currTick = 0;
 	lastTick = 0;
+	timeStep = 0;
 }
 
 int MChamps::OnExecute() {
@@ -22,6 +23,11 @@ int MChamps::OnExecute() {
 
 	// Main loop
 	while (Running) {
+		// Update timeStep by # of ticks from last cycle
+		lastTick = currTick;
+		currTick = SDL_GetTicks();
+		timeStep = currTick - lastTick;
+
 		// Check events
 		while (SDL_PollEvent(&Event)) {
 			OnEvent(&Event);

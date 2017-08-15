@@ -3,14 +3,9 @@
 #include "MChamps.h"
 
 void MChamps::OnLoop() {
-	// Update timeStep by # of ticks from last cycle
-	lastTick = currTick;
-	currTick = SDL_GetTicks();
-	timeStep = currTick - lastTick;
-
 	// If starting game from title screen
 	if (scene.titleScreen.events.StartGame) {
-		scene.titleScreen.StartGameEvent(timeStep);
+		scene.titleScreen.StartGameEvent();
 		
 		if (!scene.titleScreen.events.StartGame) {
 			CurrentScene = Scene_CarSelection;
