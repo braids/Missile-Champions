@@ -72,8 +72,10 @@ void SceneManager::CarSelection::SelectEvent() {
 }
 
 void SceneManager::CarSelection::SelectP1Event() {
+	// Add timestep to flash duration
 	this->effects.flash.duration += *this->parent->timeStep;
 
+	// Determine if flash is on or off
 	if (this->effects.flash.duration % this->effects.flash.onInterval >= this->effects.flash.offInterval)
 		this->BG = this->FlashP1;
 	else
@@ -88,20 +90,25 @@ void SceneManager::CarSelection::SelectP1Event() {
 }
 
 void SceneManager::CarSelection::SelectP2Event() {
+	// Add timestep to flash duration
 	this->effects.flash.duration += *this->parent->timeStep;
 
+
+	// Determine if flash is on or off
 	if (this->effects.flash.duration % this->effects.flash.onInterval >= this->effects.flash.offInterval)
 		this->BG = this->FlashP2;
 	else
 		this->BG = this->DefaultBG;
 
-	// End flashing if one second of flashing has elapsed.
+	// Stop flashing if one second of flashing has elapsed.
 	if (this->effects.flash.duration >= this->effects.flash.stopInterval) {
 		this->BG = this->DefaultBG;
 	}
 
+	// Delay for one second before ending event.
 	if (this->effects.flash.duration >= this->effects.flash.endTime) {
-		this->effects.flash.duration = 0;
+		//this->effects.flash.duration = 0;
+		//this->events.SelectP2 = false;
 		this->events.SelectP2 = false;
 	}
 }
