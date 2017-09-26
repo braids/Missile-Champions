@@ -24,24 +24,24 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			// Cursor control events
 			if (Event->key.keysym.sym == SDLK_UP && Event->key.repeat == 0) {
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
-				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectUp;
+				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectUp;
 			}
 			if (Event->key.keysym.sym == SDLK_DOWN && Event->key.repeat == 0) {
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
-				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectDown;
+				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectDown;
 			}
 			if (Event->key.keysym.sym == SDLK_LEFT && Event->key.repeat == 0) {
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
-				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectLeft;
+				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectLeft;
 			}
 			if (Event->key.keysym.sym == SDLK_RIGHT && Event->key.repeat == 0) {
 				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
-				CarSelectionCursor.SelectEvent |= CarSelectionCursor.SelectRight;
+				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectRight;
 			}
 			// Car selection event
-			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0 && !Event_P2Selected) {
+			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0 && !scene.carSelection.events.SelectP2) {
 				Mix_PlayChannel(CHANNEL_SELECTION, mAssets->sounds.Selection, 0);
-				Event_CarSelected = true;
+				scene.carSelection.events.Select = true;
 			}
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {

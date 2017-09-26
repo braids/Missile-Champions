@@ -13,19 +13,19 @@ void MChamps::OnRender() {
 
 	case Scene_CarSelection:
 		// Draw current car selection background
-		DrawImage(CarSelectBG);
+		DrawImage(scene.carSelection.BG);
 		// Draw selection cursor if team selections are not finished
 		if (Players[1].team == 0)
-			DrawImage(CarSelectionCursor.image);
+			DrawImage(scene.carSelection.SelectCursor.image);
 		// Draw player 1 car and border when selected
 		if (Players[0].team > 0) {
 			DrawImage(Players[0].activeCar->image, Players[0].activeCar->viewportRect);
-			DrawImage(&mAssets->images.CarSelectWindowSprites[Players[0].team - 1], Players[0].selectionViewport);
+			DrawImage(&scene.carSelection.CarWindows[Players[0].team - 1], Players[0].selectionViewport);
 		}
 		// Draw player 2 car and border when selected
 		if (Players[1].team > 0) {
 			DrawImage(Players[1].activeCar->image, Players[1].activeCar->viewportRect);
-			DrawImage(&mAssets->images.CarSelectWindowSprites[Players[1].team - 1], Players[1].selectionViewport);
+			DrawImage(&scene.carSelection.CarWindows[Players[1].team - 1], Players[1].selectionViewport);
 		}
 		break;
 

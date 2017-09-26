@@ -51,11 +51,7 @@ private:
 	// Camera
 	Camera GameplayCamera;
 
-	// Car Selection Cursor
-	Cursor CarSelectionCursor;
-
 	// Images
-	Assets::Image*	CarSelectBG;
 	Assets::Image*	StatusBar;
 	Assets::Image*	FieldBottom;
 
@@ -93,11 +89,6 @@ private:
 	Timer	GameOverTimer;
 
 	// Events and effects
-	bool Event_CarSelected;
-	Uint32 Effect_P1FlashLength;
-	bool Event_P1Selected;
-	Uint32 Effect_P2FlashLength;
-	bool Event_P2Selected;
 	bool Event_ChangeCar;
 	bool Event_LeftGoal;
 	bool Event_RightGoal;

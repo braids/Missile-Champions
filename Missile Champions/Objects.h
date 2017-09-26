@@ -185,7 +185,37 @@ struct SceneManager {
 
 	struct CarSelection {
 		SceneManager* parent;
-		int i;
+		
+		Assets::Image*	BG;
+		Assets::Image*	DefaultBG;
+		Assets::Image*	FlashP1;
+		Assets::Image*	FlashP2;
+		Assets::Image*	CarWindows;
+		
+		Cursor	SelectCursor;
+		
+		struct {
+			bool Select;
+			bool SelectP1;
+			bool SelectP2;
+		} events;
+
+		struct {
+			struct {
+				Uint32 duration;
+				const Uint32 onInterval = 100;
+				const Uint32 offInterval = 50;
+				const Uint32 stopInterval = 450;
+				const Uint32 endTime = 1250;
+			} flash;
+		} effects;
+
+		void Init(Assets* assets, SceneManager* sceneManager);
+		void SceneStart();
+		Assets::Image* GetBG();
+		void SelectEvent();
+		void SelectP1Event();
+		void SelectP2Event();
 	} carSelection;
 
 	struct Gameplay {

@@ -4,6 +4,7 @@ void SceneManager::Init(Assets* assets, Uint32* ts, Player* p) {
 	this->timeStep = ts;
 	this->player = p;
 	this->titleScreen.Init(assets, this);
+	this->carSelection.Init(assets, this);
 }
 
 Scenes SceneManager::GetScene() {

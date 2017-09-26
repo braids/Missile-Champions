@@ -9,87 +9,25 @@ void MChamps::OnLoop() {
 		
 		if (!scene.titleScreen.events.StartGame) {
 			CurrentScene = Scene_CarSelection;
-
-			CarSelectionCursor.SetP1();
-
-			Players[0].SetCarSelection();
-			Players[1].SetCarSelection();
 		}
 	}
 
-	// If car selected in Car Selection
-	if (Event_CarSelected) {
-		// P1 Car Selected
-		if (Players[0].team == 0) {
-			// Start P1 Selection Event
-			Event_P1Selected = true;
-			
-			// Set P1 Team from cursor selection
-			Players[0].team = CarSelectionCursor.GetSelection();
-
-			// Set P1 active car image for selection window
-			Players[0].activeCar->image = &mAssets->images.CarSprites[Players[0].activeCar->anglesprite][Players[0].team - 1];
-
-			// Move cursor to P2 car select
-			CarSelectionCursor.SetP2();
-		}
-		// P2 Car Selection
-		else if (Players[1].team == 0) {
-			// Start P2 Selection Event
-			Event_P2Selected = true;
-
-			// Set P2 Team from cursor selection
-			Players[1].team = CarSelectionCursor.GetSelection();
-
-			// Set P2 active car image for selection window
-			Players[1].cars[0].image = &mAssets->images.CarSprites[Players[1].activeCar->anglesprite][Players[1].team - 1];
-		}
-
-		// Reset car selection event
-		Event_CarSelected = false;
-	}	
-
-	if (Event_P1Selected) {
-		Effect_P1FlashLength += timeStep;
+	// Car selection events
+	if (scene.carSelection.events.Select) scene.carSelection.SelectEvent();
+	if (scene.carSelection.events.SelectP1) scene.carSelection.SelectP1Event();
+	if (scene.carSelection.events.SelectP2) {
+		scene.carSelection.SelectP2Event();
 		
-		if (Effect_P1FlashLength % 100 > 50)
-			CarSelectBG = &mAssets->images.CarSelectBGP1Flash;
-		else
-			CarSelectBG = &mAssets->images.CarSelectBGDefault;
-
-		// End flashing if one second of flashing has elapsed.
-		if (Effect_P1FlashLength >= 450) {
-			Effect_P1FlashLength = 0;
-			Event_P1Selected = false;
-			CarSelectBG = &mAssets->images.CarSelectBGDefault;
-		}
-	}
-
-	if (Event_P2Selected) {
-		Effect_P2FlashLength += timeStep;
-
-		if (Effect_P2FlashLength % 100 > 50 && Effect_P2FlashLength < 450)
-			CarSelectBG = &mAssets->images.CarSelectBGP2Flash;
-		else
-			CarSelectBG = &mAssets->images.CarSelectBGDefault;
-
-		// End flashing if one second of flashing has elapsed.
-		if (Effect_P2FlashLength >= 450) {
-			CarSelectBG = &mAssets->images.CarSelectBGDefault;
-		}
-
-		GameBall.resetBall();
-
-		if (Effect_P2FlashLength >= 1250) {
-			Effect_P2FlashLength = 0;
-			Event_P2Selected = false;
+		if (!scene.carSelection.events.SelectP2) {
 			CurrentScene = Scene_Gameplay;
+
+			GameBall.resetBall();
 
 			Players[0].SetStartRound();
 			Players[1].SetStartRound();
-			
+
 			GameplayCamera.CenterOnCar(Players[0].activeCar);
-			
+
 			RoundStartTimer.start();
 			Mix_HaltMusic();
 		}
@@ -147,8 +85,8 @@ void MChamps::OnLoop() {
 		}
 		
 		// If there is a move event, move cursor
-		if(CarSelectionCursor.SelectEvent)
-			CarSelectionCursor.MoveCursor();
+		if (scene.carSelection.SelectCursor.SelectEvent)
+			scene.carSelection.SelectCursor.MoveCursor();
 
 		break;
 

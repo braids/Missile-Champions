@@ -39,7 +39,6 @@ bool MChamps::OnInit() {
 	mAssets->images.CarSelectBGDefault = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_BG), Graphics::Fullscreen() };
 	mAssets->images.CarSelectBGP1Flash = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_P1_FLASH), Graphics::Fullscreen() };
 	mAssets->images.CarSelectBGP2Flash = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECT_P2_FLASH), Graphics::Fullscreen() };
-	CarSelectBG = &mAssets->images.CarSelectBGDefault;
 	for (int i = 0; i < CAR_PALETTES; i++)
 		mAssets->images.CarSelectWindowSprites[i] = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECTION_SHEET), Graphics::CreateRect(64, 64, 64 * i, 0) };
 	mAssets->images.CarSelectCursor = { Assets::Instance()->GetTexture(IMAGE_CAR_SELECTION_CURSOR), Graphics::CreateRect(64, 64, 16, 64) };
@@ -90,19 +89,9 @@ bool MChamps::OnInit() {
 	//// Scenes
 	scene.Init(mAssets, &timeStep, Players);
 
-	//// Effects
-	Effect_P1FlashLength = 0;
-	Effect_P2FlashLength = 0;
-
 	//// Events
-	Event_CarSelected = false;
-	Event_P1Selected = false;
-	Event_P2Selected = false;
 	Event_LeftGoal = false;
 	Event_RightGoal = false;
-
-	//// Car Selection Cursor
-	CarSelectionCursor.Init(&mAssets->images.CarSelectCursor);
 	
 	//// Camera
 	GameplayCamera.Init(&mAssets->images.FieldDrawArea, &mAssets->images.FieldViewport);
