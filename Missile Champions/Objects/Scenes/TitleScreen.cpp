@@ -15,6 +15,10 @@ Assets::Image* SceneManager::TitleScreen::BG() {
 	return (this->visible ? this->bgVisible : this->bgHidden);
 }
 
+void SceneManager::TitleScreen::Update() {
+
+}
+
 void SceneManager::TitleScreen::StartGameEvent() {
 	this->effects.flash.duration += *this->parent->timeStep;
 

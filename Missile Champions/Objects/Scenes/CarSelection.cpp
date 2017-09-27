@@ -39,6 +39,10 @@ Assets::Image* SceneManager::CarSelection::GetBG() {
 	return this->BG;
 }
 
+void SceneManager::CarSelection::Update() {
+
+}
+
 void SceneManager::CarSelection::SelectEvent() {
 	if (this->parent->player[0].team == 0) {
 		// Start P1 Selection Event

@@ -180,6 +180,7 @@ struct SceneManager {
 
 		void Init(Assets* assets, SceneManager* sceneManager);
 		Assets::Image* BG();
+		void Update();
 		void StartGameEvent();
 	} titleScreen;
 
@@ -213,6 +214,7 @@ struct SceneManager {
 		void Init(Assets* assets, SceneManager* sceneManager);
 		void SceneStart();
 		Assets::Image* GetBG();
+		void Update();
 		void SelectEvent();
 		void SelectP1Event();
 		void SelectP2Event();
