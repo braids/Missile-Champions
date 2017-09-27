@@ -23,30 +23,27 @@ void MChamps::OnEvent(SDL_Event* Event) {
 		case Scene_CarSelection:
 			// Cursor control events
 			if (Event->key.keysym.sym == SDLK_UP && Event->key.repeat == 0) {
-				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectUp;
 			}
 			if (Event->key.keysym.sym == SDLK_DOWN && Event->key.repeat == 0) {
-				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectDown;
 			}
 			if (Event->key.keysym.sym == SDLK_LEFT && Event->key.repeat == 0) {
-				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectLeft;
 			}
 			if (Event->key.keysym.sym == SDLK_RIGHT && Event->key.repeat == 0) {
-				Mix_PlayChannel(CHANNEL_CURSOR, mAssets->sounds.MoveCursor, 0);
 				scene.carSelection.SelectCursor.SelectEvent |= scene.carSelection.SelectCursor.SelectRight;
 			}
 			// Car selection event
 			if (Event->key.keysym.sym == SDLK_SPACE && Event->key.repeat == 0 && !scene.carSelection.events.SelectP2) {
-				Mix_PlayChannel(CHANNEL_SELECTION, mAssets->sounds.Selection, 0);
+				Mix_PlayChannel(CHANNEL_SELECTION, scene.carSelection.SoundSelection, 0);
 				scene.carSelection.events.Select = true;
 			}
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_HaltMusic();
 				CurrentScene = Scene_TitleScreen;
+				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
 
@@ -73,6 +70,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Mix_HaltMusic();
 				RoundTimer.stop();
 				CurrentScene = Scene_TitleScreen;
+				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
 			
@@ -82,6 +80,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Mix_HaltMusic();
 				GameOverTimer.stop();
 				CurrentScene = Scene_TitleScreen;
+				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
 
@@ -91,6 +90,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Mix_HaltMusic();
 				CreditsTimer.stop();
 				CurrentScene = Scene_TitleScreen;
+				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
 		}

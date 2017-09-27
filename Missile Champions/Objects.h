@@ -159,9 +159,15 @@ struct SceneManager {
 	Player* player;
 
 	struct TitleScreen {
-		SceneManager* parent;
+		SceneManager*	parent;
+
 		Assets::Image*	bgHidden;
 		Assets::Image*	bgVisible;
+
+		Mix_Chunk*	SoundStartSelection;
+		Mix_Music*	MusicBG;
+		Timer	MusicTimer;
+
 		bool visible;
 		
 		struct {
@@ -180,6 +186,7 @@ struct SceneManager {
 
 		void Init(Assets* assets, SceneManager* sceneManager);
 		Assets::Image* BG();
+		void SceneStart();
 		void Update();
 		void StartGameEvent();
 	} titleScreen;
@@ -192,6 +199,11 @@ struct SceneManager {
 		Assets::Image*	FlashP1;
 		Assets::Image*	FlashP2;
 		Assets::Image*	CarWindows;
+
+		Mix_Chunk*	SoundMoveCursor;
+		Mix_Chunk*	SoundSelection;
+		Mix_Music*	MusicBG;
+		Timer	MusicTimer;
 		
 		Cursor	SelectCursor;
 		
@@ -236,8 +248,10 @@ struct SceneManager {
 	} credits;
 
 	void Init(Assets* assets, Uint32* ts, Player* p);
+	void StartScene(Scenes scene);
 	Scenes GetScene();
 	bool IsScene(Scenes scene);
+	void Update();
 };
 
 #endif

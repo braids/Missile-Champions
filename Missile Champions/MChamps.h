@@ -25,13 +25,7 @@ private:
 	std::default_random_engine randomEngine;
 
 	// Scenes
-	enum Scenes { 
-		Scene_TitleScreen, 
-		Scene_CarSelection, 
-		Scene_Gameplay,
-		Scene_Credits,
-		Scene_GameOver
-	} CurrentScene;
+	Scenes CurrentScene;
 
 	SceneManager scene;
 

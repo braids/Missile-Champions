@@ -8,6 +8,9 @@ void SceneManager::CarSelection::Init(Assets* assets, SceneManager* sceneManager
 	this->FlashP2 = &assets->images.CarSelectBGP2Flash;
 	this->BG = this->DefaultBG;
 	this->CarWindows = assets->images.CarSelectWindowSprites;
+	this->SoundMoveCursor = assets->sounds.MoveCursor;
+	this->SoundSelection = assets->sounds.Selection;
+	this->MusicBG = assets->music.CarSelection;
 	
 	this->SelectCursor.Init(&assets->images.CarSelectCursor);
 
@@ -33,6 +36,10 @@ void SceneManager::CarSelection::SceneStart() {
 
 	this->parent->player[0].SetCarSelection();
 	this->parent->player[1].SetCarSelection();
+
+	Mix_PlayMusic(this->MusicBG, -1);
+	this->MusicTimer.stop();
+	this->MusicTimer.start();
 }
 
 Assets::Image* SceneManager::CarSelection::GetBG() {
@@ -40,7 +47,18 @@ Assets::Image* SceneManager::CarSelection::GetBG() {
 }
 
 void SceneManager::CarSelection::Update() {
+	// Loop music
+	if (this->MusicTimer.getTicks() > 6400 || Mix_PlayingMusic() == 0) {
+		Mix_PlayMusic(this->MusicBG, -1);
+		this->MusicTimer.stop();
+		this->MusicTimer.start();
+	}
 
+	// If there is a move event, move cursor
+	if (this->SelectCursor.SelectEvent) {
+		Mix_PlayChannel(CHANNEL_CURSOR, this->SoundMoveCursor, 0);
+		this->SelectCursor.MoveCursor();
+	}
 }
 
 void SceneManager::CarSelection::SelectEvent() {
@@ -114,5 +132,6 @@ void SceneManager::CarSelection::SelectP2Event() {
 		//this->effects.flash.duration = 0;
 		//this->events.SelectP2 = false;
 		this->events.SelectP2 = false;
+		Mix_HaltMusic();
 	}
 }

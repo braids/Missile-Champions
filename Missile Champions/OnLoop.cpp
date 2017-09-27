@@ -9,6 +9,7 @@ void MChamps::OnLoop() {
 		
 		if (!scene.titleScreen.events.StartGame) {
 			CurrentScene = Scene_CarSelection;
+			scene.StartScene(Scene_CarSelection);
 		}
 	}
 
@@ -20,6 +21,7 @@ void MChamps::OnLoop() {
 		
 		if (!scene.carSelection.events.SelectP2) {
 			CurrentScene = Scene_Gameplay;
+			scene.StartScene(Scene_Gameplay);
 
 			GameBall.resetBall();
 
@@ -29,9 +31,10 @@ void MChamps::OnLoop() {
 			GameplayCamera.CenterOnCar(Players[0].activeCar);
 
 			RoundStartTimer.start();
-			Mix_HaltMusic();
 		}
 	}
+
+	scene.Update();
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
@@ -53,6 +56,7 @@ void MChamps::OnLoop() {
 		if (creditsTicks > 102000) {
 			CreditsTimer.stop();
 			CurrentScene = Scene_TitleScreen;
+			scene.StartScene(Scene_TitleScreen);
 		}
 		break;
 
@@ -63,31 +67,14 @@ void MChamps::OnLoop() {
 		if (GameOverTimer.getTicks() > 5000) {
 			GameOverTimer.stop();
 			CurrentScene = Scene_TitleScreen;
+			scene.StartScene(Scene_TitleScreen);
 		}
 		break;
 
 	case Scene_TitleScreen:
-		// Loop music (because SDL_mixer doesn't seamlessly loop)
-		if ((MusicTimer.getTicks() > 6410 || Mix_PlayingMusic() == 0) && !scene.titleScreen.events.StartGame) {
-			Mix_PlayMusic(mAssets->music.Title, -1);
-			MusicTimer.stop();
-			MusicTimer.start();
-		}
-	
 		break;
 	
 	case Scene_CarSelection:
-		// Loop music
-		if (MusicTimer.getTicks() > 6400 || Mix_PlayingMusic() == 0) {
-			Mix_PlayMusic(mAssets->music.CarSelection, -1);
-			MusicTimer.stop();
-			MusicTimer.start();
-		}
-		
-		// If there is a move event, move cursor
-		if (scene.carSelection.SelectCursor.SelectEvent)
-			scene.carSelection.SelectCursor.MoveCursor();
-
 		break;
 
 	case Scene_Gameplay:
@@ -116,6 +103,7 @@ void MChamps::OnLoop() {
 
 				// Switch to Credits or Game Over scene
 				CurrentScene = (Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
+				scene.StartScene(Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
 				break;
 			}
 			// Else, start next kickoff.
