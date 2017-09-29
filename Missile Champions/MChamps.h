@@ -80,7 +80,6 @@ private:
 	Timer	GoalTimer;
 	Timer	CreditsTimer;
 	Uint32	creditsTicks;
-	Timer	GameOverTimer;
 
 	// Events and effects
 	bool Event_ChangeCar;

@@ -35,6 +35,7 @@ void MChamps::OnLoop() {
 	}
 
 	scene.Update();
+	CurrentScene = scene.current;
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
@@ -61,14 +62,6 @@ void MChamps::OnLoop() {
 		break;
 
 	case Scene_GameOver:
-		if (!GameOverTimer.isStarted()) {
-			GameOverTimer.start();
-		}
-		if (GameOverTimer.getTicks() > 5000) {
-			GameOverTimer.stop();
-			CurrentScene = Scene_TitleScreen;
-			scene.StartScene(Scene_TitleScreen);
-		}
 		break;
 
 	case Scene_TitleScreen:

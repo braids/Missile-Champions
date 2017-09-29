@@ -240,6 +240,16 @@ struct SceneManager {
 	struct GameOver {
 		SceneManager* parent;
 
+		Assets::Image* BG;
+
+		Timer WaitTimer;
+		const Uint32 WaitTimerEnd = 5000;
+
+		void Init(Assets* assets, SceneManager* sceneManager);
+		void SceneStart();
+		Assets::Image* GetBG();
+		void Update();
+
 	} gameOver;
 
 	struct Credits {

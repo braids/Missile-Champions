@@ -30,7 +30,7 @@ void MChamps::OnRender() {
 		break;
 
 	case Scene_GameOver:
-		DrawImage(&mAssets->images.GameOver);
+		DrawImage(scene.gameOver.BG);
 		break;
 
 	case Scene_Credits:

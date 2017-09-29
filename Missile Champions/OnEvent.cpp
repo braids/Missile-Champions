@@ -64,6 +64,11 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Players[0].activeCar->isBoosting = true;
 			if (Event->key.keysym.sym == SDLK_SPACE && Players[0].activeCar->z <= 0 && Event->key.repeat == 0)
 				Players[0].activeCar->isJumping = true;
+			// Cheats
+			if (Event->key.keysym.sym == SDLK_s && Event->key.repeat == 0)
+				Players[0].score = 8;
+			if (Event->key.keysym.sym == SDLK_d && Event->key.repeat == 0)
+				Players[1].score = 8;
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_VolumeMusic(MIX_MAX_VOLUME);
@@ -77,8 +82,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 		case Scene_GameOver:
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
-				Mix_HaltMusic();
-				GameOverTimer.stop();
+				scene.gameOver.WaitTimer.stop();
 				CurrentScene = Scene_TitleScreen;
 				scene.StartScene(Scene_TitleScreen);
 			}
