@@ -83,9 +83,7 @@ bool MChamps::OnInit() {
 	mAssets->images.GameOver = { Assets::Instance()->GetTexture(IMAGE_GAME_OVER), Graphics::Fullscreen() };
 	// Credits
 	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_CREDITS), Graphics::CreateRect(256, 896, 0, 0) };
-	CreditsRect = Graphics::CreateRect(256, 896, 0, 0);
-	CreditsY = 0.0;
-
+	
 	//// Scenes
 	scene.Init(mAssets, &timeStep, Players);
 

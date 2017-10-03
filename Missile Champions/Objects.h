@@ -185,7 +185,7 @@ struct SceneManager {
 		} effects;
 
 		void Init(Assets* assets, SceneManager* sceneManager);
-		Assets::Image* BG();
+		Assets::Image* GetBG();
 		void SceneStart();
 		void Update();
 		void StartGameEvent();
@@ -255,6 +255,24 @@ struct SceneManager {
 	struct Credits {
 		SceneManager* parent;
 
+		Assets::Image* BG;
+		SDL_Rect* BGRect;
+		double ScrollY;
+		const double ScrollYSpeed = 0.0075;
+		const double ScrollYStop = -672.0;
+
+		Mix_Music*	MusicBG;
+		Timer	MusicTimer;
+
+		Timer CreditsTimer;
+		const Uint32 CreditsTimerStartScroll = 3000;
+		const Uint32 CreditsTimerEnd = 102000;
+
+		void Init(Assets* assets, SceneManager* sceneManager);
+		void SceneStart();
+		Assets::Image* GetBG();
+		SDL_Rect* GetBGRect();
+		void Update();
 	} credits;
 
 	void Init(Assets* assets, Uint32* ts, Player* p);

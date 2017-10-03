@@ -42,7 +42,6 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_HaltMusic();
-				CurrentScene = Scene_TitleScreen;
 				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
@@ -74,7 +73,6 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Mix_VolumeMusic(MIX_MAX_VOLUME);
 				Mix_HaltMusic();
 				RoundTimer.stop();
-				CurrentScene = Scene_TitleScreen;
 				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
@@ -83,7 +81,6 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				scene.gameOver.WaitTimer.stop();
-				CurrentScene = Scene_TitleScreen;
 				scene.StartScene(Scene_TitleScreen);
 			}
 			break;
@@ -92,8 +89,8 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			// Exit to title screen
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_HaltMusic();
-				CreditsTimer.stop();
-				CurrentScene = Scene_TitleScreen;
+				scene.credits.CreditsTimer.stop();
+				scene.credits.MusicTimer.stop();
 				scene.StartScene(Scene_TitleScreen);
 			}
 			break;

@@ -8,12 +8,12 @@ void MChamps::OnRender() {
 	switch (CurrentScene) {
 	case Scene_TitleScreen:
 		// Draw title screen background
-		DrawImage(scene.titleScreen.BG());
+		DrawImage(scene.titleScreen.GetBG());
 		break;
 
 	case Scene_CarSelection:
 		// Draw current car selection background
-		DrawImage(scene.carSelection.BG);
+		DrawImage(scene.carSelection.GetBG());
 		// Draw selection cursor if team selections are not finished
 		if (Players[1].team == 0)
 			DrawImage(scene.carSelection.SelectCursor.image);
@@ -30,11 +30,11 @@ void MChamps::OnRender() {
 		break;
 
 	case Scene_GameOver:
-		DrawImage(scene.gameOver.BG);
+		DrawImage(scene.gameOver.GetBG());
 		break;
 
 	case Scene_Credits:
-		DrawImage(&mAssets->images.Credits, CreditsRect);
+		DrawImage(scene.credits.GetBG(), scene.credits.GetBGRect());
 		break;
 
 	case Scene_Gameplay:
