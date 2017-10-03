@@ -129,6 +129,8 @@
     <ClCompile Include="Objects\Cursor.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Scenes\CarSelection.cpp" />
+    <ClCompile Include="Objects\Scenes\Credits.cpp" />
+    <ClCompile Include="Objects\Scenes\GameOver.cpp" />
     <ClCompile Include="Objects\Scenes\SceneManager.cpp" />
     <ClCompile Include="Objects\Scenes\TitleScreen.cpp" />
     <ClCompile Include="OnCleanup.cpp" />

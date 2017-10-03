@@ -5,6 +5,8 @@ void SceneManager::Init(Assets* assets, Uint32* ts, Player* p) {
 	this->player = p;
 	this->titleScreen.Init(assets, this);
 	this->carSelection.Init(assets, this);
+	this->gameOver.Init(assets, this);
+	this->credits.Init(assets, this);
 
 	this->current = Scene_TitleScreen;
 	this->titleScreen.SceneStart();
@@ -18,6 +20,12 @@ void SceneManager::StartScene(Scenes scene) {
 		break;
 	case Scene_CarSelection:
 		this->carSelection.SceneStart();
+		break;
+	case Scene_GameOver:
+		this->gameOver.SceneStart();
+		break;
+	case Scene_Credits:
+		this->credits.SceneStart();
 		break;
 	default:
 		break;
@@ -39,6 +47,12 @@ void SceneManager::Update() {
 		break;
 	case Scene_CarSelection:
 		this->carSelection.Update();
+		break;
+	case Scene_GameOver:
+		this->gameOver.Update();
+		break;
+	case Scene_Credits:
+		this->credits.Update();
 		break;
 	default:
 		break;

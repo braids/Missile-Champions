@@ -13,7 +13,7 @@ void SceneManager::TitleScreen::Init(Assets* assets, SceneManager* sceneManager)
 	this->effects.flash.duration = 0;
 }
 
-Assets::Image* SceneManager::TitleScreen::BG() {
+Assets::Image* SceneManager::TitleScreen::GetBG() {
 	return (this->visible ? this->bgVisible : this->bgHidden);
 }
 

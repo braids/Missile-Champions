@@ -35,40 +35,14 @@ void MChamps::OnLoop() {
 	}
 
 	scene.Update();
+	CurrentScene = scene.current;
 
 	//// Scene Loop Updates
 	switch (CurrentScene) {
 	case Scene_Credits:
-		if (!CreditsTimer.isStarted()) {
-			CreditsTimer.start();
-			CreditsY = 0.0;
-			CreditsRect->y = 0;
-			Mix_PlayMusic(mAssets->music.Credits, 0);
-		}
-
-		creditsTicks = CreditsTimer.getTicks();
-
-		if (creditsTicks > 3000 && CreditsY > -672.0) {
-			CreditsY -= 0.0075 * timeStep;
-			CreditsRect->y = (int)CreditsY;
-		}
-
-		if (creditsTicks > 102000) {
-			CreditsTimer.stop();
-			CurrentScene = Scene_TitleScreen;
-			scene.StartScene(Scene_TitleScreen);
-		}
 		break;
 
 	case Scene_GameOver:
-		if (!GameOverTimer.isStarted()) {
-			GameOverTimer.start();
-		}
-		if (GameOverTimer.getTicks() > 5000) {
-			GameOverTimer.stop();
-			CurrentScene = Scene_TitleScreen;
-			scene.StartScene(Scene_TitleScreen);
-		}
 		break;
 
 	case Scene_TitleScreen:
@@ -102,7 +76,6 @@ void MChamps::OnLoop() {
 				Mix_HaltMusic();
 
 				// Switch to Credits or Game Over scene
-				CurrentScene = (Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
 				scene.StartScene(Players[0].score == 9 ? Scene_Credits : Scene_GameOver);
 				break;
 			}

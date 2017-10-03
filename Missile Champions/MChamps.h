@@ -65,9 +65,7 @@ private:
 	SDL_Rect* CountdownGRect;
 	Assets::Image* CountdownO;
 	SDL_Rect* CountdownORect;
-	SDL_Rect* CreditsRect;
-	double CreditsY;
-
+	
 	Assets::Image*	BoostBar;
 	SDL_Rect*		BoostBarScaleRect;
 	Car* drawCars[6];
@@ -78,9 +76,6 @@ private:
 	Timer	RoundTimer;
 	Uint32	RoundTicks;
 	Timer	GoalTimer;
-	Timer	CreditsTimer;
-	Uint32	creditsTicks;
-	Timer	GameOverTimer;
 
 	// Events and effects
 	bool Event_ChangeCar;
