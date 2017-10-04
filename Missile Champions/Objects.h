@@ -1,6 +1,7 @@
 #ifndef _CAR_H_
 #define _CAR_H_
 
+#include <vector>
 #include "Assets.h"
 #include "Timer.h"
 
@@ -27,6 +28,7 @@ struct Car;
 struct Player;
 struct Camera;
 struct Cursor;
+struct Scene;
 struct SceneManager;
 
 
@@ -145,28 +147,41 @@ struct Cursor {
 	int GetSelection();
 };
 
+struct Scene {
+	// SceneManager pointer
+	SceneManager*	parent;
+
+	// Scene assets
+	Assets::Image*	BG;
+	Mix_Music*	MusicBG;
+	Timer	MusicTimer;
+
+	// Scene methods
+	virtual void Init(Assets* assets, SceneManager* sceneManager) = 0;
+	virtual Assets::Image* GetBG() = 0;
+	virtual void SceneStart() = 0;
+	virtual void Update() = 0;
+};
+
 enum Scenes {
 	Scene_TitleScreen,
 	Scene_CarSelection,
 	Scene_Gameplay,
-	Scene_Credits,
-	Scene_GameOver
+	Scene_GameOver,
+	Scene_Credits
 };
 
 struct SceneManager {
 	Scenes current;
 	Uint32* timeStep;
 	Player* player;
+	std::vector<Scene*> sceneList;
 
-	struct TitleScreen {
-		SceneManager*	parent;
-
+	struct TitleScreen : public Scene {
 		Assets::Image*	bgHidden;
 		Assets::Image*	bgVisible;
 
 		Mix_Chunk*	SoundStartSelection;
-		Mix_Music*	MusicBG;
-		Timer	MusicTimer;
 
 		bool visible;
 		
@@ -191,10 +206,7 @@ struct SceneManager {
 		void StartGameEvent();
 	} titleScreen;
 
-	struct CarSelection {
-		SceneManager* parent;
-		
-		Assets::Image*	BG;
+	struct CarSelection : public Scene {
 		Assets::Image*	DefaultBG;
 		Assets::Image*	FlashP1;
 		Assets::Image*	FlashP2;
@@ -202,8 +214,6 @@ struct SceneManager {
 
 		Mix_Chunk*	SoundMoveCursor;
 		Mix_Chunk*	SoundSelection;
-		Mix_Music*	MusicBG;
-		Timer	MusicTimer;
 		
 		Cursor	SelectCursor;
 		
@@ -232,16 +242,15 @@ struct SceneManager {
 		void SelectP2Event();
 	} carSelection;
 
-	struct Gameplay {
-		SceneManager* parent;
-
+	/*
+	struct Gameplay : public Scene {
+		void Init(Assets* assets, SceneManager* sceneManager);
+		void SceneStart();
+		Assets::Image* GetBG();
+		void Update();
 	} gameplay;
-
-	struct GameOver {
-		SceneManager* parent;
-
-		Assets::Image* BG;
-
+	*/
+	struct GameOver : public Scene {
 		Timer WaitTimer;
 		const Uint32 WaitTimerEnd = 5000;
 
@@ -249,20 +258,13 @@ struct SceneManager {
 		void SceneStart();
 		Assets::Image* GetBG();
 		void Update();
-
 	} gameOver;
 
-	struct Credits {
-		SceneManager* parent;
-
-		Assets::Image* BG;
+	struct Credits : public Scene {
 		SDL_Rect* BGRect;
 		double ScrollY;
 		const double ScrollYSpeed = 0.0075;
 		const double ScrollYStop = -672.0;
-
-		Mix_Music*	MusicBG;
-		Timer	MusicTimer;
 
 		Timer CreditsTimer;
 		const Uint32 CreditsTimerStartScroll = 3000;

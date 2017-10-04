@@ -3,33 +3,25 @@
 void SceneManager::Init(Assets* assets, Uint32* ts, Player* p) {
 	this->timeStep = ts;
 	this->player = p;
-	this->titleScreen.Init(assets, this);
-	this->carSelection.Init(assets, this);
-	this->gameOver.Init(assets, this);
-	this->credits.Init(assets, this);
+	this->sceneList.push_back(dynamic_cast<TitleScreen*>(&this->titleScreen));
+	this->sceneList.push_back(&this->carSelection);
+	this->sceneList.push_back(&this->carSelection); // Remove this! It's a placeholder until the Gameplay scene is in.
+	//this->sceneList.push_back(&this->gameplay);
+	this->sceneList.push_back(&this->gameOver);
+	this->sceneList.push_back(&this->credits);
 
-	this->current = Scene_TitleScreen;
-	this->titleScreen.SceneStart();
+	for (int i = 0; i < (int) this->sceneList.size(); i++) {
+		if (i == (int) Scene_Gameplay) continue;	// Remove this! It's a placeholder until the Gameplay scene is in.
+		this->sceneList[i]->Init(assets, this);
+	}
+
+	this->StartScene(Scene_TitleScreen);
 }
 
 void SceneManager::StartScene(Scenes scene) {
 	this->current = scene;
-	switch (this->current) {
-	case Scene_TitleScreen:
-		this->titleScreen.SceneStart();
-		break;
-	case Scene_CarSelection:
-		this->carSelection.SceneStart();
-		break;
-	case Scene_GameOver:
-		this->gameOver.SceneStart();
-		break;
-	case Scene_Credits:
-		this->credits.SceneStart();
-		break;
-	default:
-		break;
-	}
+	if(this->current != Scene_Gameplay)				// Remove this! It's a placeholder until the Gameplay scene is in.
+		this->sceneList[this->current]->SceneStart();
 }
 
 Scenes SceneManager::GetScene() {
@@ -41,20 +33,6 @@ bool SceneManager::IsScene(Scenes scene) {
 }
 
 void SceneManager::Update() {
-	switch (this->current) {
-	case Scene_TitleScreen:
-		this->titleScreen.Update();
-		break;
-	case Scene_CarSelection:
-		this->carSelection.Update();
-		break;
-	case Scene_GameOver:
-		this->gameOver.Update();
-		break;
-	case Scene_Credits:
-		this->credits.Update();
-		break;
-	default:
-		break;
-	}
+	if (this->current != Scene_Gameplay)			// Remove this! It's a placeholder until the Gameplay scene is in.
+		this->sceneList[this->current]->Update();
 }
