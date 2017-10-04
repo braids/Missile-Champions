@@ -129,9 +129,8 @@ void SceneManager::CarSelection::SelectP2Event() {
 
 	// Delay for one second before ending event.
 	if (this->effects.flash.duration >= this->effects.flash.endTime) {
-		//this->effects.flash.duration = 0;
-		//this->events.SelectP2 = false;
 		this->events.SelectP2 = false;
 		Mix_HaltMusic();
+		this->parent->StartScene(Scene_Gameplay);
 	}
 }

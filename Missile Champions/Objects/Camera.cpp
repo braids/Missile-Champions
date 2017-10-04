@@ -11,9 +11,9 @@ void Camera::Init(Assets::Image* fielddraw, Assets::Image* fieldview) {
 
 void Camera::CenterOnCar(Car* activeCar) {
 	// Center on car x
-	this->drawarea->rect->x = ((int)activeCar->x + activeCar->image->rect->w / 2) - this->drawarea->rect->w / 2;
+	this->drawarea->rect->x = ((int)activeCar->x + activeCar->viewportRect->w / 2) - this->drawarea->rect->w / 2;
 	// Center on car y
-	this->drawarea->rect->y = ((int)activeCar->y + activeCar->image->rect->h / 2) - this->drawarea->rect->h / 2;
+	this->drawarea->rect->y = ((int)activeCar->y + activeCar->viewportRect->h / 2) - this->drawarea->rect->h / 2;
 	// Prevent camera from leaving x boundary
 	if (this->drawarea->rect->x < 0) this->drawarea->rect->x = 0;
 	if (this->drawarea->rect->x > 768) this->drawarea->rect->x = 768;

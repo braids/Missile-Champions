@@ -1,6 +1,7 @@
 #ifndef _CAR_H_
 #define _CAR_H_
 
+#include <random>
 #include <vector>
 #include "Assets.h"
 #include "Timer.h"
@@ -40,7 +41,7 @@ struct BoostStreak {
 	double x, y, z;
 	int timeAlive;
 
-	void SpawnSprite(Assets* assets, Car* car);
+	void SpawnSprite(Assets::Image* sprite, Car* car);
 	void UpdateDecaySprite(Uint32 timestep);
 	void UpdateViewport(Camera* camera);
 };
@@ -242,14 +243,74 @@ struct SceneManager {
 		void SelectP2Event();
 	} carSelection;
 
-	/*
 	struct Gameplay : public Scene {
+		int ActiveCar;
+
+		Ball GameBall;
+
+		// Camera
+		Camera GameplayCamera;
+
+		// Images
+		Assets::Image*	StatusBar;
+		Assets::Image*	FieldBottom;
+		Assets::Image*	BoostSprite;
+		Assets::Image*	BoostF1Sprite;
+		Assets::Image*	BoostF2Sprite;
+
+		//Sounds
+		Mix_Chunk* SoundMoveCursor;
+		Mix_Chunk* SoundStartSelection;
+		Mix_Chunk* SoundEngine;
+		Mix_Chunk* SoundBoost;
+		Mix_Chunk* SoundBuzzer;
+		Mix_Chunk* SoundBallhit;
+
+		// Random generator
+		std::default_random_engine randomEngine;
+
+		//Sort this shit out
+		SDL_Rect* BallIndicatorRect;
+		bool BallOffscreen;
+		int BallIndicatorDirection;
+
+		SDL_Rect* P1Score;
+		SDL_Rect* P2Score;
+		Assets::Image* Numbers;
+		SDL_Rect* Minute10sRect;
+		SDL_Rect* Minute1sRect;
+		SDL_Rect* Second10sRect;
+		SDL_Rect* Second1sRect;
+		Assets::Image* Countdown321;
+		SDL_Rect* Countdown321Rect;
+		Assets::Image* CountdownG;
+		SDL_Rect* CountdownGRect;
+		Assets::Image* CountdownO;
+		SDL_Rect* CountdownORect;
+
+		Assets::Image*	BoostBar;
+		SDL_Rect*		BoostBarScaleRect;
+
+		Timer	MusicTimer;
+		Timer	ShadowBlinkTimer;
+		Timer	RoundStartTimer;
+		Timer	RoundTimer;
+		Uint32	RoundTicks;
+		Timer	GoalTimer;
+
+		// Events and effects
+		bool Event_ChangeCar;
+		bool Event_LeftGoal;
+		bool Event_RightGoal;
+
 		void Init(Assets* assets, SceneManager* sceneManager);
 		void SceneStart();
 		Assets::Image* GetBG();
 		void Update();
+		void BallUpdate();
+		void PlayerCarsUpdate(Player * player);
 	} gameplay;
-	*/
+	
 	struct GameOver : public Scene {
 		Timer WaitTimer;
 		const Uint32 WaitTimerEnd = 5000;

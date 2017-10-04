@@ -47,63 +47,33 @@ bool MChamps::OnInit() {
 		mAssets->images.BallSprites[i] = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SPRITE_SHEET), Graphics::CreateRect(48, 48, 48 * i, 0) };
 	for (int i = 0; i < BALL_INDICATOR_FRAMES; i++)
 		mAssets->images.BallIndicatorSprites[i] = { Assets::Instance()->GetTexture(IMAGE_BALL_INDICATOR), Graphics::CreateRect(32, 32, 32 * i, 0) };
-	BallIndicatorRect = Graphics::CreateRect(32, 32, 0, 0);
 	mAssets->images.BallShadow = { Assets::Instance()->GetTexture(IMAGE_FOOTBALL_SHADOW), Graphics::CreateRect(48, 48, 0, 0) };
 	mAssets->images.FieldDrawArea = { Assets::Instance()->GetTexture(IMAGE_FIELD), Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.FieldBottom = { Assets::Instance()->GetTexture(IMAGE_FIELD_BOTTOM) };
-	FieldBottom = &mAssets->images.FieldBottom;
 	mAssets->images.FieldViewport = { NULL, Graphics::CreateRect(CAMERA_W, CAMERA_H, 0, 0) };
 	mAssets->images.StatusBar = { Assets::Instance()->GetTexture(IMAGE_STATUS_BAR), Graphics::Fullscreen() };
-	StatusBar = &mAssets->images.StatusBar;
 	for (int i = 0; i < NUMBER_FRAMES; i++)
 		mAssets->images.Numbers[i] = { Assets::Instance()->GetTexture(IMAGE_NUMBERS), Graphics::CreateRect(8, 8, 8 * i, 0) };
-	P1Score = Graphics::CreateRect(8, 8, 40, 192);
-	P2Score = Graphics::CreateRect(8, 8, 40, 208);
-	Minute10sRect = Graphics::CreateRect(8, 8, 108, 212);
-	Minute1sRect = Graphics::CreateRect(8, 8, 116, 212);
-	Second10sRect = Graphics::CreateRect(8, 8, 132, 212);
-	Second1sRect = Graphics::CreateRect(8, 8, 140, 212); 
 	mAssets->images.BoostBar = { Assets::Instance()->GetTexture(IMAGE_BOOST_BAR), Graphics::CreateRect(1, 8, 0, 0) };
-	BoostBar = &mAssets->images.BoostBar;
-	BoostBarScaleRect = Graphics::CreateRect(64, 8, 96, 200);
 	// Boost Streak
 	for (int i = 0; i < BOOST_ROT_FRAMES; i++) {
 		mAssets->images.BoostSprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 		mAssets->images.BoostF1Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F1_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 		mAssets->images.BoostF2Sprite[i] = { Assets::Instance()->GetTexture(IMAGE_BOOST_F2_SPRITE_SHEET), Graphics::CreateRect(32, 32, 32 * i, 0) };
 	}
-	// Countdown Timer
-	Countdown321 = NULL;
-	Countdown321Rect = Graphics::CreateRect(8, 8, 124, 100);
-	CountdownG = NULL;
-	CountdownGRect = Graphics::CreateRect(8, 8, 120, 100);
-	CountdownO = NULL;
-	CountdownORect = Graphics::CreateRect(8, 8, 128, 100);
 	// Game Over
 	mAssets->images.GameOver = { Assets::Instance()->GetTexture(IMAGE_GAME_OVER), Graphics::Fullscreen() };
 	// Credits
 	mAssets->images.Credits = { Assets::Instance()->GetTexture(IMAGE_CREDITS), Graphics::CreateRect(256, 896, 0, 0) };
 	
-	//// Scenes
-	scene.Init(mAssets, &timeStep, Players);
-
-	//// Events
-	Event_LeftGoal = false;
-	Event_RightGoal = false;
-	
-	//// Camera
-	GameplayCamera.Init(&mAssets->images.FieldDrawArea, &mAssets->images.FieldViewport);
-	// Ensure bottom of field tracks with camera
-	FieldBottom->rect = GameplayCamera.drawarea->rect;
-
-	// Ball
-	GameBall.initBall(mAssets->images.BallSprites);
-
 	//// Players
 	Players[0].Init(mAssets, 0);
 	Players[0].selectionViewport->x = 40;
 	Players[1].Init(mAssets, 1);
 	Players[1].selectionViewport->x = 152;
+
+	//// Scenes
+	scene.Init(mAssets, &timeStep, Players);
 
 	return true;
 }

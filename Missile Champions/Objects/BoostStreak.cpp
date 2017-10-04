@@ -1,6 +1,6 @@
 #include "../Objects.h"
 
-void BoostStreak::SpawnSprite(Assets* assets, Car* car) {
+void BoostStreak::SpawnSprite(Assets::Image* sprite, Car* car) {
 	this->parent = car;
 	this->x = car->x;
 	this->y = car->y - car->z;
@@ -12,7 +12,7 @@ void BoostStreak::SpawnSprite(Assets* assets, Car* car) {
 	}
 	this->timeAlive = 250;
 	this->decaySprite = 0;
-	this->image = &assets->images.BoostSprite[this->angleSprite];
+	this->image = &sprite[this->angleSprite];
 	this->viewportRect = Graphics::CreateRect(this->image->rect->w, this->image->rect->h, 0, 0);
 }
 

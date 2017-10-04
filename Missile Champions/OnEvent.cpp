@@ -58,7 +58,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 				Players[0].activeCar->Turning = Car::Right;
 			// Change active car event
 			if (Event->key.keysym.sym == SDLK_x && Event->key.repeat == 0)
-				Event_ChangeCar = true;
+				scene.gameplay.Event_ChangeCar = true;
 			if (Event->key.keysym.sym == SDLK_z)
 				Players[0].activeCar->isBoosting = true;
 			if (Event->key.keysym.sym == SDLK_SPACE && Players[0].activeCar->z <= 0 && Event->key.repeat == 0)
@@ -72,7 +72,7 @@ void MChamps::OnEvent(SDL_Event* Event) {
 			if (Event->key.keysym.sym == SDLK_ESCAPE) {
 				Mix_VolumeMusic(MIX_MAX_VOLUME);
 				Mix_HaltMusic();
-				RoundTimer.stop();
+				scene.gameplay.RoundTimer.stop();
 				scene.StartScene(Scene_TitleScreen);
 			}
 			break;

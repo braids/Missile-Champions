@@ -39,14 +39,14 @@ void MChamps::OnRender() {
 
 	case Scene_Gameplay:
 		// Get ticks for shadow blink timer
-		Uint32 ShadowTimerTicks = ShadowBlinkTimer.getTicks();
+		Uint32 ShadowTimerTicks = scene.gameplay.ShadowBlinkTimer.getTicks();
 		// Start shadow blink timer if stopped
-		if (!ShadowBlinkTimer.isStarted()) {
-			ShadowBlinkTimer.start();
+		if (!scene.gameplay.ShadowBlinkTimer.isStarted()) {
+			scene.gameplay.ShadowBlinkTimer.start();
 		}
 
 		//// Draw field camera
-		DrawImage(GameplayCamera.drawarea, GameplayCamera.viewport->rect);
+		DrawImage(scene.gameplay.GameplayCamera.drawarea, scene.gameplay.GameplayCamera.viewport->rect);
 
 		//// Draw cars & shadows, boost trails, and ball & shadow.
 		// Populate car draw list
@@ -74,9 +74,10 @@ void MChamps::OnRender() {
 		// Draw cars and ball in z-order
 		for (int i = 0; i < 6; i++) {
 			// Draw ball if before cars
-			if (i == 0 && GameBall.y < drawCars[i]->y) DrawBall(ShadowTimerTicks);
+			if (i == 0 && scene.gameplay.GameBall.y < drawCars[i]->y) DrawBall(ShadowTimerTicks);
 			// Draw ball if between cars
-			else if (GameBall.y >= drawCars[i - 1]->y && GameBall.y < drawCars[i]->y) DrawBall(ShadowTimerTicks);
+			else if (i > 0 && scene.gameplay.GameBall.y >= drawCars[i - 1]->y && scene.gameplay.GameBall.y < drawCars[i]->y) 
+					DrawBall(ShadowTimerTicks);
 			
 			// Draw car shadow
 			if (ShadowTimerTicks < 16.6 && drawCars[i]->z > 0.0) {
@@ -94,54 +95,52 @@ void MChamps::OnRender() {
 			DrawImage(drawCars[i]->image, drawCars[i]->viewportRect);
 			
 			// Draw ball if after last car
-			if (i == 5 && GameBall.y >= drawCars[i]->y) DrawBall(ShadowTimerTicks);
+			if (i == 5 && scene.gameplay.GameBall.y >= drawCars[i]->y) DrawBall(ShadowTimerTicks);
 		}
 		
 		// Reset shadow blink timer
 		if (ShadowTimerTicks >= 33.3) {
-			ShadowBlinkTimer.stop();
+			scene.gameplay.ShadowBlinkTimer.stop();
 		}
 
 		// Draw bottom of field over gameplay objects.
-		DrawImage(FieldBottom, GameplayCamera.viewport->rect);
+		DrawImage(scene.gameplay.FieldBottom, scene.gameplay.GameplayCamera.viewport->rect);
 
 		// Draw off-screen ball indicator if ball is offscreen.
-		if(BallOffscreen)
-			DrawImage(&mAssets->images.BallIndicatorSprites[BallIndicatorDirection], BallIndicatorRect);
+		if(scene.gameplay.BallOffscreen)
+			DrawImage(&mAssets->images.BallIndicatorSprites[scene.gameplay.BallIndicatorDirection], scene.gameplay.BallIndicatorRect);
 
 		// Draw UI status bar at bottom over gameplay objects.
-		DrawImage(StatusBar);
+		DrawImage(scene.gameplay.StatusBar);
 
 		// Draw player scores
-		DrawImage(&mAssets->images.Numbers[Players[0].score], P1Score);
-		DrawImage(&mAssets->images.Numbers[Players[1].score], P2Score);
+		DrawImage(&mAssets->images.Numbers[Players[0].score], scene.gameplay.P1Score);
+		DrawImage(&mAssets->images.Numbers[Players[1].score], scene.gameplay.P2Score);
 
-		if (RoundTimer.isStarted() && !RoundTimer.isPaused())
-			RoundTicks = RoundTimer.getTicks();
+		if (scene.gameplay.RoundTimer.isStarted() && !scene.gameplay.RoundTimer.isPaused())
+			scene.gameplay.RoundTicks = scene.gameplay.RoundTimer.getTicks();
 
 		// Draw Round Timer
-		DrawImage(&mAssets->images.Numbers[(RoundTicks / 600000) % 6], Minute10sRect);
-		DrawImage(&mAssets->images.Numbers[(RoundTicks / 60000) % 10], Minute1sRect);
-		DrawImage(&mAssets->images.Numbers[(RoundTicks / 10000) % 6], Second10sRect);
-		DrawImage(&mAssets->images.Numbers[(RoundTicks / 1000) % 10], Second1sRect);
+		DrawImage(&mAssets->images.Numbers[(scene.gameplay.RoundTicks / 600000) % 6], scene.gameplay.Minute10sRect);
+		DrawImage(&mAssets->images.Numbers[(scene.gameplay.RoundTicks / 60000) % 10], scene.gameplay.Minute1sRect);
+		DrawImage(&mAssets->images.Numbers[(scene.gameplay.RoundTicks / 10000) % 6], scene.gameplay.Second10sRect);
+		DrawImage(&mAssets->images.Numbers[(scene.gameplay.RoundTicks / 1000) % 10], scene.gameplay.Second1sRect);
 
 		// Draw boost bar
-		BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
-		DrawImage(BoostBar, BoostBarScaleRect);
+		scene.gameplay.BoostBarScaleRect->w = (int)(64.0 * ((double)Players[0].activeCar->boostFuel / (double)MAX_BOOST_FUEL));
+		DrawImage(scene.gameplay.BoostBar, scene.gameplay.BoostBarScaleRect);
 
 		// Draw countdown numbers
-		if (Countdown321 != NULL) {
-			DrawImage(Countdown321, Countdown321Rect);
+		if (scene.gameplay.Countdown321 != NULL) {
+			DrawImage(scene.gameplay.Countdown321, scene.gameplay.Countdown321Rect);
 		}
 
-		if (CountdownG != NULL) {
-			DrawImage(CountdownG, CountdownGRect);
-			DrawImage(CountdownO, CountdownORect);
+		if (scene.gameplay.CountdownG != NULL) {
+			DrawImage(scene.gameplay.CountdownG, scene.gameplay.CountdownGRect);
+			DrawImage(scene.gameplay.CountdownO, scene.gameplay.CountdownORect);
 		}
 		
 		break;
-
-	
 	}
 
 	// Render dat
@@ -160,9 +159,9 @@ void MChamps::DrawImage(Assets::Image* image, SDL_Rect* drawRect) {
 
 void MChamps::DrawBall(int shadowticks) {
 	if (shadowticks < 16.6) {
-		mAssets->images.BallShadow.rect->x = GameBall.viewportRect->x;
-		mAssets->images.BallShadow.rect->y = GameBall.viewportRect->y + (int)GameBall.z + 8;
+		mAssets->images.BallShadow.rect->x = scene.gameplay.GameBall.viewportRect->x;
+		mAssets->images.BallShadow.rect->y = scene.gameplay.GameBall.viewportRect->y + (int)scene.gameplay.GameBall.z + 8;
 		DrawImage(&mAssets->images.BallShadow);
 	}
-	DrawImage(&GameBall.image[GameBall.frame], GameBall.viewportRect);
+	DrawImage(&scene.gameplay.GameBall.image[scene.gameplay.GameBall.frame], scene.gameplay.GameBall.viewportRect);
 }
