@@ -172,8 +172,11 @@ void SceneManager::Gameplay::Update() {
 		this->PlayerCarsUpdate(&this->parent->player[1]);
 
 		//// Ball Update
-		this->BallUpdate();
-
+		//this->BallUpdate();
+		this->GameBall.CarCollision(this->parent->player);
+		this->GameBall.updatePosition(*this->parent->timeStep);
+		this->GameBall.UpdateSprite();
+		
 		//// Camera update
 		this->GameplayCamera.CenterOnCar(this->parent->player[0].activeCar);
 
@@ -310,100 +313,6 @@ void SceneManager::Gameplay::Update() {
 				this->RoundTimer.start();
 			}
 			this->RoundStartTimer.stop();
-		}
-	}
-}
-
-void SceneManager::Gameplay::BallUpdate() {
-	// Ball Collision
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 3; j++) {
-			// Check sphere collision between car and ball if not currently colliding
-			if (sqrt(
-				pow(this->GameBall.cx() - this->parent->player[i].cars[j].cx(), 2) +
-				pow(this->GameBall.cy() - this->parent->player[i].cars[j].cy(), 2) +
-				pow(this->GameBall.cz() - this->parent->player[i].cars[j].cz(), 2)) <= 40.0 &&
-				this->parent->player[i].cars[j].ballCollide == false) {
-				// Play ballhit sound
-				Mix_PlayChannel(CHANNEL_BALLHIT, this->SoundBallhit, 0);
-
-				// Set colliding flag
-				this->parent->player[i].cars[j].ballCollide = true;
-
-				// Get collision angle in rads (atan2), convert to deg (* 180 / M_PI)
-				double newAngle = atan2(this->GameBall.cy() - this->parent->player[i].cars[j].cy(), 
-					this->GameBall.cx() - this->parent->player[i].cars[j].cx()) * 180.0 / M_PI;
-				double newZX = atan2(this->GameBall.cx() - this->parent->player[i].cars[j].cx(), 
-					this->GameBall.cz() - this->parent->player[i].cars[j].cz()) * 180.0 / M_PI;
-
-				// Rotate to match axes
-				newAngle -= 90.0;
-				newZX += 90.0;
-
-				// Keep angle between 0 - 359 deg inclusive
-				if (newAngle >= 360.0) newAngle -= 360.0;
-				if (newAngle < 0.0) newAngle += 360.0;
-				// Invert angle
-				newAngle = 360.0 - newAngle;
-
-				// Keep angle between 0 - 359 deg inclusive
-				if (newZX >= 360.0) newZX -= 360.0;
-				if (newZX < 0.0) newZX += 360.0;
-				// Invert angle
-				newZX = 360.0 - newZX;
-
-				// Debug output of ball collision angles
-				//std::cout << "Ball collision angle: " << newAngle << "\nsin(newAngle): " << sin(newAngle) << "\ncos(newAngle): " << cos(newAngle) << std::endl;
-				//std::cout << "Ball cx: " << this->GameBall.cx() << "\nBall cy: " << this->GameBall.cy() << "\nBall cz: " << this->GameBall.cz() << std::endl;
-				//std::cout << "Car cx: " << this->parent->player[i].cars[j].cx() << "\nCar cy: " << this->parent->player[i].cars[j].cy() << "\nCar cz: " << this->parent->player[i].cars[j].cz() << std::endl;
-
-				// Ball direction set to collision angle
-				this->GameBall.dx = sin(newAngle * M_PI / 180.0);
-				this->GameBall.dy = cos(newAngle * M_PI / 180.0);
-
-				// If car colliding is faster on x/y/z, get new dz value
-				if (abs(this->parent->player[i].cars[j].speed * 1.25) > this->GameBall.speed || 
-					abs(this->parent->player[i].cars[j].speed * 1.25) > abs(this->GameBall.dx))
-					this->GameBall.dz = abs(sin(newZX * M_PI / 180.0)) + abs(cos(newZX * M_PI / 180.0));
-				//std::cout << "Ball dz: " << this->GameBall.dz << std::endl;
-
-				// Car speed added to ball speed
-				// If car colliding is faster, add to ball speed.
-				if (abs(this->parent->player[i].cars[j].speed * 1.25) > this->GameBall.speed)
-					this->GameBall.speed += abs(this->parent->player[i].cars[j].speed * 1.25);
-			}
-			// If car/ball spheres no longer colliding, set collision flag false
-			else if (sqrt(
-				pow(this->GameBall.cx() - this->parent->player[i].cars[j].cx(), 2) +
-				pow(this->GameBall.cy() - this->parent->player[i].cars[j].cy(), 2) +
-				pow(this->GameBall.cz() - this->parent->player[i].cars[j].cz(), 2)) > 40.0) {
-				this->parent->player[i].cars[j].ballCollide = false;
-			}
-		}
-	}
-
-	// Update current ball position
-	this->GameBall.updatePosition(*this->parent->timeStep);
-
-	// Ball Sprite Update
-	Uint32 ballAnimTicks = this->GameBall.ballAnimate.getTicks();
-	Uint32 ballAnimSpeed = 1000 - (Uint32)(1000.0 * this->GameBall.speed * 1.5); // low: -0, high: -350
-	if (this->GameBall.ballAnimate.isStarted()) {
-		if (this->GameBall.dx < 0.0 && this->GameBall.speed > 0.0) {
-			if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.25)) this->GameBall.frame = 3;
-			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.5)) this->GameBall.frame = 2;
-			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.75)) this->GameBall.frame = 1;
-			else this->GameBall.frame = 0;
-		}
-		if (this->GameBall.dx >= 0.0 && this->GameBall.speed > 0.0) {
-			if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.25)) this->GameBall.frame = 1;
-			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.5)) this->GameBall.frame = 2;
-			else if (ballAnimTicks % ballAnimSpeed < (Uint32)((double)ballAnimSpeed * 0.75)) this->GameBall.frame = 3;
-			else this->GameBall.frame = 0;
-		}
-		if (ballAnimTicks > ballAnimSpeed) {
-			this->GameBall.ballAnimate.stop();
-			this->GameBall.ballAnimate.start();
 		}
 	}
 }

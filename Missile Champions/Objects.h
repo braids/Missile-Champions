@@ -94,9 +94,11 @@ struct Ball {
 	double dx, dy, dz;
 	double speed;
 	Timer ballAnimate;
-	void updatePosition(Uint32 ts);
 	void initBall(Assets::Image* a);
 	void resetBall();
+	void CarCollision(Player* player);
+	void updatePosition(Uint32 ts);
+	void UpdateSprite();
 	void UpdateViewport(Camera* camera);
 	double cx();
 	double cy();
@@ -307,7 +309,6 @@ struct SceneManager {
 		void SceneStart();
 		Assets::Image* GetBG();
 		void Update();
-		void BallUpdate();
 		void PlayerCarsUpdate(Player * player);
 	} gameplay;
 	
